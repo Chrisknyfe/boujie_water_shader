@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpav8p4gip0uk"
-path.s3tc="res://.godot/imported/generic_water.png-94faa79bb1ee0efe226d5de211619985.s3tc.ctex"
+uid="uid://bk6tootchx5gx"
+path.s3tc="res://.godot/imported/foam_alpha_allwhite.png-8099e5d4ddb7839160d2fc9efac6951a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/ck_water_shader/generic_water.png"
-dest_files=["res://.godot/imported/generic_water.png-94faa79bb1ee0efe226d5de211619985.s3tc.ctex"]
+source_file="res://addons/ck_water_shader/shader/foam_alpha_allwhite.png"
+dest_files=["res://.godot/imported/foam_alpha_allwhite.png-8099e5d4ddb7839160d2fc9efac6951a.s3tc.ctex"]
 
 [params]
 

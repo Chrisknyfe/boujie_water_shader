@@ -1,9 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dmbmnidueiyvt"]
 
-[ext_resource type="Shader" path="res://addons/ck_water_shader/OptimizedOcean.gdshader" id="1_1olpv"]
-[ext_resource type="Texture2D" uid="uid://cfd3p52e43wt2" path="res://addons/ck_water_shader/ocean_albedo_2.png" id="2_tiid6"]
-[ext_resource type="Texture2D" uid="uid://cq0i08hinbihi" path="res://addons/ck_water_shader/foam_2.png" id="3_oy1np"]
-[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/generic_water.png" id="4_nodex"]
+[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_1olpv"]
+[ext_resource type="Texture2D" uid="uid://cfd3p52e43wt2" path="res://addons/ck_water_shader/shader/ocean_albedo_2.png" id="2_tiid6"]
+[ext_resource type="Texture2D" uid="uid://cq0i08hinbihi" path="res://addons/ck_water_shader/shader/foam_2.png" id="3_oy1np"]
+[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/generic_water.png" id="4_nodex"]
 
 [resource]
 render_priority = 0

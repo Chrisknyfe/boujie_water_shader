@@ -33,6 +33,8 @@ extends Node3D
 @export var adapt_width_to_camera: bool = false
 @export var force_rebuild_mesh: bool = false
 
+@export var waves: Array[GerstnerWave] = []
+
 func quadratic_increase(x: float):
 	var y = density_factor * abs(pow(x, density_exponent)) + (1.0 - density_factor)*abs(x)
 	if x < 0:

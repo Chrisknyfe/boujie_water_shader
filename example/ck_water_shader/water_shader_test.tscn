@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=13 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
-[ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/WaterShaderMaterial.tres" id="2_qrhc3"]
+[ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
+[ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/ck_water_shader/height_waves/height1.tres" id="3_mhjo2"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
+[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/ck_water_shader/height_waves/height2.tres" id="4_2anfc"]
+[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/ck_water_shader/height_waves/height3.tres" id="5_wdkup"]
+[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/ck_water_shader/height_waves/height4.tres" id="6_vsjnx"]
+[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/ck_water_shader/height_waves/height5.tres" id="7_scrhe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qx3kn"]
 
@@ -20,7 +25,8 @@ size = Vector3(10, 10, 10)
 
 [node name="OceanMesh" type="Node3D" parent="."]
 script = ExtResource("1_crj5r")
-material = ExtResource("2_qrhc3")
+material = ExtResource("2_pg18u")
+waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("3_mhjo2"), ExtResource("4_2anfc"), ExtResource("5_wdkup"), ExtResource("6_vsjnx"), ExtResource("7_scrhe")])
 
 [node name="CameraFollower3D" type="Node3D" parent="OceanMesh"]
 script = ExtResource("3_ql4g3")
