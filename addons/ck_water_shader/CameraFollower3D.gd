@@ -1,0 +1,22 @@
+extends Node3D
+
+@export_node_path("Node3D") var victim_path
+@export var enable: bool = true
+
+const X_AXIS = 1
+const Y_AXIS = 2
+const Z_AXIS = 4
+@export_flags("x", "y", "z") var follow_axes = 5
+
+
+func _process(delta):
+	if not Engine.is_editor_hint() and enable:
+		var camera = get_viewport().get_camera_3d()
+		var v: Node3D = get_node(victim_path)
+		if follow_axes & X_AXIS:
+			v.global_position.x = camera.global_position.x
+		if follow_axes & Y_AXIS:
+			v.global_position.y = camera.global_position.y
+		if follow_axes & Z_AXIS:
+			v.global_position.z = camera.global_position.z
+

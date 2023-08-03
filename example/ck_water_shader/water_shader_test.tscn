@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://brk62yu2j6hb"]
+
+[ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
+[ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/WaterShaderMaterial.tres" id="2_qrhc3"]
+[ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qx3kn"]
+
+[sub_resource type="Sky" id="Sky_vxekh"]
+sky_material = SubResource("ProceduralSkyMaterial_qx3kn")
+
+[sub_resource type="Environment" id="Environment_y8wj4"]
+background_mode = 2
+sky = SubResource("Sky_vxekh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_m2owa"]
+size = Vector3(10, 10, 10)
+
+[node name="WaterShaderTest" type="Node3D"]
+
+[node name="OceanMesh" type="Node3D" parent="."]
+script = ExtResource("1_crj5r")
+material = ExtResource("2_qrhc3")
+
+[node name="CameraFollower3D" type="Node3D" parent="OceanMesh"]
+script = ExtResource("3_ql4g3")
+victim_path = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.945876, 0.324528, 0, -0.324528, 0.945876, 0, 5.64514, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_y8wj4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.570542, 0.821269, 0, -0.821269, 0.570542, 0, 23.7697, 0)
+
+[node name="Test_Terrain" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Test_Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.31869, -22.5508)
+mesh = SubResource("BoxMesh_m2owa")
