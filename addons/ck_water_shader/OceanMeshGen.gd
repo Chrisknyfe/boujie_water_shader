@@ -33,7 +33,7 @@ extends Node3D
 @export var adapt_width_to_camera: bool = false
 @export var force_rebuild_mesh: bool = false
 
-@export var waves: Array[GerstnerWave] = []
+@export var height_waves: Array[GerstnerWave] = []
 
 func quadratic_increase(x: float):
 	var y = density_factor * abs(pow(x, density_exponent)) + (1.0 - density_factor)*abs(x)
@@ -153,12 +153,40 @@ func _update_distance_fade():
 		material.set_shader_parameter("distance_fade_max", 0.5 + width / 2)
 		material.set_shader_parameter("distance_fade_min", width * (1.0 - adaptive_distance_fade_softness) / 2 )
 
+
+func _update_wave_params():
+	# height waves
+	var num_waves = min(8, len(height_waves))
+	material.set_shader_parameter("WaveCount", num_waves)
+	var steepnesses = []
+	var amplitudes = []
+	var directions = []
+	var frequencies = []
+	var speeds = []
+	for i in range(num_waves):
+		var res = height_waves[i]
+		print(res)
+		steepnesses.append(res.steepness)
+		amplitudes.append(res.amplitude)
+		directions.append(res.direction_degrees)
+		frequencies.append(res.frequency)
+		speeds.append(res.speed)
+	material.set_shader_parameter("WaveSteepnesses", PackedFloat32Array(steepnesses))
+	material.set_shader_parameter("WaveAmplitudes", PackedFloat32Array(amplitudes))
+	material.set_shader_parameter("WaveDirectionsDegrees", PackedFloat32Array(directions))
+	material.set_shader_parameter("WaveFrequencies", PackedFloat32Array(frequencies))
+	material.set_shader_parameter("WaveSpeeds", PackedFloat32Array(speeds))
+		
+
+
 func _process(_delta):
 	if force_rebuild_mesh:
+		print("force_rebuild_mesh")
 		force_rebuild_mesh = false
 		build_mesh()
 		_update_width()
-	if adapt_width_to_camera:
+		_update_wave_params()
+	if not Engine.is_editor_hint() and adapt_width_to_camera:
 		var camera = get_viewport().get_camera_3d()
 		if camera:
 			var new_width = camera.far * 2
