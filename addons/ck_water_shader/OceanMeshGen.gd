@@ -34,6 +34,8 @@ extends Node3D
 @export var force_rebuild_mesh: bool = false
 
 @export var height_waves: Array[GerstnerWave] = []
+@export var foam_waves: Array[GerstnerWave] = []
+@export var uv_waves: Array[GerstnerWave] = []
 
 func quadratic_increase(x: float):
 	var y = density_factor * abs(pow(x, density_exponent)) + (1.0 - density_factor)*abs(x)
@@ -156,27 +158,30 @@ func _update_distance_fade():
 
 func _update_wave_params():
 	# height waves
-	var num_waves = min(8, len(height_waves))
-	material.set_shader_parameter("WaveCount", num_waves)
+	_update_wave_group_params("Wave", height_waves)
+	_update_wave_group_params("UVWave", uv_waves)
+	
+func _update_wave_group_params(prefix: String, waves: Array):
+	var num_waves = min(8, len(waves))
+	material.set_shader_parameter(prefix + "Count", num_waves)
 	var steepnesses = []
 	var amplitudes = []
 	var directions = []
 	var frequencies = []
 	var speeds = []
 	for i in range(num_waves):
-		var res = height_waves[i]
-		print(res)
+		var res = waves[i]
 		steepnesses.append(res.steepness)
 		amplitudes.append(res.amplitude)
 		directions.append(res.direction_degrees)
 		frequencies.append(res.frequency)
 		speeds.append(res.speed)
-	material.set_shader_parameter("WaveSteepnesses", PackedFloat32Array(steepnesses))
-	material.set_shader_parameter("WaveAmplitudes", PackedFloat32Array(amplitudes))
-	material.set_shader_parameter("WaveDirectionsDegrees", PackedFloat32Array(directions))
-	material.set_shader_parameter("WaveFrequencies", PackedFloat32Array(frequencies))
-	material.set_shader_parameter("WaveSpeeds", PackedFloat32Array(speeds))
-		
+	material.set_shader_parameter(prefix + "Steepnesses", PackedFloat32Array(steepnesses))
+	material.set_shader_parameter(prefix + "Amplitudes", PackedFloat32Array(amplitudes))
+	material.set_shader_parameter(prefix + "DirectionsDegrees", PackedFloat32Array(directions))
+	material.set_shader_parameter(prefix + "Frequencies", PackedFloat32Array(frequencies))
+	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
+	
 
 
 func _process(_delta):
