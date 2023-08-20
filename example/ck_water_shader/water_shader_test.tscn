@@ -1,15 +1,29 @@
-[gd_scene load_steps=15 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=24 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/ck_water_shader/height_waves/height1.tres" id="3_mhjo2"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
-[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/ck_water_shader/height_waves/height2.tres" id="4_2anfc"]
-[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/ck_water_shader/height_waves/height3.tres" id="5_wdkup"]
-[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/ck_water_shader/height_waves/height4.tres" id="6_vsjnx"]
-[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/ck_water_shader/height_waves/height5.tres" id="7_scrhe"]
+[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/ck_water_shader/height_waves/height2.tres" id="4_cgakr"]
+[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/ck_water_shader/height_waves/height3.tres" id="5_gmqu6"]
+[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/ck_water_shader/height_waves/height4.tres" id="6_lbabw"]
+[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/ck_water_shader/height_waves/height5.tres" id="7_wt1f3"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/ck_water_shader/uv_waves/uvwave1.tres" id="8_6h3mk"]
+[ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="8_w3coy"]
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/ck_water_shader/uv_waves/uvwave2.tres" id="9_3mywo"]
+[ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/ck_water_shader/foam_waves/foam2.tres" id="9_d1vy2"]
+[ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
+[ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
+[ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/ck_water_shader/foam_waves/foam3.tres" id="10_ec3ay"]
+[ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="11_xae35"]
+[ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xbc5o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tle7g"]
+albedo_texture = ExtResource("15_l0ywx")
+uv1_scale = Vector3(100, 100, 100)
+uv1_triplanar = true
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qx3kn"]
 
@@ -20,33 +34,57 @@ sky_material = SubResource("ProceduralSkyMaterial_qx3kn")
 background_mode = 2
 sky = SubResource("Sky_vxekh")
 
-[sub_resource type="BoxMesh" id="BoxMesh_m2owa"]
-size = Vector3(10, 10, 10)
+[sub_resource type="SphereMesh" id="SphereMesh_68awl"]
+radius = 4.0
+height = 8.0
 
 [node name="WaterShaderTest" type="Node3D"]
 
 [node name="OceanMesh" type="Node3D" parent="."]
 script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
+width = 500.0
 adapt_distance_fade_to_width = true
-height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("3_mhjo2"), ExtResource("4_2anfc"), ExtResource("5_wdkup"), ExtResource("6_vsjnx"), ExtResource("7_scrhe")])
+adapt_width_to_camera = true
+height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("3_mhjo2"), ExtResource("4_cgakr"), ExtResource("5_gmqu6"), ExtResource("6_lbabw"), ExtResource("7_wt1f3")])
+foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_w3coy"), ExtResource("9_d1vy2"), ExtResource("10_ec3ay"), ExtResource("11_xae35")])
 uv_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_6h3mk"), ExtResource("9_3mywo")])
 
 [node name="CameraFollower3D" type="Node3D" parent="OceanMesh"]
 script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
 
+[node name="OceanFloor" type="MeshInstance3D" parent="OceanMesh"]
+transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -10, 0)
+mesh = SubResource("PlaneMesh_xbc5o")
+surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.945876, 0.324528, 0, -0.324528, 0.945876, 0, 5.64514, 0)
+transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y8wj4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.570542, 0.821269, 0, -0.821269, 0.570542, 0, 23.7697, 0)
+transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
 
 [node name="Test_Terrain" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Test_Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.31869, -22.5508)
-mesh = SubResource("BoxMesh_m2owa")
+[node name="Obelisk" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+
+[node name="Pedestal1" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -30, 1, 0)
+
+[node name="WaterSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal1"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.18241, 0)
+mesh = SubResource("SphereMesh_68awl")
+skeleton = NodePath("../..")
+
+[node name="Pedestal2" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 30, 1, 0)
+
+[node name="WaterSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal2"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.18241, 0)
+mesh = SubResource("SphereMesh_68awl")
+skeleton = NodePath("../..")
