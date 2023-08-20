@@ -160,6 +160,7 @@ func _update_wave_params():
 	# height waves
 	_update_wave_group_params("Wave", height_waves)
 	_update_wave_group_params("UVWave", uv_waves)
+	_update_wave_group_params("FoamWave", foam_waves)
 	
 func _update_wave_group_params(prefix: String, waves: Array):
 	var num_waves = min(8, len(waves))

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GerstnerWave" load_steps=2 format=3 uid="uid://c5j78g2giv011"]
+
+[ext_resource type="Script" path="res://addons/ck_water_shader/GerstnerWave.gd" id="1_c7k22"]
+
+[resource]
+script = ExtResource("1_c7k22")
+steepness = 1.5
+amplitude = 1.0
+direction_degrees = 144.0
+frequency = 0.007
+speed = 0.05
