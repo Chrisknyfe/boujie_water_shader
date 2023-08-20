@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c28pojjx0kja3"
-path.s3tc="res://.godot/imported/ocean_albedo.png-fb3358e478f116f8940c2749869139c2.s3tc.ctex"
+path.s3tc="res://.godot/imported/ocean_albedo_1.png-665ee60c1c34120da1e245a46632a33c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/ck_water_shader/shader/ocean_albedo.png"
-dest_files=["res://.godot/imported/ocean_albedo.png-fb3358e478f116f8940c2749869139c2.s3tc.ctex"]
+source_file="res://addons/ck_water_shader/shader/ocean_albedo_1.png"
+dest_files=["res://.godot/imported/ocean_albedo_1.png-665ee60c1c34120da1e245a46632a33c.s3tc.ctex"]
 
 [params]
 
