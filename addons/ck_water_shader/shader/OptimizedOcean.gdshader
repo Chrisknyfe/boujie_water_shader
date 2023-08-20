@@ -14,7 +14,8 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define DISTANCE_FADE
 #define WORLD_TRIPLANAR
 #define SHORE_FOAM
-//#define DEBUG_TIME_INVARIANT // Toki wo tomare.
+
+uniform bool freeze; // Toki wo tomare.
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
@@ -139,9 +140,9 @@ vec3 rotate_to_normal(vec3 point, vec3 normal)
 
 void vertex() {
 	float time = TIME; //TIME;
-#ifdef DEBUG_TIME_INVARIANT
-	time = 1.0;
-#endif
+	
+	time = time * float(!freeze);
+	
 	
 	// UV will be assigned based on xz world coords
 	// Zach, VERTEX is in world coords now! world_vertex_coords render mode!

@@ -8,6 +8,7 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_1olpv")
+shader_parameter/freeze = false
 shader_parameter/albedo = Color(0, 0.431373, 1, 0.321569)
 shader_parameter/refraction = 0.1
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
