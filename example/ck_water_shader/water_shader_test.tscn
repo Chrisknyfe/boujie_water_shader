@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=25 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/ck_water_shader/foam_waves/foam3.tres" id="10_ec3ay"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="11_xae35"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
+[ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xbc5o"]
 
@@ -59,8 +60,9 @@ transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -10, 0)
 mesh = SubResource("PlaneMesh_xbc5o")
 surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)
+script = ExtResource("16_t5wvu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y8wj4")
