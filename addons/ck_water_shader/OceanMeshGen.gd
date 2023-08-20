@@ -1,36 +1,44 @@
 @tool
 extends Node3D
 
+## Ocean shader material designed to work with this OceanMeshGen
 @export var material: ShaderMaterial
+## Number of rows & columns in the mesh grid
 @export_range(2, 250) var resolution: int = 100:
 	set(value):
 		resolution = value
 		build_mesh()
 		_update_width()
+## Width of the mesh (distance)
 @export 	var width: float = 200.0:
 	set(value):
 		width = value
 		_update_width()
+## How clustered the mesh is closer to the center (camera)
 @export_range(0.0, 1.0) var density_factor: float = 0.09:
 	set(value):
 		density_factor = value
 		build_mesh()
 		_update_width()
+## How quickly the mesh density increases closer to the center (camera)
 @export_range(0, 10) var density_exponent: int = 2:
 	set(value):
 		density_exponent = value
 		build_mesh()
 		_update_width()
+## Update distance fade in the shader when width of the ocean changes
 @export		var adapt_distance_fade_to_width: bool = false:
 	set(value):
 		adapt_distance_fade_to_width = value
 		_update_distance_fade()
+## Distance fade softness to set with adaptive distance fade.
 @export_range(0.0, 1.0) var adaptive_distance_fade_softness: float = 0.1:
 	set(value):
 		adaptive_distance_fade_softness = value
 		_update_distance_fade()
-		
+## Update width of ocean when camera far changes
 @export var adapt_width_to_camera: bool = false
+## Set to true to forcibly rebuild the mesh
 @export var force_rebuild_mesh: bool = false
 
 @export var height_waves: Array[GerstnerWave] = []
