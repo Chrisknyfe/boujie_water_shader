@@ -66,6 +66,7 @@ func quadratic_increase_by_shell(c: Vector3):
 func _ready():
 	build_mesh()
 	_update_width()
+	_update_wave_params()
 
 func build_mesh():
 	var surfTool = SurfaceTool.new()

@@ -1,13 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=21 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
-[ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/ck_water_shader/height_waves/height1.tres" id="3_mhjo2"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
-[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/ck_water_shader/height_waves/height2.tres" id="4_cgakr"]
-[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/ck_water_shader/height_waves/height3.tres" id="5_gmqu6"]
-[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/ck_water_shader/height_waves/height4.tres" id="6_lbabw"]
-[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/ck_water_shader/height_waves/height5.tres" id="7_wt1f3"]
+[ext_resource type="Resource" uid="uid://drnqso0evwmyq" path="res://example/ck_water_shader/height_waves/height_super.tres" id="8_2s0eq"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/ck_water_shader/uv_waves/uvwave1.tres" id="8_6h3mk"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="8_w3coy"]
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/ck_water_shader/uv_waves/uvwave2.tres" id="9_3mywo"]
@@ -47,11 +43,11 @@ script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
 resolution = 150
 width = 2000.0
-density_factor = 0.0
+density_factor = 0.9
 density_exponent = 3
 adapt_distance_fade_to_width = true
 adapt_width_to_camera = true
-height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("3_mhjo2"), ExtResource("4_cgakr"), ExtResource("5_gmqu6"), ExtResource("6_lbabw"), ExtResource("7_wt1f3")])
+height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_2s0eq")])
 foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_w3coy"), ExtResource("9_d1vy2"), ExtResource("10_ec3ay"), ExtResource("11_xae35")])
 uv_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_6h3mk"), ExtResource("9_3mywo")])
 

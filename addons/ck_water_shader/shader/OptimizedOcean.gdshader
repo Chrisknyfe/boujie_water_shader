@@ -7,9 +7,9 @@ shader_type spatial;
 
 render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_schlick_ggx,world_vertex_coords;
 
-#define ALBEDO_WAVE
+//#define ALBEDO_WAVE
 #define VERTEX_WAVE
-#define FOAM
+//#define FOAM
 #define REFRACTION
 #define DISTANCE_FADE
 #define WORLD_TRIPLANAR
@@ -217,6 +217,9 @@ void vertex() {
 	normalWave = rotate_to_normal(normalWave, NORMAL);
 	NORMAL = normalize(normalWave);
 #endif
+
+	// DEBUG: increase vertex height based on distance from center
+	//VERTEX.y += abs(wave_coords.x) + abs(wave_coords.y);
 	
 }
 
