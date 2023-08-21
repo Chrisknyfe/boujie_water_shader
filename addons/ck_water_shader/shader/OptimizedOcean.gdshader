@@ -7,13 +7,13 @@ shader_type spatial;
 
 render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_schlick_ggx,world_vertex_coords;
 
-//#define ALBEDO_WAVE
+#define ALBEDO_WAVE
 #define VERTEX_WAVE
 #define FOAM
 #define REFRACTION
-//#define DISTANCE_FADE
+#define DISTANCE_FADE
 #define WORLD_TRIPLANAR
-//#define SHORE_FOAM
+#define SHORE_FOAM
 
 uniform bool freeze; // Toki wo tomare.
 
@@ -84,8 +84,7 @@ varying vec3	world_coordinates;
 
 float linearize_depth(float depth) {
     depth = 2.0 * depth - 1.0;
-    depth = 2.0 * near * far / (far + near - depth * (far - near));
-    return depth;
+    return near * far / (far + depth * (near - far));
 }
 
 // An offset at a point on a Gerstner Wave
@@ -219,7 +218,7 @@ void vertex() {
 #endif
 
 	// DEBUG: increase vertex height based on distance from center
-	VERTEX.y += 0.1 * (wave_coords.x + wave_coords.y);
+	//VERTEX.y += 0.1 * (wave_coords.x + wave_coords.y);
 	
 }
 
@@ -304,11 +303,11 @@ void fragment() {
 #endif
 
 #ifdef SHORE_FOAM
-	float z_depth = linearize_depth(texture(depth_texture, SCREEN_UV).r);
+	float z_depth = linearize_depth(texture(depth_texture, SCREEN_UV).x);
 	float z_pos = linearize_depth(FRAGCOORD.z);
 	float z_diff = z_depth - z_pos;
 	float shore_alpha = 0.0;
-	shore_alpha = 1.0 - smoothstep(3.0, 7.0, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
+	shore_alpha = 1.0 - smoothstep(2.0, 6.0, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
 	shore_alpha = foam_tex.a * shore_alpha; // disable this line when you have an all-white foam texture
 	
