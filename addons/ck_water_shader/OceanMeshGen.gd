@@ -4,7 +4,7 @@ extends Node3D
 ## Ocean shader material designed to work with this OceanMeshGen
 @export var material: ShaderMaterial
 ## Number of rows & columns in the mesh grid
-@export_range(2, 250) var resolution: int = 100:
+@export_range(2, 300) var resolution: int = 100:
 	set(value):
 		resolution = value
 		build_mesh()
@@ -21,7 +21,7 @@ extends Node3D
 		build_mesh()
 		_update_width()
 ## How quickly the mesh density increases closer to the center (camera)
-@export_range(0, 10) var density_exponent: int = 2:
+@export_range(0, 10) var density_exponent: float = 2.0:
 	set(value):
 		density_exponent = value
 		build_mesh()

@@ -9,11 +9,11 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 
 //#define ALBEDO_WAVE
 #define VERTEX_WAVE
-//#define FOAM
+#define FOAM
 #define REFRACTION
-#define DISTANCE_FADE
+//#define DISTANCE_FADE
 #define WORLD_TRIPLANAR
-#define SHORE_FOAM
+//#define SHORE_FOAM
 
 uniform bool freeze; // Toki wo tomare.
 
@@ -219,7 +219,7 @@ void vertex() {
 #endif
 
 	// DEBUG: increase vertex height based on distance from center
-	//VERTEX.y += abs(wave_coords.x) + abs(wave_coords.y);
+	VERTEX.y += 0.1 * (wave_coords.x + wave_coords.y);
 	
 }
 

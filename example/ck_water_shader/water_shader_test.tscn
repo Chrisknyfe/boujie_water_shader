@@ -1,12 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=19 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Resource" uid="uid://drnqso0evwmyq" path="res://example/ck_water_shader/height_waves/height_super.tres" id="8_2s0eq"]
-[ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/ck_water_shader/uv_waves/uvwave1.tres" id="8_6h3mk"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="8_w3coy"]
-[ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/ck_water_shader/uv_waves/uvwave2.tres" id="9_3mywo"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/ck_water_shader/foam_waves/foam2.tres" id="9_d1vy2"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
@@ -41,15 +39,14 @@ height = 8.0
 [node name="OceanMeshGen" type="Node3D" parent="."]
 script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
-resolution = 150
+resolution = 300
 width = 2000.0
-density_factor = 0.9
-density_exponent = 3
+density_factor = 0.05
+density_exponent = 2.13
 adapt_distance_fade_to_width = true
 adapt_width_to_camera = true
 height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_2s0eq")])
 foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_w3coy"), ExtResource("9_d1vy2"), ExtResource("10_ec3ay"), ExtResource("11_xae35")])
-uv_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_6h3mk"), ExtResource("9_3mywo")])
 
 [node name="CameraFollower3D" type="Node3D" parent="OceanMeshGen"]
 script = ExtResource("3_ql4g3")
