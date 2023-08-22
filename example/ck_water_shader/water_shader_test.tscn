@@ -39,9 +39,9 @@ height = 8.0
 [node name="OceanMeshGen" type="Node3D" parent="."]
 script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
-resolution = 300
+resolution = 200
 width = 2000.0
-density_region_size = 64.0
+density_region_size = 16.0
 adapt_distance_fade_to_width = true
 adapt_width_to_camera = true
 height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_2s0eq")])
