@@ -41,7 +41,8 @@ script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
 resolution = 300
 width = 2000.0
-density_region_size = 25.0
+density_region_size = 64.0
+adapt_distance_fade_to_width = true
 adapt_width_to_camera = true
 height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_2s0eq")])
 foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("8_w3coy"), ExtResource("9_d1vy2"), ExtResource("10_ec3ay"), ExtResource("11_xae35")])
@@ -49,6 +50,8 @@ foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([Ex
 [node name="CameraFollower3D" type="Node3D" parent="OceanMeshGen"]
 script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
+snap = true
+snap_unit = 64.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="OceanMeshGen"]
 transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -48.5697, 0)

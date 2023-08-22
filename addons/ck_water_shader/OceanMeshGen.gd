@@ -40,6 +40,8 @@ extends Node3D
 @export var height_waves: Array[GerstnerWave] = []
 @export var foam_waves: Array[GerstnerWave] = []
 @export var uv_waves: Array[GerstnerWave] = []
+
+var _snap_unit = 8.0
 	
 func power_of_two_increase(x: float):
 	var r = density_region_size
@@ -92,10 +94,10 @@ func build_mesh():
 			var uv_ll = (coord_ll / f_resolution + Vector2(0.5, 0.5))
 			var vert_ll = Vector3(coord_ll.x, 0, coord_ll.y)
 			
-			vert_ul = power_of_two_increase_by_shell(vert_ul) / f_resolution
-			vert_ur = power_of_two_increase_by_shell(vert_ur) / f_resolution
-			vert_lr = power_of_two_increase_by_shell(vert_lr) / f_resolution
-			vert_ll = power_of_two_increase_by_shell(vert_ll) / f_resolution
+			vert_ul = power_of_two_increase_by_shell(vert_ul)
+			vert_ur = power_of_two_increase_by_shell(vert_ur)
+			vert_lr = power_of_two_increase_by_shell(vert_lr)
+			vert_ll = power_of_two_increase_by_shell(vert_ll)
 
 #			print("meshp %d,%d: " % [x,z], vert_ul, uv_ul)
 
@@ -144,12 +146,19 @@ func build_mesh():
 	
 func _update_width():
 	var f_resolution = float(resolution)
-	var width_quadratic_growth = 2.0 * power_of_two_increase(f_resolution / 2) / f_resolution
-	var true_scale_factor = width / width_quadratic_growth
+	var width_of_mesh = 2.0 * power_of_two_increase(f_resolution / 2)
+	print("desired width: ", width, " width_of_mesh: ", width_of_mesh)
+	var true_scale_factor = width / width_of_mesh
 	var mi = get_node_or_null("GeneratedMeshInstance")
 	if mi:
 		mi.scale.x = true_scale_factor
-		mi.scale.z = true_scale_factor	
+		mi.scale.z = true_scale_factor
+	# update camera follower
+	print("true_scale_factor: ", true_scale_factor)
+	var exp = ceil(((f_resolution / 2)+1) / density_region_size) # copied from power_of_two_increase()
+	var max_cell_size = 2 ** (exp-1)
+	_snap_unit = max_cell_size * true_scale_factor
+	print("snap unit: ", _snap_unit, " max cell size: ", max_cell_size)
 	_update_distance_fade()
 	
 func _update_distance_fade():
@@ -160,7 +169,6 @@ func _update_distance_fade():
 		material.set_shader_parameter("foam_fade_min", width / 6 )
 		material.set_shader_parameter("shore_fade_max", 0.5 + width / 6)
 		material.set_shader_parameter("shore_fade_min", width / 12 )
-
 
 
 func _update_wave_params():
@@ -205,3 +213,7 @@ func _process(_delta):
 			var new_width = camera.far * 2
 			if width != new_width:
 				width = new_width
+		var follower = get_node("CameraFollower3D")
+		if follower:
+			if follower.snap_unit != _snap_unit:
+				follower.snap_unit = _snap_unit

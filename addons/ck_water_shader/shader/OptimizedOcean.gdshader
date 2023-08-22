@@ -11,7 +11,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define VERTEX_WAVE
 #define FOAM
 #define REFRACTION
-#define DISTANCE_FADE
+//#define DISTANCE_FADE
 #define FOAM_FADE
 #define SHORE_FADE
 #define WORLD_TRIPLANAR
