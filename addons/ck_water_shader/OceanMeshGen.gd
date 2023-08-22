@@ -14,18 +14,14 @@ extends Node3D
 	set(value):
 		width = value
 		_update_width()
-## How clustered the mesh is closer to the center (camera)
-@export_range(0.0, 1.0) var density_factor: float = 0.09:
+		
+## How far from the center until density starts decreasing
+@export_range(10,1000) var density_region_size: float = 100.0:
 	set(value):
-		density_factor = value
+		density_region_size = value
 		build_mesh()
 		_update_width()
-## How quickly the mesh density increases closer to the center (camera)
-@export_range(0, 10) var density_exponent: float = 2.0:
-	set(value):
-		density_exponent = value
-		build_mesh()
-		_update_width()
+		
 ## Update distance fade in the shader when width of the ocean changes
 @export		var adapt_distance_fade_to_width: bool = false:
 	set(value):
@@ -44,21 +40,18 @@ extends Node3D
 @export var height_waves: Array[GerstnerWave] = []
 @export var foam_waves: Array[GerstnerWave] = []
 @export var uv_waves: Array[GerstnerWave] = []
-
-func quadratic_increase(x: float):
-	var y = density_factor * abs(pow(x, density_exponent)) + (1.0 - density_factor)*abs(x)
-	if x < 0:
-		y = -y
-	return y
 	
-func quadratic_increase_by_shell(c: Vector3):
+func power_of_two_increase(x: float):
+	var r = density_region_size
+	var exp = ceil((x+1) / r)
+	return r * (2 ** (exp-1) - 1) + fmod(x, r) * (2 ** (exp-1))
+	
+func power_of_two_increase_by_shell(c: Vector3):
 	var shell = max(abs(c.x), abs(c.y), abs(c.z))
 	var q_factor = 0
 	if shell != 0:
-		q_factor = quadratic_increase(shell)/shell
+		q_factor = power_of_two_increase(shell)/shell
 	return Vector3(c.x * q_factor, c.y * q_factor, c.z * q_factor)
-	
-	
 	
 
 # Due to the "tool" keyword at the top of this file
@@ -99,10 +92,10 @@ func build_mesh():
 			var uv_ll = (coord_ll / f_resolution + Vector2(0.5, 0.5))
 			var vert_ll = Vector3(coord_ll.x, 0, coord_ll.y)
 			
-			vert_ul = quadratic_increase_by_shell(vert_ul) / f_resolution
-			vert_ur = quadratic_increase_by_shell(vert_ur) / f_resolution
-			vert_lr = quadratic_increase_by_shell(vert_lr) / f_resolution
-			vert_ll = quadratic_increase_by_shell(vert_ll) / f_resolution
+			vert_ul = power_of_two_increase_by_shell(vert_ul) / f_resolution
+			vert_ur = power_of_two_increase_by_shell(vert_ur) / f_resolution
+			vert_lr = power_of_two_increase_by_shell(vert_lr) / f_resolution
+			vert_ll = power_of_two_increase_by_shell(vert_ll) / f_resolution
 
 #			print("meshp %d,%d: " % [x,z], vert_ul, uv_ul)
 
@@ -151,7 +144,7 @@ func build_mesh():
 	
 func _update_width():
 	var f_resolution = float(resolution)
-	var width_quadratic_growth = 2.0 * quadratic_increase(f_resolution / 2) / f_resolution
+	var width_quadratic_growth = 2.0 * power_of_two_increase(f_resolution / 2) / f_resolution
 	var true_scale_factor = width / width_quadratic_growth
 	var mi = get_node_or_null("GeneratedMeshInstance")
 	if mi:
