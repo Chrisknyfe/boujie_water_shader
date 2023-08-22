@@ -13,6 +13,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define REFRACTION
 #define DISTANCE_FADE
 #define FOAM_FADE
+#define SHORE_FADE
 #define WORLD_TRIPLANAR
 #define SHORE_FOAM
 
@@ -37,6 +38,8 @@ uniform float near_fade_min;
 uniform float near_fade_max;
 uniform float foam_fade_min;
 uniform float foam_fade_max;
+uniform float shore_fade_min;
+uniform float shore_fade_max;
 
 uniform float specular : hint_range(0.0, 1.0);
 uniform float roughness : hint_range(0.0, 1.0);
@@ -238,7 +241,7 @@ void fragment() {
 	
 	// Distance fade and foam distance fade
 
-#if defined(DISTANCE_FADE) || defined(FOAM_FADE)
+#if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE)
 	float d = distance(CAMERA_POSITION_WORLD, world_coordinates);
 #endif
 #ifdef DISTANCE_FADE
@@ -248,6 +251,9 @@ void fragment() {
 #endif
 #ifdef FOAM_FADE
 	float foam_fade_alpha = clamp(smoothstep(foam_fade_max, foam_fade_min, d),0.0,1.0);
+#endif
+#ifdef SHORE_FADE
+	float shore_fade_alpha = clamp(smoothstep(shore_fade_max, shore_fade_min, d),0.0,1.0);
 #endif
 	
 	if (ALPHA <= 0.0) {
@@ -319,7 +325,7 @@ void fragment() {
 	shore_alpha = 1.0 - smoothstep(2.0, 6.0, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
 	shore_alpha = foam_tex.a * shore_alpha; // disable this line when you have an all-white foam texture
-	shore_alpha = foam_fade_alpha * shore_alpha;
+	shore_alpha = shore_fade_alpha * shore_alpha;
 	
 	EMISSION *= (1.0-shore_alpha); // block emission
 	ALBEDO = mix(ALBEDO, foam_tex.rgb, shore_alpha);
