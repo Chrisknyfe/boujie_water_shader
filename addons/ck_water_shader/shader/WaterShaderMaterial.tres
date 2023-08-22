@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_1olpv"]
 [ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/ck_water_shader/shader/ocean_albedo_1.png" id="2_rfi1v"]
-[ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/ck_water_shader/shader/foam_1.png" id="3_4sb3u"]
+[ext_resource type="Texture2D" uid="uid://cq0i08hinbihi" path="res://addons/ck_water_shader/shader/foam_2.png" id="3_sgxso"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/refraction.png" id="4_3pl6r"]
 
 [resource]
@@ -17,6 +17,8 @@ shader_parameter/distance_fade_min = 1800.0
 shader_parameter/distance_fade_max = 2000.5
 shader_parameter/near_fade_min = 1.5
 shader_parameter/near_fade_max = 1.7
+shader_parameter/foam_fade_min = 900.0
+shader_parameter/foam_fade_max = 1000.5
 shader_parameter/specular = 0.5
 shader_parameter/roughness = 0.1
 shader_parameter/metallic = 1.0
@@ -26,12 +28,12 @@ shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
 shader_parameter/near = 0.1
 shader_parameter/far = 400.0
 shader_parameter/texture_albedo = ExtResource("2_rfi1v")
-shader_parameter/texture_foam = ExtResource("3_4sb3u")
+shader_parameter/texture_foam = ExtResource("3_sgxso")
 shader_parameter/texture_refraction = ExtResource("4_3pl6r")
 shader_parameter/WaveCount = 1
 shader_parameter/WaveSteepnesses = PackedFloat32Array(5)
 shader_parameter/WaveAmplitudes = PackedFloat32Array(0.1)
-shader_parameter/WaveDirectionsDegrees = PackedFloat32Array(90)
+shader_parameter/WaveDirectionsDegrees = PackedFloat32Array(0)
 shader_parameter/WaveFrequencies = PackedFloat32Array(0.02)
 shader_parameter/WaveSpeeds = PackedFloat32Array(1)
 shader_parameter/FoamWaveCount = 4
@@ -40,9 +42,9 @@ shader_parameter/FoamWaveAmplitudes = PackedFloat32Array(1, 0.7, 1, 1)
 shader_parameter/FoamWaveDirectionsDegrees = PackedFloat32Array(0, 315, 77, 144)
 shader_parameter/FoamWaveFrequencies = PackedFloat32Array(0.02, 0.06, 0.003, 0.007)
 shader_parameter/FoamWaveSpeeds = PackedFloat32Array(1, 3, 0.05, 0.05)
-shader_parameter/UVWaveCount = 2
-shader_parameter/UVWaveSteepnesses = PackedFloat32Array(0.09, 0.08)
-shader_parameter/UVWaveAmplitudes = PackedFloat32Array(0.7, 0.5)
-shader_parameter/UVWaveDirectionsDegrees = PackedFloat32Array(315, 90)
-shader_parameter/UVWaveFrequencies = PackedFloat32Array(0.9, 0.6)
-shader_parameter/UVWaveSpeeds = PackedFloat32Array(0.75, 0.375)
+shader_parameter/UVWaveCount = 0
+shader_parameter/UVWaveSteepnesses = PackedFloat32Array()
+shader_parameter/UVWaveAmplitudes = PackedFloat32Array()
+shader_parameter/UVWaveDirectionsDegrees = PackedFloat32Array()
+shader_parameter/UVWaveFrequencies = PackedFloat32Array()
+shader_parameter/UVWaveSpeeds = PackedFloat32Array()

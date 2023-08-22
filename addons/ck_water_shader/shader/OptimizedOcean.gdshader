@@ -12,6 +12,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define FOAM
 #define REFRACTION
 #define DISTANCE_FADE
+#define FOAM_FADE
 #define WORLD_TRIPLANAR
 #define SHORE_FOAM
 
@@ -34,6 +35,8 @@ uniform float distance_fade_min;
 uniform float distance_fade_max;
 uniform float near_fade_min;
 uniform float near_fade_max;
+uniform float foam_fade_min;
+uniform float foam_fade_max;
 
 uniform float specular : hint_range(0.0, 1.0);
 uniform float roughness : hint_range(0.0, 1.0);
@@ -233,12 +236,18 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 void fragment() {
 	ALPHA = 1.0;
 	
-	// Distance fade
-#ifdef DISTANCE_FADE
+	// Distance fade and foam distance fade
+
+#if defined(DISTANCE_FADE) || defined(FOAM_FADE)
 	float d = distance(CAMERA_POSITION_WORLD, world_coordinates);
+#endif
+#ifdef DISTANCE_FADE
 	ALPHA *= clamp(smoothstep(distance_fade_max, distance_fade_min, d),0.0,1.0);
 	// Near fade
 	ALPHA *= clamp(smoothstep(near_fade_min, near_fade_max, d),0.0,1.0);
+#endif
+#ifdef FOAM_FADE
+	float foam_fade_alpha = clamp(smoothstep(foam_fade_max, foam_fade_min, d),0.0,1.0);
 #endif
 	
 	if (ALPHA <= 0.0) {
@@ -295,7 +304,7 @@ void fragment() {
 #endif
 
 #ifdef FOAM
-	float final_foam_alpha = foam_alpha * foam_tex.a;
+	float final_foam_alpha = foam_alpha * foam_tex.a * foam_fade_alpha;
 	float foam_alpha_threshold = 0.0;
 	final_foam_alpha = smoothstep(foam_alpha_threshold, foam_alpha_threshold + 1.0, final_foam_alpha);
 	EMISSION *= (1.0-final_foam_alpha); // block emission
@@ -310,6 +319,7 @@ void fragment() {
 	shore_alpha = 1.0 - smoothstep(2.0, 6.0, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
 	shore_alpha = foam_tex.a * shore_alpha; // disable this line when you have an all-white foam texture
+	shore_alpha = foam_fade_alpha * shore_alpha;
 	
 	EMISSION *= (1.0-shore_alpha); // block emission
 	ALBEDO = mix(ALBEDO, foam_tex.rgb, shore_alpha);

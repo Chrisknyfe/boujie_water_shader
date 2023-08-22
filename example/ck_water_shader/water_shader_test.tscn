@@ -53,7 +53,7 @@ script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
 
 [node name="OceanFloor" type="MeshInstance3D" parent="OceanMeshGen"]
-transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -10, 0)
+transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -48.5697, 0)
 mesh = SubResource("PlaneMesh_xbc5o")
 surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 
@@ -71,6 +71,9 @@ transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0
 
 [node name="Obelisk" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+
+[node name="Obelisk2" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 29.3647, 1.00001, -114.584)
 
 [node name="Pedestal1" parent="Test_Terrain" instance=ExtResource("10_70j47")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -30, 1, 0)

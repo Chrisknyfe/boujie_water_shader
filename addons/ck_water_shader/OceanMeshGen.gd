@@ -160,9 +160,11 @@ func _update_width():
 	_update_distance_fade()
 	
 func _update_distance_fade():
-	if adapt_distance_fade_to_width and not Engine.is_editor_hint():
+	if adapt_distance_fade_to_width:
 		material.set_shader_parameter("distance_fade_max", 0.5 + width / 2)
 		material.set_shader_parameter("distance_fade_min", width * (1.0 - adaptive_distance_fade_softness) / 2 )
+		material.set_shader_parameter("foam_fade_max", 0.5 + width / 5)
+		material.set_shader_parameter("foam_fade_min", width / 10 )
 
 
 func _update_wave_params():
