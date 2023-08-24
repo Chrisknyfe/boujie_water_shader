@@ -12,12 +12,15 @@ extends Node3D
 @export var unit_size: float = 1.0
 @export var far_edge: float = 1000
 
-var _region_width: float:
+var region_width: float:
 	get:
 		return outermost_resolution * unit_size * 2 ** (levels_of_detail-1)
-var _total_width: float:
+var total_width: float:
 	get:
-		return _region_width * ((2 * levels_of_detail) - 1)
+		return region_width * ((2 * levels_of_detail) - 1)
+var max_unit_size: float:
+	get:
+		return unit_size * 2 ** (levels_of_detail-1)
 
 @export_category("Editor Tools")
 @export var editor_rebuild: bool = false
@@ -170,7 +173,7 @@ func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
 func build_farplane():
 	_clear_generated_meshes("_gen_farplane")
 	
-	var near = _total_width / 2
+	var near = total_width / 2
 	var middle = (near + far_edge) / 2
 	middle = min(near * 3, middle)
 	if far_edge < near:
@@ -178,12 +181,12 @@ func build_farplane():
 		return
 	
 	# midplane prevents texture jitter errors being noticeable.
-	var midplane = FarPlaneMeshGenerator.new(near, _region_width, middle)
+	var midplane = FarPlaneMeshGenerator.new(near, region_width, middle)
 	midplane.generate()
 	var mesh = midplane.commit()
 	_add_mesh_as_node(mesh, "_gen_farplane_mid")
 	
-	var farplane = FarPlaneMeshGenerator.new(middle, _region_width, far_edge)
+	var farplane = FarPlaneMeshGenerator.new(middle, region_width, far_edge)
 	farplane.generate()
 	mesh = farplane.commit()
 	_add_mesh_as_node(mesh, "_gen_farplane_far")
@@ -198,7 +201,7 @@ func build_meshes():
 		for x in range(lower_limit, upper_limit):
 			var shell = max(abs(x), abs(z))
 			var onion = levels_of_detail - shell - 1
-			var pos = Vector3(x, 0, z) * _region_width
+			var pos = Vector3(x, 0, z) * region_width
 			print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
 			var this_unit_size = unit_size * 2 ** shell
 			var this_resolution = outermost_resolution * (2 ** (onion))
