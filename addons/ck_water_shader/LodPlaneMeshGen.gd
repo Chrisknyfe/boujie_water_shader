@@ -206,7 +206,7 @@ func build_meshes():
 			var shell = max(abs(x), abs(z))
 			var onion = levels_of_detail - shell - 1
 			var pos = Vector3(x, 0, z) * region_width
-			print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
+			#print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
 			var this_unit_size = unit_size * 2 ** shell
 			var this_resolution = outermost_resolution * (2 ** (onion))
 			var seam_up = -z >= shell

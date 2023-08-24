@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=46 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/LodPlaneMeshGen.gd" id="1_l3xu5"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Ocean.gd" id="1_m8eja"]
@@ -28,6 +28,7 @@
 [ext_resource type="Shader" uid="uid://un001n4v6nn2" path="res://addons/ck_water_shader/shader/DropWithDistance.tres" id="21_gr4xf"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/ck_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Script" path="res://example/ck_water_shader/OceanFloor.gd" id="23_143d2"]
+[ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/ck_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
 
 [sub_resource type="Resource" id="Resource_h6ky8"]
 script = ExtResource("6_4v5kk")
@@ -151,7 +152,7 @@ subdivide_height = 16
 subdivide_depth = 16
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
-albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("29_g6865")
 
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
@@ -176,7 +177,7 @@ script = ExtResource("3_uekfw")
 material = ExtResource("15_kb55y")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 1408.0
+wave_fade_far = 2496.0
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
@@ -186,7 +187,7 @@ uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7
 script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
 snap = true
-snap_unit = 32.0
+snap_unit = 64.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
 transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -80, 0)
@@ -284,7 +285,6 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("19_rq23g")
 
 [node name="UnitCube" type="MeshInstance3D" parent="Test_Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.0291, 0, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean/LodPlaneMeshGen")
