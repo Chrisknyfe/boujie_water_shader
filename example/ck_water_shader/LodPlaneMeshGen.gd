@@ -1,13 +1,19 @@
 @tool
 extends Node3D
 
-@export_range(4, 100) var outermost_resolution: int = 10
-@export_range(2, 6) var levels_of_detail: int = 2
-@export_range(0.1, 5) var unit_size: float = 1.0
 @export var material: Material:
 	set(value):
 		material = value
 		_apply_material()
+		
+@export_category("Geometry")
+@export_range(4, 200) var outermost_resolution: int = 10
+@export_range(1, 10) var levels_of_detail: int = 1
+@export var unit_size: float = 1.0
+
+var _region_width: float:
+	get:
+		return outermost_resolution * unit_size * 2 ** (levels_of_detail-1)
 
 @export_category("Editor Tools")
 @export var editor_rebuild: bool = false
@@ -17,7 +23,7 @@ func _process(delta):
 	if Engine.is_editor_hint():
 		if editor_rebuild:
 			editor_rebuild = false
-			build_mesh()
+			build_meshes()
 		if editor_clear:
 			editor_clear = false
 			_clear_generated_meshes()
@@ -102,15 +108,32 @@ func _clear_generated_meshes():
 			remove_child(child)
 	
 
-func build_mesh():
+func build_meshes():
 	_clear_generated_meshes()
 	
-	var plane = PlaneMeshGenerator.new(outermost_resolution, unit_size,
-		true, true, true, true)
-	plane.generate()
-	var mesh = plane.commit()
+	@warning_ignore("integer_division")
+	var lower_limit = -levels_of_detail + 1
+	var upper_limit = levels_of_detail
+	for z in range(lower_limit, upper_limit):
+		for x in range(lower_limit, upper_limit):
+			var pos = Vector3(x,0,z) * _region_width
+			var shell = max(abs(x), abs(z))
+			var onion = levels_of_detail - shell - 1
+			print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
+			var this_unit_size = unit_size * 2 ** shell
+			var this_resolution = outermost_resolution * (2 ** (onion))
+			var seam_up = -z >= shell
+			var seam_down = z >= shell
+			var seam_left = -x >= shell
+			var seam_right = x >= shell
+			var plane = PlaneMeshGenerator.new(this_resolution, this_unit_size,
+				seam_up, seam_down, seam_left, seam_right)
+			plane.generate()
+			var mesh = plane.commit()
 	
-	var meshinstance = MeshInstance3D.new()
-	meshinstance.name = "_gen_nearplane"
-	meshinstance.mesh = mesh
-	add_child(meshinstance)
+			var mi = MeshInstance3D.new()
+			mi.name = "_gen_nearplane_%d_%d" % [x, z]
+			mi.mesh = mesh
+			add_child(mi)
+			mi.position = pos
+			

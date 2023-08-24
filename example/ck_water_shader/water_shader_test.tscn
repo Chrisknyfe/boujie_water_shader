@@ -105,7 +105,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 [node name="PlaneMeshGen" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 104.9, 0)
 script = ExtResource("13_wdjsg")
-unit_size = 2.819
+levels_of_detail = 3
 
 [node name="UnitCube" type="MeshInstance3D" parent="PlaneMeshGen"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
