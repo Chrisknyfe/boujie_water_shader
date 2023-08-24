@@ -5,12 +5,12 @@
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Resource" uid="uid://drnqso0evwmyq" path="res://example/ck_water_shader/height_waves/height_super.tres" id="8_2s0eq"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="8_w3coy"]
-[ext_resource type="Script" path="res://example/ck_water_shader/PlaneMeshGen.gd" id="9_8hedi"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/ck_water_shader/foam_waves/foam2.tres" id="9_d1vy2"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/ck_water_shader/foam_waves/foam3.tres" id="10_ec3ay"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="11_xae35"]
+[ext_resource type="Script" path="res://example/ck_water_shader/LodPlaneMeshGen.gd" id="13_wdjsg"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
 
@@ -104,7 +104,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 
 [node name="PlaneMeshGen" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 104.9, 0)
-script = ExtResource("9_8hedi")
+script = ExtResource("13_wdjsg")
 unit_size = 2.819
 
 [node name="UnitCube" type="MeshInstance3D" parent="PlaneMeshGen"]
