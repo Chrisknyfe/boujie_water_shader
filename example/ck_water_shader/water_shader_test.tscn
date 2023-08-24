@@ -36,14 +36,14 @@ uv1_scale = Vector3(0.1, 0.1, 0.1)
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djey7"]
-albedo_texture = ExtResource("14_af8h7")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djey7"]
+albedo_texture = ExtResource("14_af8h7")
 
 [node name="WaterShaderTest" type="Node3D"]
 
@@ -106,6 +106,11 @@ mesh = SubResource("PlaneMesh_xbc5o")
 skeleton = NodePath("../OceanMeshGen")
 surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 
+[node name="UnitCube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 105.4, 0.5)
+mesh = SubResource("BoxMesh_6pj3g")
+skeleton = NodePath("../PlaneMeshGen")
+
 [node name="PlaneMeshGen" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 104.9, 0)
 script = ExtResource("13_wdjsg")
@@ -113,7 +118,4 @@ material = SubResource("StandardMaterial3D_djey7")
 outermost_resolution = 50
 levels_of_detail = 3
 unit_size = 0.25
-
-[node name="UnitCube" type="MeshInstance3D" parent="PlaneMeshGen"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
-mesh = SubResource("BoxMesh_6pj3g")
+far_edge = 5000.0

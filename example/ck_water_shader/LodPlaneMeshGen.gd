@@ -10,6 +10,7 @@ extends Node3D
 @export_range(4, 200) var outermost_resolution: int = 10
 @export_range(1, 10) var levels_of_detail: int = 1
 @export var unit_size: float = 1.0
+@export var far_edge: float = 1000
 
 var _region_width: float:
 	get:
@@ -21,6 +22,7 @@ var _total_width: float:
 @export_category("Editor Tools")
 @export var editor_rebuild: bool = false
 @export var editor_clear: bool = false
+@export var editor_farplane: bool = false
 
 func _ready():
 	build_meshes()
@@ -32,6 +34,11 @@ func _process(delta):
 	if editor_clear:
 		editor_clear = false
 		_clear_generated_meshes()
+	if editor_farplane:
+		editor_farplane = false
+		build_farplane()
+		_apply_material()
+		
 
 class PlaneMeshGenerator extends RefCounted:
 	var resolution: int
@@ -105,13 +112,13 @@ class PlaneMeshGenerator extends RefCounted:
 		
 class FarPlaneMeshGenerator extends RefCounted:
 	# Don't get sent to the farplane!
-	var hole_width: float
-	var region_width: float
+	var near: float
+	var uv_scale: float
 	var far: float
 	var _st: SurfaceTool
-	func _init(hole_width, region_width, far:float = 1e8):
-		self.hole_width = hole_width
-		self.region_width = region_width
+	func _init(near, uv_scale, far:float = 1000):
+		self.near = near
+		self.uv_scale = uv_scale
 		self.far = far
 		self._st = SurfaceTool.new()
 		self._st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -121,14 +128,14 @@ class FarPlaneMeshGenerator extends RefCounted:
 		var uvs = []
 		var verts = []
 		for coord in coords:
-			uvs.append(Vector2(coord) / self.region_width - Vector2(0.5,0.5)) # TODO: validate
+			uvs.append(Vector2(coord) / self.uv_scale - Vector2(0.5,0.5)) # TODO: validate
 			verts.append(Vector3(coord.x, 0, coord.y))
 		self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
 				
 	func generate():
 		# +x is right, +z is down
-		var r = self.hole_width / 2
-		var f = self.hole_width 
+		var r = self.near
+		var f = self.far 
 		# coords in units of meters. These translate directly to vertices.
 		var inners = [Vector2(-r, -r), Vector2(r, -r), Vector2(r, r), Vector2(-r, r)]
 		var outers = [Vector2(-f, -f), Vector2(f, -f), Vector2(f, f), Vector2(-f, f)]
@@ -147,10 +154,11 @@ func _apply_material():
 		if child is MeshInstance3D and child.name.begins_with("_gen"):
 			child.set_surface_override_material(0, material)
 			
-func _clear_generated_meshes():
+func _clear_generated_meshes(filter:String = "_gen"):
 	for child in get_children():
-		if child is MeshInstance3D and child.name.begins_with("_gen"):
+		if child is MeshInstance3D and child.name.begins_with(filter):
 			remove_child(child)
+			child.queue_free()
 			
 func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
 	var mi = MeshInstance3D.new()
@@ -158,6 +166,28 @@ func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
 	mi.mesh = mesh
 	add_child(mi)
 	mi.position = pos
+	
+func build_farplane():
+	_clear_generated_meshes("_gen_farplane")
+	
+	var near = _total_width / 2
+	var middle = (near + far_edge) / 2
+	middle = min(near * 3, middle)
+	if far_edge < near:
+		push_error("Cannot generate farplane, Far Edge is closer than inner planes!")
+		return
+	
+	# midplane prevents texture jitter errors being noticeable.
+	var midplane = FarPlaneMeshGenerator.new(near, _region_width, middle)
+	midplane.generate()
+	var mesh = midplane.commit()
+	_add_mesh_as_node(mesh, "_gen_farplane_mid")
+	
+	var farplane = FarPlaneMeshGenerator.new(middle, _region_width, far_edge)
+	farplane.generate()
+	mesh = farplane.commit()
+	_add_mesh_as_node(mesh, "_gen_farplane_far")
+	
 
 func build_meshes():
 	_clear_generated_meshes()
@@ -182,10 +212,5 @@ func build_meshes():
 			plane.generate()
 			var mesh = plane.commit()
 			_add_mesh_as_node(mesh, "_gen_nearplane_%d_%d" % [x, z], pos)
-	
-	var farplane = FarPlaneMeshGenerator.new(_total_width, _region_width)
-	farplane.generate()
-	var mesh = farplane.commit()
-	_add_mesh_as_node(mesh, "_gen_farplane", Vector3(0, -10, 0))
-	
+	build_farplane()
 	_apply_material()
