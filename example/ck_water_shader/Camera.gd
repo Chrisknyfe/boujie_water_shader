@@ -3,7 +3,8 @@
 
 extends Camera3D
 
-const MOVE_SPEED = 2
+const MOVE_SPEED = 4
+const SPRINT_SPEED = 64
 const MOUSE_SENSITIVITY = 0.002
 @onready var speed = 1
 @onready var velocity = Vector3()
@@ -77,29 +78,35 @@ func _physics_process(delta):
 	
 	# Speed modifier
 	if Input.is_action_pressed("move_speed"):
-		speed = 4
+		speed = SPRINT_SPEED
 	else:
-		speed = 1
+		speed = MOVE_SPEED
 
 	# Movement
 
 	if Input.is_action_pressed("move_forward"):
-		velocity.x -= MOVE_SPEED*speed*delta
+		velocity.x -= speed*delta
 
 	if Input.is_action_pressed("move_backward"):
-		velocity.x += MOVE_SPEED*speed*delta
+		velocity.x += speed*delta
 
 	if Input.is_action_pressed("move_left"):
-		velocity.z += MOVE_SPEED*speed*delta
+		velocity.z += speed*delta
 
 	if Input.is_action_pressed("move_right"):
-		velocity.z -= MOVE_SPEED*speed*delta
+		velocity.z -= speed*delta
 
 	if Input.is_action_pressed("move_up"):
-		velocity.y += MOVE_SPEED*speed*delta
+		velocity.y += speed*delta
 
 	if Input.is_action_pressed("move_down"):
-		velocity.y -= MOVE_SPEED*speed*delta
+		velocity.y -= speed*delta
+		
+	if Input.is_action_just_pressed("increase_camera_far"):
+		far += 50
+		
+	if Input.is_action_just_pressed("decrease_camera_far"):
+		far -= 50
 
 	# Friction
 	velocity *= 0.875
