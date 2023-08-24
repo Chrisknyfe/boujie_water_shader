@@ -7,15 +7,23 @@
 [ext_resource type="Script" path="res://addons/ck_water_shader/WaterMaterialDesigner.gd" id="3_uekfw"]
 [ext_resource type="Resource" uid="uid://drnqso0evwmyq" path="res://example/ck_water_shader/height_waves/height_super.tres" id="4_sng1k"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
-[ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/ck_water_shader/foam_waves/foam2.tres" id="6_iku5k"]
+[ext_resource type="Script" path="res://addons/ck_water_shader/GerstnerWave.gd" id="6_4v5kk"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/ck_water_shader/uv_waves/uvwave1.tres" id="6_w87ec"]
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/ck_water_shader/foam_waves/foam3.tres" id="7_387wd"]
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/ck_water_shader/uv_waves/uvwave2.tres" id="7_sjf3q"]
-[ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
+
+[sub_resource type="Resource" id="Resource_ipaae"]
+script = ExtResource("6_4v5kk")
+steepness = 1.0
+amplitude = 1.0
+direction_degrees = 15.0
+frequency = 0.02
+speed = 1.0
+phase_degrees = -30.0
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qx3kn"]
 
@@ -53,8 +61,8 @@ update_when_camera_far_changes = true
 [node name="LodPlaneMeshGen" type="Node3D" parent="Ocean"]
 script = ExtResource("1_l3xu5")
 material = ExtResource("2_pg18u")
-outermost_resolution = 2
-levels_of_detail = 8
+outermost_resolution = 8
+levels_of_detail = 6
 far_edge = 4000.0
 
 [node name="WaterMaterialDesigner" type="Node" parent="Ocean"]
@@ -62,17 +70,17 @@ script = ExtResource("3_uekfw")
 material = ExtResource("2_pg18u")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 960.0
-wave_fade_softness = 0.342
-height_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("4_sng1k")])
-foam_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
-uv_waves = Array[Resource("res://addons/ck_water_shader/GerstnerWave.gd")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+wave_fade_far = 1920.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([ExtResource("4_sng1k")])
+foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ipaae"), ExtResource("5_2rnyq"), ExtResource("7_387wd")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
 script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
 snap = true
-snap_unit = 64.0
+snap_unit = 128.0
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)

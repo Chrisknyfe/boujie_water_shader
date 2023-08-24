@@ -55,6 +55,7 @@ func _update_wave_group_params(prefix: String, waves: Array):
 	var directions = []
 	var frequencies = []
 	var speeds = []
+	var phases = []
 	for i in range(num_waves):
 		var res = waves[i]
 		steepnesses.append(res.steepness)
@@ -62,11 +63,13 @@ func _update_wave_group_params(prefix: String, waves: Array):
 		directions.append(res.direction_degrees)
 		frequencies.append(res.frequency)
 		speeds.append(res.speed)
+		phases.append(res.phase_degrees)
 	material.set_shader_parameter(prefix + "Steepnesses", PackedFloat32Array(steepnesses))
 	material.set_shader_parameter(prefix + "Amplitudes", PackedFloat32Array(amplitudes))
 	material.set_shader_parameter(prefix + "DirectionsDegrees", PackedFloat32Array(directions))
 	material.set_shader_parameter(prefix + "Frequencies", PackedFloat32Array(frequencies))
 	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
+	material.set_shader_parameter(prefix + "Phases", PackedFloat32Array(phases))
 	
 func update():
 	_update_distance_fade()

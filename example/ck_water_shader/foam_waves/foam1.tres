@@ -4,8 +4,9 @@
 
 [resource]
 script = ExtResource("1_6j64u")
-steepness = 2.0
+steepness = 0.7
 amplitude = 1.0
-direction_degrees = 0.0
-frequency = 0.02
+direction_degrees = 25.0
+frequency = 0.005
 speed = 1.0
+phase_degrees = 0.0

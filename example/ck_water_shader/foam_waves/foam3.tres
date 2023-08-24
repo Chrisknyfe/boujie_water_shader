@@ -4,8 +4,9 @@
 
 [resource]
 script = ExtResource("1_bf80m")
-steepness = 1.5
-amplitude = 1.0
+steepness = 0.8
+amplitude = 1.5
 direction_degrees = 77.0
-frequency = 0.003
+frequency = 0.001
 speed = 0.05
+phase_degrees = 0.0

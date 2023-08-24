@@ -6,3 +6,4 @@ class_name GerstnerWave
 @export var direction_degrees: float = 0.0
 @export var frequency: float = 0.1
 @export var speed: float = 1.0
+@export var phase_degrees: float = 0.0

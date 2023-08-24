@@ -66,6 +66,7 @@ uniform float WaveAmplitudes[8];
 uniform float WaveDirectionsDegrees[8];
 uniform float WaveFrequencies[8];
 uniform float WaveSpeeds[8];
+uniform float WavePhases[8];
 group_uniforms;
 
 group_uniforms FoamWaveParameters;
@@ -75,6 +76,7 @@ uniform float FoamWaveAmplitudes[8];
 uniform float FoamWaveDirectionsDegrees[8];
 uniform float FoamWaveFrequencies[8];
 uniform float FoamWaveSpeeds[8];
+uniform float FoamWavePhases[8];
 group_uniforms;
 
 group_uniforms UVWaveParameters;
@@ -84,6 +86,7 @@ uniform float UVWaveAmplitudes[8];
 uniform float UVWaveDirectionsDegrees[8];
 uniform float UVWaveFrequencies[8];
 uniform float UVWaveSpeeds[8];
+uniform float UVWavePhases[8];
 group_uniforms;
 
 varying vec3	uv_tri;
@@ -107,24 +110,26 @@ float linearize_depth(float depth) {
  * Amplitude: also height, but affects the normal more. Fore and aft particle motion.
  * Direction, Frequency, Speed: self explanatory
  */
-vec3 P_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed) {
+vec3 P_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed, float PhaseDegrees) {
 	float twopi = 6.283185307179586;
 	vec2 Direction = vec2( sin(DirectionDegrees * twopi / 360.0), cos(DirectionDegrees * twopi / 360.0 ));
+	float p = PhaseDegrees * twopi / 360.0;
 	vec3 result;
-	result.x = ((Steepness * Amplitude) * Direction.x * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * t)));
-	result.y = Steepness * sin(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * t));
-	result.z = ((Steepness * Amplitude) * Direction.y * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * t)));
+	result.x = ((Steepness * Amplitude) * Direction.x * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
+	result.y = Steepness * sin(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p)));
+	result.z = ((Steepness * Amplitude) * Direction.y * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
 	
 	return result;
 }
 
-vec3 N_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed) {
+vec3 N_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed, float PhaseDegrees) {
 	float twopi = 6.283185307179586;
 	vec2 Direction = vec2( sin(DirectionDegrees * twopi / 360.0), cos(DirectionDegrees * twopi / 360.0 ));
+	float p = PhaseDegrees * twopi / 360.0;
 	vec3 result;
-	result.x = (-1.0) * (Direction.x * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * t)));
-	result.y = 1.0 - (Steepness * Frequency * Amplitude * sin((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * t));
-	result.z = (-1.0) * (Direction.y * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * t)));
+	result.x = (-1.0) * (Direction.x * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p))));
+	result.y = 1.0 - (Steepness * Frequency * Amplitude * sin((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p)));
+	result.z = (-1.0) * (Direction.y * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p))));
 	
 	return result;
 }
@@ -178,7 +183,7 @@ void vertex() {
 #ifdef ALBEDO_WAVE
 	vec3 uvwave = vec3(0,0,0);
 	for (int i = 0; i < UVWaveCount; i++) {
-		uvwave += P_DEG(UV.x, UV.y, time, UVWaveSteepnesses[i], UVWaveAmplitudes[i], UVWaveDirectionsDegrees[i], UVWaveFrequencies[i], UVWaveSpeeds[i]);
+		uvwave += P_DEG(UV.x, UV.y, time, UVWaveSteepnesses[i], UVWaveAmplitudes[i], UVWaveDirectionsDegrees[i], UVWaveFrequencies[i], UVWaveSpeeds[i], UVWavePhases[i]);
 	}
 	uv_tri += uvwave;
 
@@ -203,7 +208,7 @@ void vertex() {
 #ifdef FOAM
 	vec3 foamVertexWave = vec3(0,0,0);
 	for (int i = 0; i < FoamWaveCount; i++) {
-		foamVertexWave += P_DEG(wave_coords.x, wave_coords.y, time, FoamWaveSteepnesses[i], FoamWaveAmplitudes[i], FoamWaveDirectionsDegrees[i], FoamWaveFrequencies[i], FoamWaveSpeeds[i]);
+		foamVertexWave += P_DEG(wave_coords.x, wave_coords.y, time, FoamWaveSteepnesses[i], FoamWaveAmplitudes[i], FoamWaveDirectionsDegrees[i], FoamWaveFrequencies[i], FoamWaveSpeeds[i], FoamWavePhases[i]);
 	}
 	foamVertexWave = foamVertexWave / float(FoamWaveCount);
 	foam_alpha = foamVertexWave.y;
@@ -220,7 +225,7 @@ void vertex() {
 #ifdef VERTEX_WAVE
 	vec3 vertexWave = vec3(0,0,0);
 	for (int i = 0; i < WaveCount; i++) {
-		vertexWave += P_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i]);
+		vertexWave += P_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
 	vertexWave = vertexWave / float(WaveCount);
 	vertexWave = rotate_to_normal(vertexWave, NORMAL);
@@ -230,7 +235,7 @@ void vertex() {
 	// Calculate normal for each wave, take average
 	vec3 normalWave = vec3(0,0,0);
 	for (int i = 0; i < WaveCount; i++) {
-		normalWave += N_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i]);
+		normalWave += N_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
 	normalWave = normalWave / float(WaveCount);
 	normalWave = rotate_to_normal(normalWave, NORMAL);
