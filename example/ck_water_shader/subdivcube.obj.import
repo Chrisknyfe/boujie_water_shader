@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b8sapw7ttyhru"
+path="res://.godot/imported/subdivcube.obj-57f2084b350c3406c257ecb3ca6be213.mesh"
+
+[deps]
+
+files=["res://.godot/imported/subdivcube.obj-57f2084b350c3406c257ecb3ca6be213.mesh"]
+
+source_file="res://example/ck_water_shader/subdivcube.obj"
+dest_files=["res://.godot/imported/subdivcube.obj-57f2084b350c3406c257ecb3ca6be213.mesh", "res://.godot/imported/subdivcube.obj-57f2084b350c3406c257ecb3ca6be213.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuagegibp4wcj"]
+[gd_scene load_steps=6 format=3 uid="uid://cuagegibp4wcj"]
 
 [ext_resource type="Material" uid="uid://dm15sg1uklilb" path="res://example/ck_water_shader/pedestal/pedestal_material.tres" id="1_bx14s"]
+[ext_resource type="ArrayMesh" uid="uid://cj0csa11nva20" path="res://example/ck_water_shader/obelisk/pyramid_pillar.obj" id="2_r0max"]
+[ext_resource type="Material" uid="uid://b5yp2r2ccy8cj" path="res://example/ck_water_shader/obelisk/obelisk_material.tres" id="3_w814x"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_x43j5"]
 top_radius = 2.0
@@ -25,3 +27,9 @@ surface_material_override/0 = ExtResource("1_bx14s")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 mesh = SubResource("CylinderMesh_bn3rb")
 surface_material_override/0 = ExtResource("1_bx14s")
+
+[node name="Capstone" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.4, 0)
+mesh = ExtResource("2_r0max")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_w814x")
