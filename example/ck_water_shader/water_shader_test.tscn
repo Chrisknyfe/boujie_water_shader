@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=22 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Resource" uid="uid://drnqso0evwmyq" path="res://example/ck_water_shader/height_waves/height_super.tres" id="8_2s0eq"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="8_w3coy"]
+[ext_resource type="Script" path="res://example/ck_water_shader/PlaneMeshGen.gd" id="9_8hedi"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/ck_water_shader/foam_waves/foam2.tres" id="9_d1vy2"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
@@ -34,9 +35,16 @@ uv1_scale = Vector3(0.1, 0.1, 0.1)
 uv1_triplanar = true
 uv1_world_triplanar = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
+material = SubResource("StandardMaterial3D_kaxio")
+
 [node name="WaterShaderTest" type="Node3D"]
 
 [node name="OceanMeshGen" type="Node3D" parent="."]
+visible = false
 script = ExtResource("1_crj5r")
 material = ExtResource("2_pg18u")
 resolution = 300
@@ -89,6 +97,16 @@ skeleton = NodePath("../..")
 
 [node name="OceanFloor" type="MeshInstance3D" parent="."]
 transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -48.5697, 0)
+visible = false
 mesh = SubResource("PlaneMesh_xbc5o")
 skeleton = NodePath("../OceanMeshGen")
 surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
+
+[node name="PlaneMeshGen" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 104.9, 0)
+script = ExtResource("9_8hedi")
+unit_size = 2.819
+
+[node name="UnitCube" type="MeshInstance3D" parent="PlaneMeshGen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+mesh = SubResource("BoxMesh_6pj3g")
