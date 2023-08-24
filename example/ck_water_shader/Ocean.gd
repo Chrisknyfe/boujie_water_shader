@@ -29,7 +29,10 @@ func update():
 		designer.distance_fade_far = camera.far
 		$LodPlaneMeshGen.far_edge = camera.far
 		$LodPlaneMeshGen.build_farplane()
-	$CameraFollower3D.snap_unit = $LodPlaneMeshGen.max_unit_size
-	designer.wave_fade_far = $LodPlaneMeshGen.total_width / 2.0
+		$OceanFloor.scale = Vector3(camera.far * 2.0, 1.0, camera.far * 2.0)
+		$OceanFloor.drop_far = camera.far * 0.75
+	var middle_distance = $LodPlaneMeshGen.total_width / 2.0
+	designer.wave_fade_far = middle_distance
 	designer.update()
 	$LodPlaneMeshGen.material = designer.material
+	$CameraFollower3D.snap_unit = $LodPlaneMeshGen.max_unit_size
