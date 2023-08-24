@@ -48,6 +48,7 @@ material = SubResource("StandardMaterial3D_kaxio")
 
 [node name="Ocean" type="Node3D" parent="."]
 script = ExtResource("1_m8eja")
+update_when_camera_far_changes = true
 
 [node name="LodPlaneMeshGen" type="Node3D" parent="Ocean"]
 script = ExtResource("1_l3xu5")

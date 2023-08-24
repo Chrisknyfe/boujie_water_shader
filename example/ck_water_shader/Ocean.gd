@@ -1,6 +1,9 @@
 @tool
 extends Node3D
 
+@export var update_when_camera_far_changes: bool = false
+var _previous_far: float = 0.0
+
 @export_category("Editor Tools")
 @export var editor_update_all: bool = false
 
@@ -12,6 +15,11 @@ func _process(delta):
 	if editor_update_all:
 		editor_update_all = false
 		update()
+	if update_when_camera_far_changes and not Engine.is_editor_hint():
+		var camera = get_viewport().get_camera_3d()
+		if camera and camera.far != _previous_far:
+			_previous_far = camera.far
+			update()
 
 func update():
 	var camera = get_viewport().get_camera_3d()
