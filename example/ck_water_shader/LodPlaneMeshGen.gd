@@ -14,19 +14,24 @@ extends Node3D
 var _region_width: float:
 	get:
 		return outermost_resolution * unit_size * 2 ** (levels_of_detail-1)
+var _total_width: float:
+	get:
+		return _region_width * ((2 * levels_of_detail) - 1)
 
 @export_category("Editor Tools")
 @export var editor_rebuild: bool = false
 @export var editor_clear: bool = false
 
+func _ready():
+	build_meshes()
+
 func _process(delta):
-	if Engine.is_editor_hint():
-		if editor_rebuild:
-			editor_rebuild = false
-			build_meshes()
-		if editor_clear:
-			editor_clear = false
-			_clear_generated_meshes()
+	if editor_rebuild:
+		editor_rebuild = false
+		build_meshes()
+	if editor_clear:
+		editor_clear = false
+		_clear_generated_meshes()
 
 class PlaneMeshGenerator extends RefCounted:
 	var resolution: int
@@ -53,6 +58,7 @@ class PlaneMeshGenerator extends RefCounted:
 		for z in range(resolution):
 			for x in range(resolution):
 				# +x is right, +z is down
+				# coords in units of quad index from (0,0) to (resolution-1, resolution-1)
 				var coords = [Vector2i(x, z), Vector2i(x+1, z), Vector2i(x+1, z+1), Vector2i(x, z+1)]
 				# seam edges by welding any odd vertices
 				var on_seamable_edge = false
@@ -86,11 +92,50 @@ class PlaneMeshGenerator extends RefCounted:
 				var uvs = []
 				var verts = []
 				for coord in coords:
-					uvs.append(Vector2(coord) / f_resolution)
+					uvs.append(Vector2(coord) / f_resolution) # TODO: validate. might need a shift.
 					verts.append((Vector3(coord.x, 0, coord.y) - midpoint) * self.unit_size)
 				
 				# add quad
 				self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
+				
+	func commit():
+		self._st.generate_normals()
+		self._st.index()
+		return self._st.commit()
+		
+class FarPlaneMeshGenerator extends RefCounted:
+	# Don't get sent to the farplane!
+	var hole_width: float
+	var region_width: float
+	var far: float
+	var _st: SurfaceTool
+	func _init(hole_width, region_width, far:float = 1e8):
+		self.hole_width = hole_width
+		self.region_width = region_width
+		self.far = far
+		self._st = SurfaceTool.new()
+		self._st.begin(Mesh.PRIMITIVE_TRIANGLES)
+		
+	func _add_quad(coords):
+		# coords in units of meters
+		var uvs = []
+		var verts = []
+		for coord in coords:
+			uvs.append(Vector2(coord) / self.region_width) # TODO: validate
+			verts.append(Vector3(coord.x, 0, coord.y))
+		self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
+				
+	func generate():
+		# +x is right, +z is down
+		var r = self.hole_width / 2
+		var f = self.hole_width 
+		# coords in units of meters. These translate directly to vertices.
+		var inners = [Vector2(-r, -r), Vector2(r, -r), Vector2(r, r), Vector2(-r, r)]
+		var outers = [Vector2(-f, -f), Vector2(f, -f), Vector2(f, f), Vector2(-f, f)]
+		self._add_quad([outers[0], outers[1], inners[1], inners[0]])
+		self._add_quad([outers[1], outers[2], inners[2], inners[1]])
+		self._add_quad([outers[2], outers[3], inners[3], inners[2]])
+		self._add_quad([outers[3], outers[0], inners[0], inners[3]])
 				
 	func commit():
 		self._st.generate_normals()
@@ -106,19 +151,25 @@ func _clear_generated_meshes():
 	for child in get_children():
 		if child is MeshInstance3D and child.name.begins_with("_gen"):
 			remove_child(child)
-	
+			
+func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
+	var mi = MeshInstance3D.new()
+	mi.name = new_name
+	mi.mesh = mesh
+	add_child(mi)
+	mi.position = pos
 
 func build_meshes():
 	_clear_generated_meshes()
 	
-	@warning_ignore("integer_division")
 	var lower_limit = -levels_of_detail + 1
 	var upper_limit = levels_of_detail
 	for z in range(lower_limit, upper_limit):
 		for x in range(lower_limit, upper_limit):
-			var pos = Vector3(x,0,z) * _region_width
 			var shell = max(abs(x), abs(z))
 			var onion = levels_of_detail - shell - 1
+			var pos = Vector3(x, 0, z) * _region_width
+			pos.y += onion * 10
 			print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
 			var this_unit_size = unit_size * 2 ** shell
 			var this_resolution = outermost_resolution * (2 ** (onion))
@@ -130,10 +181,10 @@ func build_meshes():
 				seam_up, seam_down, seam_left, seam_right)
 			plane.generate()
 			var mesh = plane.commit()
+			_add_mesh_as_node(mesh, "_gen_nearplane_%d_%d" % [x, z], pos)
 	
-			var mi = MeshInstance3D.new()
-			mi.name = "_gen_nearplane_%d_%d" % [x, z]
-			mi.mesh = mesh
-			add_child(mi)
-			mi.position = pos
+	var farplane = FarPlaneMeshGenerator.new(_total_width, _region_width)
+	farplane.generate()
+	var mesh = farplane.commit()
+	_add_mesh_as_node(mesh, "_gen_farplane", Vector3(0, -10, 0))
 			
