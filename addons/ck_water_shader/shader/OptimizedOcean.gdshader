@@ -36,6 +36,9 @@ uniform float refraction : hint_range(-16,16);
 uniform vec4 refraction_texture_channel;
 uniform float refraction_opacity : hint_range(0.0, 1.0);
 
+uniform float shore_start_blend;
+uniform float shore_end_blend;
+
 uniform float distance_fade_min;
 uniform float distance_fade_max;
 uniform float near_fade_min;
@@ -54,6 +57,8 @@ uniform float metallic : hint_range(0.0, 1.0);
 uniform float uv_blend_sharpness;
 uniform vec3 uv_tri_scale;
 uniform vec3 uv_tri_offset;
+
+uniform bool vertex_displace_from_mesh_normal;
 
 // TODO: inject these from the camera near/far
 uniform float near = 0.1;
@@ -228,7 +233,9 @@ void vertex() {
 		vertexWave += P_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
 	vertexWave = vertexWave / float(WaveCount);
-	vertexWave = rotate_to_normal(vertexWave, NORMAL);
+	if (vertex_displace_from_mesh_normal) {
+		vertexWave = rotate_to_normal(vertexWave, NORMAL);
+	}
 	vertexWave *= vertex_fade_alpha;
 	VERTEX += vertexWave;
 	
@@ -342,7 +349,7 @@ void fragment() {
 	float z_pos = linearize_depth(FRAGCOORD.z);
 	float z_diff = z_depth - z_pos;
 	float shore_alpha = 0.0;
-	shore_alpha = 1.0 - smoothstep(2.0, 6.0, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
+	shore_alpha = 1.0 - smoothstep(shore_start_blend, shore_end_blend, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
 	shore_alpha = foam_tex.a * shore_alpha; // disable this line when you have an all-white foam texture
 	shore_alpha = shore_fade_alpha * shore_alpha;
