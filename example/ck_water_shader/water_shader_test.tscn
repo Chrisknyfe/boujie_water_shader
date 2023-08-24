@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=36 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/LodPlaneMeshGen.gd" id="1_l3xu5"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Ocean.gd" id="1_m8eja"]
@@ -15,10 +15,56 @@
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/ck_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/ck_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
+[ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/ck_water_shader/MapEnvironment.tres" id="14_o2bkd"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/ck_water_shader/shader/DeepOceanMaterial.tres" id="15_kb55y"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/ck_water_shader/subdivcube.obj" id="22_7a0j4"]
+
+[sub_resource type="Resource" id="Resource_h6ky8"]
+script = ExtResource("6_4v5kk")
+steepness = 3.0
+amplitude = 1.5
+direction_degrees = 15.0
+frequency = 0.02
+speed = 1.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_ewn38"]
+script = ExtResource("6_4v5kk")
+steepness = 2.0
+amplitude = 1.5
+direction_degrees = 15.0
+frequency = 0.02
+speed = 1.0
+phase_degrees = -40.0
+
+[sub_resource type="Resource" id="Resource_v8fws"]
+script = ExtResource("6_4v5kk")
+steepness = 0.45
+amplitude = 0.7
+direction_degrees = 281.195
+frequency = 0.03
+speed = 3.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_pwrcy"]
+script = ExtResource("6_4v5kk")
+steepness = 1.3
+amplitude = 2.0
+direction_degrees = 88.25
+frequency = 0.001
+speed = 0.05
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_ei3rv"]
+script = ExtResource("6_4v5kk")
+steepness = 1.5
+amplitude = 1.0
+direction_degrees = 151.5
+frequency = 0.004
+speed = 0.05
+phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("6_4v5kk")
@@ -65,15 +111,6 @@ frequency = 0.5
 speed = 1.0
 phase_degrees = 0.0
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qx3kn"]
-
-[sub_resource type="Sky" id="Sky_vxekh"]
-sky_material = SubResource("ProceduralSkyMaterial_qx3kn")
-
-[sub_resource type="Environment" id="Environment_y8wj4"]
-background_mode = 2
-sky = SubResource("Sky_vxekh")
-
 [sub_resource type="SphereMesh" id="SphereMesh_68awl"]
 radius = 4.0
 height = 8.0
@@ -96,16 +133,28 @@ material = SubResource("StandardMaterial3D_kaxio")
 
 [node name="Ocean" type="Node3D" parent="."]
 script = ExtResource("1_m8eja")
+water_material_designer = NodePath("DeepOceanDesigner")
 update_when_camera_far_changes = true
 
 [node name="LodPlaneMeshGen" type="Node3D" parent="Ocean"]
 script = ExtResource("1_l3xu5")
-material = ExtResource("5_658mh")
+material = ExtResource("15_kb55y")
 outermost_resolution = 8
 levels_of_detail = 6
 far_edge = 4000.0
 
-[node name="WaterMaterialDesigner" type="Node" parent="Ocean"]
+[node name="DeepOceanDesigner" type="Node" parent="Ocean"]
+script = ExtResource("3_uekfw")
+material = ExtResource("15_kb55y")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 1408.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
+foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+
+[node name="IceDesigner" type="Node" parent="Ocean"]
 script = ExtResource("3_uekfw")
 material = ExtResource("5_658mh")
 distance_fade_far = 4000.0
@@ -127,13 +176,14 @@ transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 
 script = ExtResource("16_t5wvu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_y8wj4")
+environment = ExtResource("14_o2bkd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
-light_energy = 1.25
+light_energy = 1.2
 
 [node name="Test_Terrain" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0291, 0, 0)
 
 [node name="Obelisk2" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
 transform = Transform3D(9.79782, 2.00069, 0, -2.00069, 9.79782, 0, 0, 0, 10, 69.6549, 28.3677, -103.642)
@@ -141,7 +191,7 @@ transform = Transform3D(9.79782, 2.00069, 0, -2.00069, 9.79782, 0, 0, 0, 10, 69.
 [node name="Pedestal1" parent="Test_Terrain" instance=ExtResource("10_70j47")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="WaterSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal1"]
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal1"]
 transform = Transform3D(0.264464, 0.424334, 0, -0.424334, 0.264464, 0, 0, 0, 0.5, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")
@@ -150,7 +200,7 @@ surface_material_override/0 = ExtResource("15_kb55y")
 [node name="Pedestal2" parent="Test_Terrain" instance=ExtResource("10_70j47")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 30, 1, 0)
 
-[node name="WaterSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal2"]
+[node name="OutsetOceanSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal2"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")

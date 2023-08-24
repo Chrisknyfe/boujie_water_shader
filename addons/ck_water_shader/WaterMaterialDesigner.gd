@@ -1,6 +1,8 @@
 @tool
 extends Node
 
+class_name WaterMaterialDesigner
+
 ## Ocean shader material designed to work with this OceanMeshGen
 @export var material: ShaderMaterial
 
