@@ -27,6 +27,7 @@ func update():
 		$WaterMaterialDesigner.distance_fade_far = camera.far
 		$LodPlaneMeshGen.far_edge = camera.far
 		$LodPlaneMeshGen.build_farplane()
+	$CameraFollower3D.snap_unit = $LodPlaneMeshGen.max_unit_size
 	$WaterMaterialDesigner.wave_fade_far = $LodPlaneMeshGen.total_width / 2.0
 	$WaterMaterialDesigner.update()
-	$CameraFollower3D.snap_unit = $LodPlaneMeshGen.max_unit_size
+	$LodPlaneMeshGen.material = $WaterMaterialDesigner.material

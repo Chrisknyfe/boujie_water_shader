@@ -40,6 +40,7 @@ func _process(delta):
 	if editor_farplane:
 		editor_farplane = false
 		build_farplane()
+		_apply_material()
 		
 
 class PlaneMeshGenerator extends RefCounted:
@@ -171,10 +172,6 @@ func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
 	
 	
 func build_farplane():
-	_build_farplane()
-	_apply_material()
-	
-func _build_farplane():
 	_clear_generated_meshes("_gen_farplane")
 	
 	var near = total_width / 2
@@ -218,5 +215,5 @@ func build_meshes():
 			plane.generate()
 			var mesh = plane.commit()
 			_add_mesh_as_node(mesh, "_gen_nearplane_%d_%d" % [x, z], pos)
-	_build_farplane()
+	build_farplane()
 	_apply_material()

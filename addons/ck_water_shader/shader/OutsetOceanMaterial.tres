@@ -1,13 +1,13 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dmbmnidueiyvt"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cvnsu7lttsfsh"]
 
-[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_1olpv"]
-[ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/ck_water_shader/shader/ocean_albedo_1.png" id="2_rfi1v"]
-[ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/ck_water_shader/shader/foam_1.png" id="3_4wdi2"]
-[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/refraction.png" id="4_3pl6r"]
+[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_h8y5l"]
+[ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/ck_water_shader/shader/ocean_albedo_1.png" id="2_p4n2d"]
+[ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/ck_water_shader/shader/foam_1.png" id="3_krmkr"]
+[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/refraction.png" id="4_3nf31"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_1olpv")
+shader = ExtResource("1_h8y5l")
 shader_parameter/freeze = false
 shader_parameter/albedo = Color(0, 0.431373, 1, 0.321569)
 shader_parameter/refraction = 0.125001
@@ -31,9 +31,9 @@ shader_parameter/uv_tri_scale = Vector3(36, 36, 36)
 shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
 shader_parameter/near = 0.1
 shader_parameter/far = 400.0
-shader_parameter/texture_albedo = ExtResource("2_rfi1v")
-shader_parameter/texture_foam = ExtResource("3_4wdi2")
-shader_parameter/texture_refraction = ExtResource("4_3pl6r")
+shader_parameter/texture_albedo = ExtResource("2_p4n2d")
+shader_parameter/texture_foam = ExtResource("3_krmkr")
+shader_parameter/texture_refraction = ExtResource("4_3nf31")
 shader_parameter/WaveCount = 5
 shader_parameter/WaveSteepnesses = PackedFloat32Array(4, 0.9, 0.8, 2, 1)
 shader_parameter/WaveAmplitudes = PackedFloat32Array(1, 0.7, 0.5, 1, 0.4)
