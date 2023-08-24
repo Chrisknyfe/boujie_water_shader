@@ -7,8 +7,8 @@ extends Node3D
 		_apply_material()
 		
 @export_category("Geometry")
-@export_range(4, 200) var outermost_resolution: int = 10
-@export_range(1, 10) var levels_of_detail: int = 1
+@export_range(2, 200) var outermost_resolution: int = 10
+@export_range(1, 20) var levels_of_detail: int = 1
 @export var unit_size: float = 1.0
 @export var far_edge: float = 1000
 
