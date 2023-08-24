@@ -9,7 +9,8 @@ var _previous_far: float = 0.0
 @export var editor_update_all: bool = false
 
 func _ready():
-	update()
+	if not Engine.is_editor_hint():
+		update()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

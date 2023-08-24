@@ -21,7 +21,8 @@ class_name WaterMaterialDesigner
 @export var editor_update: bool = false
 
 func _ready():
-	update()
+	if not Engine.is_editor_hint():
+		update()
 
 func _process(delta):
 	if editor_update:
