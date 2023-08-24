@@ -87,6 +87,7 @@ varying vec3	uv_power_normal;
 varying float	foam_alpha;
 
 varying vec3	world_coordinates;
+varying float	distance_from_camera;
 
 float linearize_depth(float depth) {
     depth = 2.0 * depth - 1.0;
@@ -154,6 +155,10 @@ void vertex() {
 	world_coordinates = VERTEX;
 	// Keep UV based on world XZ around as inputs to various wave functions
 	vec2 wave_coords = world_coordinates.xz;
+	// Need camera pos for distance testing
+ 	vec3 world_camera_pos = (INV_VIEW_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	distance_from_camera = distance(world_coordinates, world_camera_pos);
+	
 	
 #ifdef WORLD_TRIPLANAR
 	// Define triplanar UV
@@ -240,20 +245,16 @@ void fragment() {
 	ALPHA = 1.0;
 	
 	// Distance fade and foam distance fade
-
-#if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE)
-	float d = distance(CAMERA_POSITION_WORLD, world_coordinates);
-#endif
 #ifdef DISTANCE_FADE
-	ALPHA *= clamp(smoothstep(distance_fade_max, distance_fade_min, d),0.0,1.0);
+	ALPHA *= clamp(smoothstep(distance_fade_max, distance_fade_min, distance_from_camera),0.0,1.0);
 	// Near fade
-	ALPHA *= clamp(smoothstep(near_fade_min, near_fade_max, d),0.0,1.0);
+	ALPHA *= clamp(smoothstep(near_fade_min, near_fade_max, distance_from_camera),0.0,1.0);
 #endif
 #ifdef FOAM_FADE
-	float foam_fade_alpha = clamp(smoothstep(foam_fade_max, foam_fade_min, d),0.0,1.0);
+	float foam_fade_alpha = clamp(smoothstep(foam_fade_max, foam_fade_min, distance_from_camera),0.0,1.0);
 #endif
 #ifdef SHORE_FADE
-	float shore_fade_alpha = clamp(smoothstep(shore_fade_max, shore_fade_min, d),0.0,1.0);
+	float shore_fade_alpha = clamp(smoothstep(shore_fade_max, shore_fade_min, distance_from_camera),0.0,1.0);
 #endif
 	
 	if (ALPHA <= 0.0) {
