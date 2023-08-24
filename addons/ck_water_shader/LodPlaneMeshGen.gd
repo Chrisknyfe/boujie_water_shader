@@ -1,6 +1,9 @@
 @tool
 extends Node3D
 
+## Based on the famous tutorial by StayAtHomeDev:
+## https://www.youtube.com/watch?v=WfRb50J7hD8
+
 @export var material: Material:
 	set(value):
 		material = value

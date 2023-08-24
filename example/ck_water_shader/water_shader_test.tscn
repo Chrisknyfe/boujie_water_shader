@@ -74,6 +74,27 @@ frequency = 0.004
 speed = 0.05
 phase_degrees = 0.0
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
+render_priority = 0
+shader = ExtResource("21_gr4xf")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/drop_far = 3000.0
+shader_parameter/texture_albedo = ExtResource("15_l0ywx")
+
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("6_4v5kk")
 steepness = 0.8
@@ -119,33 +140,6 @@ frequency = 0.5
 speed = 1.0
 phase_degrees = 0.0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
-render_priority = 0
-shader = ExtResource("21_gr4xf")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_blend_sharpness = 1.0
-shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/drop_far = 3000.0
-shader_parameter/texture_albedo = ExtResource("15_l0ywx")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
-material = SubResource("StandardMaterial3D_kaxio")
-
 [sub_resource type="SphereMesh" id="SphereMesh_68awl"]
 radius = 16.0
 height = 32.0
@@ -155,6 +149,12 @@ size = Vector3(30, 30, 30)
 subdivide_width = 16
 subdivide_height = 16
 subdivide_depth = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
+material = SubResource("StandardMaterial3D_kaxio")
 
 [node name="WaterShaderTest" type="Node3D"]
 
@@ -182,38 +182,6 @@ height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
 uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
-[node name="OutsetOceanDesigner" type="Node" parent="Ocean"]
-script = ExtResource("3_uekfw")
-material = ExtResource("5_1ujp0")
-distance_fade_far = 4000.0
-distance_fade_softness = 0.323
-wave_fade_far = 1408.0
-wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_y6lkc"), ExtResource("6_pgu4w"), ExtResource("7_ghjuj"), ExtResource("8_mnxd5"), ExtResource("9_7wo7t")])
-foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
-uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
-
-[node name="IceDesigner" type="Node" parent="Ocean"]
-script = ExtResource("3_uekfw")
-material = ExtResource("5_658mh")
-distance_fade_far = 4000.0
-distance_fade_softness = 0.323
-wave_fade_far = 1408.0
-wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
-foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
-uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
-
-[node name="ObsidianDesigner" type="Node" parent="Ocean"]
-script = ExtResource("3_uekfw")
-material = ExtResource("19_rq23g")
-distance_fade_far = 4000.0
-distance_fade_softness = 0.323
-wave_fade_far = 1408.0
-wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
-uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
-
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
 script = ExtResource("3_ql4g3")
 victim_path = NodePath("..")
@@ -228,10 +196,39 @@ surface_material_override/0 = SubResource("ShaderMaterial_6vh6m")
 script = ExtResource("23_143d2")
 drop_far = 3000.0
 
-[node name="UnitCube" type="MeshInstance3D" parent="Ocean"]
-visible = false
-mesh = SubResource("BoxMesh_6pj3g")
-skeleton = NodePath("../LodPlaneMeshGen")
+[node name="OtherDesigners" type="Node" parent="."]
+
+[node name="OutsetOceanDesigner" type="Node" parent="OtherDesigners"]
+script = ExtResource("3_uekfw")
+material = ExtResource("5_1ujp0")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 1408.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_y6lkc"), ExtResource("6_pgu4w"), ExtResource("7_ghjuj"), ExtResource("8_mnxd5"), ExtResource("9_7wo7t")])
+foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+
+[node name="IceDesigner" type="Node" parent="OtherDesigners"]
+script = ExtResource("3_uekfw")
+material = ExtResource("5_658mh")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 1408.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+
+[node name="ObsidianDesigner" type="Node" parent="OtherDesigners"]
+script = ExtResource("3_uekfw")
+material = ExtResource("19_rq23g")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 1408.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)
@@ -248,7 +245,7 @@ light_energy = 1.2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0291, 0, 0)
 
 [node name="Obelisk2" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
-transform = Transform3D(9.79782, 2.00069, 0, -2.00069, 9.79782, 0, 0, 0, 10, 69.6549, 28.3677, -103.642)
+transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, -200)
 
 [node name="Pedestal1" parent="Test_Terrain" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
@@ -285,3 +282,9 @@ transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229
 mesh = SubResource("BoxMesh_ehcfp")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("19_rq23g")
+
+[node name="UnitCube" type="MeshInstance3D" parent="Test_Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.0291, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_6pj3g")
+skeleton = NodePath("../../Ocean/LodPlaneMeshGen")
