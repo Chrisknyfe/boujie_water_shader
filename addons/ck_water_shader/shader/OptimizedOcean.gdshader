@@ -93,7 +93,6 @@ varying vec3	uv_power_normal;
 varying float	foam_alpha;
 
 varying vec3	world_coordinates;
-varying float	distance_from_camera;
 
 float linearize_depth(float depth) {
     depth = 2.0 * depth - 1.0;
@@ -163,7 +162,7 @@ void vertex() {
 	vec2 wave_coords = world_coordinates.xz;
 	// Need camera pos for distance testing
  	vec3 world_camera_pos = (INV_VIEW_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	distance_from_camera = distance(world_coordinates, world_camera_pos);
+	float distance_from_camera = distance(world_coordinates, world_camera_pos);
 	
 	
 #ifdef WORLD_TRIPLANAR
@@ -242,6 +241,8 @@ void vertex() {
 	// DEBUG: increase vertex height based on distance from center
 	//VERTEX.y += 0.1 * (wave_coords.x + wave_coords.y);
 	
+	// refresh world_coordinates with updated position
+	world_coordinates = VERTEX;
 }
 
 vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) {
@@ -254,7 +255,9 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 
 void fragment() {
 	ALPHA = 1.0;
-	
+#if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE)
+	float distance_from_camera = distance(CAMERA_POSITION_WORLD, world_coordinates);
+#endif
 	// Distance fade and foam distance fade
 #ifdef DISTANCE_FADE
 	ALPHA *= smoothstep(distance_fade_max, distance_fade_min, distance_from_camera);
