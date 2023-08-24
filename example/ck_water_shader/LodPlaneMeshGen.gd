@@ -121,7 +121,7 @@ class FarPlaneMeshGenerator extends RefCounted:
 		var uvs = []
 		var verts = []
 		for coord in coords:
-			uvs.append(Vector2(coord) / self.region_width) # TODO: validate
+			uvs.append(Vector2(coord) / self.region_width - Vector2(0.5,0.5)) # TODO: validate
 			verts.append(Vector3(coord.x, 0, coord.y))
 		self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
 				
@@ -187,4 +187,5 @@ func build_meshes():
 	farplane.generate()
 	var mesh = farplane.commit()
 	_add_mesh_as_node(mesh, "_gen_farplane", Vector3(0, -10, 0))
-			
+	
+	_apply_material()

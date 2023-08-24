@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=24 format=3 uid="uid://brk62yu2j6hb"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/OceanMeshGen.gd" id="1_crj5r"]
 [ext_resource type="Material" uid="uid://dmbmnidueiyvt" path="res://addons/ck_water_shader/shader/WaterShaderMaterial.tres" id="2_pg18u"]
@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/ck_water_shader/foam_waves/foam3.tres" id="10_ec3ay"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/ck_water_shader/foam_waves/foam4.tres" id="11_xae35"]
 [ext_resource type="Script" path="res://example/ck_water_shader/LodPlaneMeshGen.gd" id="13_wdjsg"]
+[ext_resource type="Texture2D" uid="uid://bqxoxedatdab3" path="res://example/ck_water_shader/UV_checker_grid_dark.png" id="14_af8h7"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
 
@@ -34,6 +35,9 @@ albedo_texture = ExtResource("15_l0ywx")
 uv1_scale = Vector3(0.1, 0.1, 0.1)
 uv1_triplanar = true
 uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djey7"]
+albedo_texture = ExtResource("14_af8h7")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kaxio"]
 albedo_color = Color(1, 0, 0, 1)
@@ -105,7 +109,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tle7g")
 [node name="PlaneMeshGen" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 104.9, 0)
 script = ExtResource("13_wdjsg")
+material = SubResource("StandardMaterial3D_djey7")
+outermost_resolution = 50
 levels_of_detail = 3
+unit_size = 0.25
 
 [node name="UnitCube" type="MeshInstance3D" parent="PlaneMeshGen"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
