@@ -169,6 +169,8 @@ func _update_distance_fade():
 		material.set_shader_parameter("foam_fade_min", width / 6 )
 		material.set_shader_parameter("shore_fade_max", 0.5 + width / 6)
 		material.set_shader_parameter("shore_fade_min", width / 12 )
+		material.set_shader_parameter("vertex_wave_fade_max", 0.5 + width / 3)
+		material.set_shader_parameter("vertex_wave_fade_min", width / 6 )
 
 
 func _update_wave_params():

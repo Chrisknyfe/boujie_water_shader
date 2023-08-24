@@ -7,15 +7,19 @@ shader_type spatial;
 
 render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_schlick_ggx,world_vertex_coords;
 
+#define WORLD_TRIPLANAR
+
 #define ALBEDO_WAVE
 #define VERTEX_WAVE
 #define FOAM
 #define REFRACTION
-#define DISTANCE_FADE
+#define SHORE_FOAM
+
+// Fade out features with distance from camera
+#define DISTANCE_FADE // fade alpha
 #define FOAM_FADE
 #define SHORE_FADE
-#define WORLD_TRIPLANAR
-#define SHORE_FOAM
+#define VERTEX_WAVE_FADE
 
 uniform bool freeze; // Toki wo tomare.
 
@@ -40,6 +44,8 @@ uniform float foam_fade_min;
 uniform float foam_fade_max;
 uniform float shore_fade_min;
 uniform float shore_fade_max;
+uniform float vertex_wave_fade_min;
+uniform float vertex_wave_fade_max; 
 
 uniform float specular : hint_range(0.0, 1.0);
 uniform float roughness : hint_range(0.0, 1.0);
@@ -170,7 +176,6 @@ void vertex() {
 #endif
 
 	// Apply some wavey movement to the general UV coords
-	// Throw in a bunch of constants to make these VERTEX waves look good in UV space
 #ifdef ALBEDO_WAVE
 	vec3 uvwave = vec3(0,0,0);
 	for (int i = 0; i < UVWaveCount; i++) {
@@ -193,7 +198,7 @@ void vertex() {
 #endif
 	UV += vec2(0.1)* time;
 	
-	// Calcualte foam alpha here where it's cheaper
+	// Calcualte foam alpha in vertex where it's cheaper
 	
 	// Throw in a bunch of constants to make these VERTEX waves look good in UV space
 #ifdef FOAM
@@ -207,6 +212,10 @@ void vertex() {
 	foam_alpha = 0.0;
 #endif
 	
+	float vertex_fade_alpha = 1.0;
+#ifdef VERTEX_WAVE_FADE
+	vertex_fade_alpha = smoothstep(vertex_wave_fade_max, vertex_wave_fade_min, distance_from_camera);
+#endif
 	
 	// Calculate offset for every wave, take average
 #ifdef VERTEX_WAVE
@@ -216,6 +225,7 @@ void vertex() {
 	}
 	vertexWave = vertexWave / float(WaveCount);
 	vertexWave = rotate_to_normal(vertexWave, NORMAL);
+	vertexWave *= vertex_fade_alpha;
 	VERTEX += vertexWave;
 	
 	// Calculate normal for each wave, take average
@@ -225,6 +235,7 @@ void vertex() {
 	}
 	normalWave = normalWave / float(WaveCount);
 	normalWave = rotate_to_normal(normalWave, NORMAL);
+	normalWave = normalWave * vertex_fade_alpha + NORMAL * (1.0 - vertex_fade_alpha);
 	NORMAL = normalize(normalWave);
 #endif
 
@@ -246,15 +257,15 @@ void fragment() {
 	
 	// Distance fade and foam distance fade
 #ifdef DISTANCE_FADE
-	ALPHA *= clamp(smoothstep(distance_fade_max, distance_fade_min, distance_from_camera),0.0,1.0);
+	ALPHA *= smoothstep(distance_fade_max, distance_fade_min, distance_from_camera);
 	// Near fade
-	ALPHA *= clamp(smoothstep(near_fade_min, near_fade_max, distance_from_camera),0.0,1.0);
+	ALPHA *= smoothstep(near_fade_min, near_fade_max, distance_from_camera);
 #endif
 #ifdef FOAM_FADE
-	float foam_fade_alpha = clamp(smoothstep(foam_fade_max, foam_fade_min, distance_from_camera),0.0,1.0);
+	float foam_fade_alpha = smoothstep(foam_fade_max, foam_fade_min, distance_from_camera);
 #endif
 #ifdef SHORE_FADE
-	float shore_fade_alpha = clamp(smoothstep(shore_fade_max, shore_fade_min, distance_from_camera),0.0,1.0);
+	float shore_fade_alpha = smoothstep(shore_fade_max, shore_fade_min, distance_from_camera);
 #endif
 	
 	if (ALPHA <= 0.0) {
