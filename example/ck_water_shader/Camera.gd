@@ -4,7 +4,7 @@
 extends Camera3D
 
 const MOVE_SPEED = 4
-const SPRINT_SPEED = 64
+const SPRINT_SPEED = 32
 const MOUSE_SENSITIVITY = 0.002
 const CAMERA_FAR_STEP = 200
 @onready var speed = 1
