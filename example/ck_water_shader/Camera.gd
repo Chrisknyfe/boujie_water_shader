@@ -6,6 +6,7 @@ extends Camera3D
 const MOVE_SPEED = 4
 const SPRINT_SPEED = 64
 const MOUSE_SENSITIVITY = 0.002
+const CAMERA_FAR_STEP = 200
 @onready var speed = 1
 @onready var velocity = Vector3()
 @onready var initial_rotation = PI/2
@@ -103,10 +104,10 @@ func _physics_process(delta):
 		velocity.y -= speed*delta
 		
 	if Input.is_action_just_pressed("increase_camera_far"):
-		far += 50
+		far += CAMERA_FAR_STEP
 		
 	if Input.is_action_just_pressed("decrease_camera_far"):
-		far -= 50
+		far -= CAMERA_FAR_STEP
 
 	# Friction
 	velocity *= 0.875
