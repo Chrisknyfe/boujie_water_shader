@@ -25,46 +25,66 @@ func _process(delta):
 class PlaneMeshGenerator extends RefCounted:
 	var resolution: int
 	var unit_size: float
-	var ul_seam: bool
-	var ur_seam: bool
-	var ll_seam: bool
-	var lr_seam: bool
+	var seam_up: bool
+	var seam_down: bool
+	var seam_left: bool
+	var seam_right: bool
 	var _st: SurfaceTool
 	func _init(resolution:int, unit_size:float = 1.0, 
-		ul_seam:bool = false, ur_seam:bool=false, ll_seam:bool = false, lr_seam:bool = false):
+		seam_up:bool = false, seam_down:bool=false, seam_left:bool = false, seam_right:bool = false):
 		self.resolution = resolution
 		self.unit_size = unit_size
-		self.ul_seam = ul_seam
-		self.ur_seam = ur_seam
-		self.ll_seam = ll_seam
-		self.lr_seam = lr_seam
+		self.seam_up = seam_up
+		self.seam_down = seam_down
+		self.seam_left = seam_left
+		self.seam_right = seam_right
 		self._st = SurfaceTool.new()
 		self._st.begin(Mesh.PRIMITIVE_TRIANGLES)
-		
+				
 	func generate():
 		var f_resolution = float(resolution)
 		var midpoint = Vector3(f_resolution/2, 0, f_resolution/2)
 		for z in range(resolution):
 			for x in range(resolution):
 				# +x is right, +z is down
-				var coord_ul = Vector2(x, z)
-				var coord_ur = Vector2(x+1, z)
-				var coord_lr = Vector2(x+1, z+1)
-				var coord_ll = Vector2(x, z+1)
+				var coords = [Vector2i(x, z), Vector2i(x+1, z), Vector2i(x+1, z+1), Vector2i(x, z+1)]
+				# seam edges by welding any odd vertices
+				var on_seamable_edge = false
+				var mark = [false, false, false, false]
+				if seam_left and x == 0:
+					on_seamable_edge = true
+					mark[0] = true
+					mark[3] = true
+				if seam_right and x == resolution-1:
+					on_seamable_edge = true
+					mark[1] = true
+					mark[2] = true
+				if seam_up and z == 0:
+					on_seamable_edge = true
+					mark[0] = true
+					mark[1] = true
+				if seam_down and z == resolution-1:
+					on_seamable_edge = true
+					mark[2] = true
+					mark[3] = true
+					
+				if on_seamable_edge:
+					for i in range(len(coords)):
+						if mark[i]:
+							if coords[i].y % 2 == 1:
+								coords[i].y -= 1
+							if coords[i].x % 2 == 1:
+								coords[i].x -= 1
 				
 				# uv should iterate from 0,0 to 1,1
-				var uv_ul = (coord_ul / f_resolution)
-				var uv_ur = (coord_ur / f_resolution)
-				var uv_lr = (coord_lr / f_resolution)
-				var uv_ll = (coord_ll / f_resolution)
-				var vert_ul = (Vector3(coord_ul.x, 0, coord_ul.y) - midpoint) * self.unit_size
-				var vert_ur = (Vector3(coord_ur.x, 0, coord_ur.y) - midpoint) * self.unit_size
-				var vert_lr = (Vector3(coord_lr.x, 0, coord_lr.y) - midpoint) * self.unit_size
-				var vert_ll = (Vector3(coord_ll.x, 0, coord_ll.y) - midpoint) * self.unit_size
+				var uvs = []
+				var verts = []
+				for coord in coords:
+					uvs.append(Vector2(coord) / f_resolution)
+					verts.append((Vector3(coord.x, 0, coord.y) - midpoint) * self.unit_size)
 				
 				# add quad
-				self._st.add_triangle_fan(PackedVector3Array([vert_ul, vert_ur, vert_lr, vert_ll]),
-					PackedVector2Array([uv_ul, uv_ur, uv_lr, uv_ll]))
+				self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
 				
 	func commit():
 		self._st.generate_normals()
@@ -85,7 +105,8 @@ func _clear_generated_meshes():
 func build_mesh():
 	_clear_generated_meshes()
 	
-	var plane = PlaneMeshGenerator.new(outermost_resolution, unit_size)
+	var plane = PlaneMeshGenerator.new(outermost_resolution, unit_size,
+		true, true, true, true)
 	plane.generate()
 	var mesh = plane.commit()
 	
