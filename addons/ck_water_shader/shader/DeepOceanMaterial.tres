@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cu46b100244nd"]
 
-[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_3eh4s"]
+[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/water.gdshader" id="1_3eh4s"]
 [ext_resource type="Texture2D" uid="uid://cfd3p52e43wt2" path="res://addons/ck_water_shader/shader/ocean_albedo_2.png" id="2_kctdj"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wdxsv"]

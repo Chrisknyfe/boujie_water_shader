@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dcwd8ciggcoqu"]
 
-[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/OptimizedOcean.gdshader" id="1_t36sh"]
+[ext_resource type="Shader" path="res://addons/ck_water_shader/shader/water.gdshader" id="1_t36sh"]
 [ext_resource type="Texture2D" uid="uid://b80wyvnjiqq6p" path="res://addons/ck_water_shader/shader/ice_albedo.png" id="2_27mdj"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/refraction.png" id="4_2q3lu"]
 

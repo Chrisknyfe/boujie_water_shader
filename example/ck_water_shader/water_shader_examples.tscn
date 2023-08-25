@@ -1,7 +1,6 @@
-[gd_scene load_steps=46 format=3 uid="uid://brk62yu2j6hb"]
+[gd_scene load_steps=45 format=3 uid="uid://bao0ucik5eqtl"]
 
-[ext_resource type="Script" path="res://addons/ck_water_shader/LodPlaneMeshGen.gd" id="1_l3xu5"]
-[ext_resource type="Script" path="res://example/ck_water_shader/Ocean.gd" id="1_m8eja"]
+[ext_resource type="Script" path="res://addons/ck_water_shader/Ocean.gd" id="1_5anew"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/WaterMaterialDesigner.gd" id="3_uekfw"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/ck_water_shader/shader/OutsetOceanMaterial.tres" id="5_1ujp0"]
@@ -29,6 +28,27 @@
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/ck_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Script" path="res://example/ck_water_shader/OceanFloor.gd" id="23_143d2"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/ck_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
+render_priority = 0
+shader = ExtResource("21_gr4xf")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/drop_far = 3000.0
+shader_parameter/texture_albedo = ExtResource("15_l0ywx")
 
 [sub_resource type="Resource" id="Resource_h6ky8"]
 script = ExtResource("6_4v5kk")
@@ -74,27 +94,6 @@ direction_degrees = 151.5
 frequency = 0.004
 speed = 0.05
 phase_degrees = 0.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
-render_priority = 0
-shader = ExtResource("21_gr4xf")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_blend_sharpness = 1.0
-shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/drop_far = 3000.0
-shader_parameter/texture_albedo = ExtResource("15_l0ywx")
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("6_4v5kk")
@@ -157,31 +156,14 @@ albedo_texture = ExtResource("29_g6865")
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
 
-[node name="WaterShaderTest" type="Node3D"]
+[node name="WaterShaderExamples" type="Node3D"]
 
 [node name="Ocean" type="Node3D" parent="."]
-top_level = true
-script = ExtResource("1_m8eja")
-water_material_designer = NodePath("DeepOceanDesigner")
-update_when_camera_far_changes = true
-
-[node name="LodPlaneMeshGen" type="Node3D" parent="Ocean"]
-script = ExtResource("1_l3xu5")
+script = ExtResource("1_5anew")
 material = ExtResource("15_kb55y")
 outermost_resolution = 8
 levels_of_detail = 6
 far_edge = 4000.0
-
-[node name="DeepOceanDesigner" type="Node" parent="Ocean"]
-script = ExtResource("3_uekfw")
-material = ExtResource("15_kb55y")
-distance_fade_far = 4000.0
-distance_fade_softness = 0.323
-wave_fade_far = 2496.0
-wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
-foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
-uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
 script = ExtResource("3_ql4g3")
@@ -197,9 +179,23 @@ surface_material_override/0 = SubResource("ShaderMaterial_6vh6m")
 script = ExtResource("23_143d2")
 drop_far = 3000.0
 
-[node name="OtherDesigners" type="Node" parent="."]
+[node name="DeepOceanDesigner" type="Node" parent="."]
+script = ExtResource("3_uekfw")
+material = ExtResource("15_kb55y")
+update_on_ready = true
+update_when_camera_far_changes = true
+ocean_path = NodePath("../Ocean")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 2496.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
+foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
+uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
-[node name="OutsetOceanDesigner" type="Node" parent="OtherDesigners"]
+[node name="Other_Designers" type="Node" parent="."]
+
+[node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("3_uekfw")
 material = ExtResource("5_1ujp0")
 distance_fade_far = 4000.0
@@ -210,7 +206,7 @@ height_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_y6lkc"), ExtResourc
 foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
 uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
-[node name="IceDesigner" type="Node" parent="OtherDesigners"]
+[node name="IceDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("3_uekfw")
 material = ExtResource("5_658mh")
 distance_fade_far = 4000.0
@@ -221,7 +217,7 @@ height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_4vniv"), Sub
 foam_waves = Array[ExtResource("6_4v5kk")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
 uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
-[node name="ObsidianDesigner" type="Node" parent="OtherDesigners"]
+[node name="ObsidianDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("3_uekfw")
 material = ExtResource("19_rq23g")
 distance_fade_far = 4000.0
@@ -287,4 +283,4 @@ surface_material_override/0 = ExtResource("19_rq23g")
 [node name="UnitCube" type="MeshInstance3D" parent="Test_Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
-skeleton = NodePath("../../Ocean/LodPlaneMeshGen")
+skeleton = NodePath("../../Ocean")

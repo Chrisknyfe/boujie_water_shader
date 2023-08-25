@@ -1,4 +1,5 @@
 extends Node3D
+class_name CameraFollower3D
 
 @export_node_path("Node3D") var victim_path
 @export var enable: bool = true

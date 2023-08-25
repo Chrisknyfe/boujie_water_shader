@@ -1,7 +1,7 @@
 // Shader to simulate an open ocean based on Gerstner waves
 // Reference: https://developer.nvidia.com/gpugems/GPUGems/gpugems_ch01.html
 
-// Ocean Shader
+// Water / Ocean Shader
 
 shader_type spatial;
 
