@@ -353,11 +353,17 @@ void fragment() {
 	float depth_blend = exp((z_diff_refracted + depth_offset) * -beers_law);
 	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
 	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
+#endif
 
+#ifdef DEPTH_FADE
 	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_blend_power * 2.5).rgb;
-	vec3 depth_color = mix(color_shallow.rgb, color_deep.rgb, depth_blend_power);
-	vec3 final_depth_color = mix(screen_color * depth_color, depth_color * 0.25, depth_blend_power * 0.5);
-	ALBEDO = mix(surface_color.rgb * albedo_tex.rgb, final_depth_color, 0.75);
+	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
+	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
+	vec3 final_screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	
+	
+	
+	ALBEDO = mix(surface_color.rgb * albedo_tex.rgb, final_screen_color, 0.75);
 #else
 
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
@@ -372,6 +378,7 @@ void fragment() {
 	 */
 #ifdef REFRACTION
 	float ref_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
+	// TODO: clamp screen_uv, it's bleeding through on top.
 	EMISSION += textureLod(screen_texture,screen_uv,ROUGHNESS * 8.0).rgb * ref_amount;
 	ALBEDO *= 1.0 - ref_amount;
 #else
