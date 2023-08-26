@@ -156,9 +156,9 @@ class FarPlaneMeshGenerator extends RefCounted:
 		self._st.index()
 		return self._st.commit()
 
-func _apply_material():
+func _apply_material(filter:String = "_gen"):
 	for child in get_children():
-		if child is MeshInstance3D and child.name.begins_with("_gen"):
+		if child is MeshInstance3D and child.name.begins_with(filter):
 			child.set_surface_override_material(0, material)
 			
 func _clear_generated_meshes(filter:String = "_gen"):
@@ -195,6 +195,8 @@ func build_farplane():
 	farplane.generate()
 	mesh = farplane.commit()
 	_add_mesh_as_node(mesh, "_gen_farplane_far")
+	
+	_apply_material("_gen_farplane")
 	
 
 func build_meshes():
