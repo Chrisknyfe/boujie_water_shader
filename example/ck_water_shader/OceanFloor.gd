@@ -3,6 +3,7 @@ extends MeshInstance3D
 
 ## A "distance fade" for the ocean floor that prevents the material from becoming a transparent material.
 
+## Distance at which portions of the ocean floor will become invisible
 @export var drop_far: float = 2000:
 	set(value):
 		drop_far = value

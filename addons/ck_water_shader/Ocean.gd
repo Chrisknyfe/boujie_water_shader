@@ -32,8 +32,11 @@ var max_unit_size: float:
 		return unit_size * 2 ** (levels_of_detail-1)
 
 @export_category("Editor Tools")
+## Rebuild all meshes
 @export var editor_rebuild: bool = false
+## Clear all meshes
 @export var editor_clear: bool = false
+## Rebuild the farplane
 @export var editor_farplane: bool = false
 
 func _ready():
