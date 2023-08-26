@@ -9,6 +9,7 @@ render_priority = 0
 shader = ExtResource("1_t36sh")
 shader_parameter/freeze = true
 shader_parameter/albedo = Color(0.192157, 0.2, 0.356863, 0.976471)
+shader_parameter/albedo_fresnel = null
 shader_parameter/refraction = 0.379001
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
 shader_parameter/refraction_opacity = 0.7
