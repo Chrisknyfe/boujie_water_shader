@@ -1,7 +1,4 @@
-[gd_resource type="Shader" format=3 uid="uid://un001n4v6nn2"]
-
-[resource]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.1.1.stable's StandardMaterial3D.
+// NOTE: Shader automatically converted from Godot Engine 4.1.1.stable's StandardMaterial3D.
 
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx, world_vertex_coords;
@@ -72,4 +69,3 @@ void fragment() {
 		discard;
 	}
 }
-"

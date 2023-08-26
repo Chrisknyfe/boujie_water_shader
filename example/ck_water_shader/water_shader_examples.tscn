@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://addons/ck_water_shader/Ocean.gd" id="1_5anew"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/WaterMaterialDesigner.gd" id="3_uekfw"]
+[ext_resource type="Shader" path="res://example/ck_water_shader/DropWithDistance.gdshader" id="4_wodta"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/ck_water_shader/shader/OutsetOceanMaterial.tres" id="5_1ujp0"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/ck_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
 [ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/ck_water_shader/shader/Ice.tres" id="5_658mh"]
@@ -24,7 +25,6 @@
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/ck_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/ck_water_shader/Camera.gd" id="16_t5wvu"]
 [ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/ck_water_shader/shader/ObsidianMaterial.tres" id="19_rq23g"]
-[ext_resource type="Shader" uid="uid://un001n4v6nn2" path="res://addons/ck_water_shader/shader/DropWithDistance.tres" id="21_gr4xf"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/ck_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Script" path="res://example/ck_water_shader/OceanFloor.gd" id="23_143d2"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/ck_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
@@ -35,7 +35,7 @@ subdivide_depth = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
 render_priority = 0
-shader = ExtResource("21_gr4xf")
+shader = ExtResource("4_wodta")
 shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
@@ -185,6 +185,7 @@ material = ExtResource("15_kb55y")
 update_on_ready = true
 update_when_camera_far_changes = true
 ocean_path = NodePath("../Ocean")
+camera_follower_path = NodePath("../Ocean/CameraFollower3D")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2496.0
@@ -238,49 +239,49 @@ environment = ExtResource("14_o2bkd")
 transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
 light_energy = 1.2
 
-[node name="Test_Terrain" type="Node3D" parent="."]
+[node name="Material_Testers" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0291, 0, 0)
 
-[node name="Obelisk2" parent="Test_Terrain" instance=ExtResource("9_qosoy")]
+[node name="Obelisk2" parent="Material_Testers" instance=ExtResource("9_qosoy")]
 transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, -200)
 
-[node name="Pedestal1" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+[node name="Pedestal1" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
 
-[node name="DeepOceanSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal1"]
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal1"]
 transform = Transform3D(0.0661159, 0.106083, 0, -0.106083, 0.0661159, 0, 0, 0, 0.125, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("15_kb55y")
 
-[node name="Pedestal2" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+[node name="Pedestal2" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
 
-[node name="OutsetOceanSphere" type="MeshInstance3D" parent="Test_Terrain/Pedestal2"]
+[node name="OutsetOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal2"]
 transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_1ujp0")
 
-[node name="Pedestal3" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+[node name="Pedestal3" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)
 
-[node name="IceCube" type="MeshInstance3D" parent="Test_Terrain/Pedestal3"]
+[node name="IceCube" type="MeshInstance3D" parent="Material_Testers/Pedestal3"]
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
 mesh = ExtResource("22_7a0j4")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_658mh")
 
-[node name="Pedestal4" parent="Test_Terrain" instance=ExtResource("10_70j47")]
+[node name="Pedestal4" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
 
-[node name="ObsidianCube" type="MeshInstance3D" parent="Test_Terrain/Pedestal4"]
+[node name="ObsidianCube" type="MeshInstance3D" parent="Material_Testers/Pedestal4"]
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
 mesh = SubResource("BoxMesh_ehcfp")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("19_rq23g")
 
-[node name="UnitCube" type="MeshInstance3D" parent="Test_Terrain"]
+[node name="UnitCube" type="MeshInstance3D" parent="Material_Testers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
