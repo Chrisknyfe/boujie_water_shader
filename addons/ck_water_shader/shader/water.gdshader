@@ -14,6 +14,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define FOAM
 #define REFRACTION
 #define SHORE_FOAM
+#define FRESNEL
 
 // Fade out features with distance from camera
 #define DISTANCE_FADE // fade alpha
@@ -27,6 +28,7 @@ uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
 
 uniform vec4 albedo: source_color;
+uniform vec4 albedo_fresnel: source_color;
 uniform sampler2D texture_albedo: source_color;
 
 uniform sampler2D texture_foam: source_color;
@@ -101,6 +103,11 @@ varying vec3	uv_power_normal;
 varying float	foam_alpha;
 
 varying vec3	world_coordinates;
+
+float fresnel(float amount, vec3 normal, vec3 view)
+{
+	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
+}
 
 float linearize_depth(float depth) {
     depth = 2.0 * depth - 1.0;
@@ -278,9 +285,13 @@ void fragment() {
 #endif
 #ifdef FOAM_FADE
 	float foam_fade_alpha = smoothstep(foam_fade_max, foam_fade_min, distance_from_camera);
+#else
+	float foam_fade_alpha = 1.0;
 #endif
 #ifdef SHORE_FADE
 	float shore_fade_alpha = smoothstep(shore_fade_max, shore_fade_min, distance_from_camera);
+#else
+	float shore_fade_alpha = 1.0;
 #endif
 	
 	if (ALPHA <= 0.0) {
@@ -296,7 +307,14 @@ void fragment() {
 #else
 	albedo_tex = texture(texture_albedo, UV);
 #endif
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+#ifdef FRESNEL
+	float fresnel_factor = fresnel(3.0, NORMAL, VIEW);
+	vec4 surface_color = mix(albedo, albedo_fresnel, fresnel_factor);
+#else
+	vec4 surface_color = albedo;
+#endif
+	ALBEDO = surface_color.rgb * albedo_tex.rgb;
 	
 	/* Refraction
 	 * How this works: we get the normal and multiply it by the refraction value & texture. More refraction means light is bent more away from normal's direction.
@@ -315,11 +333,11 @@ void fragment() {
 #endif
 	vec3 ref_normal = NORMAL;
 	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
-	float ref_amount = (1.0 - albedo.a * albedo_tex.a) * refraction_opacity;
+	float ref_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
 	EMISSION += textureLod(screen_texture,ref_ofs,ROUGHNESS * 8.0).rgb * ref_amount;
 	ALBEDO *= 1.0 - ref_amount;
 #else
-	ALPHA *= albedo.a * albedo_tex.a;
+	ALPHA *= surface_color.a * albedo_tex.a;
 #endif
 	
 	/* Sea Foam

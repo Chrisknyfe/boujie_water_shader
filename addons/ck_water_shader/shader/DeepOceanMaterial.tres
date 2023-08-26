@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cu46b100244nd"]
 
 [ext_resource type="Shader" path="res://addons/ck_water_shader/shader/water.gdshader" id="1_3eh4s"]
-[ext_resource type="Texture2D" uid="uid://cfd3p52e43wt2" path="res://addons/ck_water_shader/shader/ocean_albedo_2.png" id="2_kctdj"]
+[ext_resource type="Texture2D" uid="uid://dck2b16gulx5d" path="res://addons/ck_water_shader/shader/ocean_albedo_white_highcontrast.png" id="2_cg8ft"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wdxsv"]
 load_path = "res://.godot/imported/foam_2.png-9f96d1bafc0f1696129542ba5672d577.s3tc.ctex"
@@ -13,7 +13,8 @@ load_path = "res://.godot/imported/refraction.png-407bb49bc205a687ea38f2e1cee9e5
 render_priority = 0
 shader = ExtResource("1_3eh4s")
 shader_parameter/freeze = false
-shader_parameter/albedo = Color(0, 0.431373, 1, 0.756863)
+shader_parameter/albedo = Color(0, 0.482353, 0.72549, 0.768627)
+shader_parameter/albedo_fresnel = Color(0.168627, 0.376471, 1, 1)
 shader_parameter/refraction = 0.125001
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
 shader_parameter/refraction_opacity = 0.7
@@ -38,7 +39,7 @@ shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
 shader_parameter/vertex_displace_from_mesh_normal = true
 shader_parameter/near = 0.1
 shader_parameter/far = 400.0
-shader_parameter/texture_albedo = ExtResource("2_kctdj")
+shader_parameter/texture_albedo = ExtResource("2_cg8ft")
 shader_parameter/texture_foam = SubResource("CompressedTexture2D_wdxsv")
 shader_parameter/texture_refraction = SubResource("CompressedTexture2D_8yb3o")
 shader_parameter/WaveCount = 2
