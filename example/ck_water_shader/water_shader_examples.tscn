@@ -1,6 +1,7 @@
-[gd_scene load_steps=45 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=46 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/Ocean.gd" id="1_5anew"]
+[ext_resource type="Script" path="res://example/ck_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/CameraFollower3D.gd" id="3_ql4g3"]
 [ext_resource type="Script" path="res://addons/ck_water_shader/WaterMaterialDesigner.gd" id="3_uekfw"]
 [ext_resource type="Shader" path="res://example/ck_water_shader/DropWithDistance.gdshader" id="4_wodta"]
@@ -157,6 +158,7 @@ albedo_texture = ExtResource("29_g6865")
 material = SubResource("StandardMaterial3D_kaxio")
 
 [node name="WaterShaderExamples" type="Node3D"]
+script = ExtResource("1_ksg8d")
 
 [node name="Ocean" type="Node3D" parent="."]
 script = ExtResource("1_5anew")
@@ -285,3 +287,5 @@ surface_material_override/0 = ExtResource("19_rq23g")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
+
+[connection signal="update_lod" from="DeepOceanDesigner" to="." method="_on_deep_ocean_designer_update_lod"]
