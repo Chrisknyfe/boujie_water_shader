@@ -25,7 +25,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 
 uniform bool freeze; // Toki wo tomare.
 
-uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
 uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
 
 uniform vec4 albedo: source_color;
@@ -318,7 +318,6 @@ void fragment() {
 #endif
 	vec3 ref_normal = NORMAL;
 	// TODO: refraction should be less drastic the greater distance from the camera
-	// TODO: clamp screen_uv, it's bleeding through on top.
 	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
 #endif
 
