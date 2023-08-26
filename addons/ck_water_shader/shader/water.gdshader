@@ -12,8 +12,8 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 //#define ALBEDO_WAVE
 //#define VERTEX_WAVE
 //#define FOAM
-//#define REFRACTION
-//#define SHORE_FOAM
+#define REFRACTION
+#define SHORE_FOAM
 //#define FRESNEL
 #define DEPTH_FADE
 
@@ -275,6 +275,19 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 	return samp;
 }
 
+// Calculate depth of solid object beneath the water by reading the depth texture
+float depth_from_water_to_object(vec2 screen_uv, mat4 inv_projection_matrix, vec3 vertex) {
+	float depth_raw = textureLod(depth_texture, screen_uv, 0.0).r;
+	// https://www.reddit.com/r/godot/comments/wb0jw7/godot_4_alpha_12_depth_texture_not_working/ii4awtb/
+	// In Godot 4 Vulcan, depth_raw goes from 0 to 1 and doesn't need to be normalzied anymore!!! Holy smokes.
+	vec3 ndc = vec3(screen_uv * 2.0 - 1.0, depth_raw); 
+	vec4 view = inv_projection_matrix * vec4(ndc, 1.0);
+	view.xyz /= view.w;
+	float z_depth = -view.z;
+	float z_pos = -vertex.z;
+	return z_depth - z_pos;
+}
+
 void fragment() {
 	ALPHA = 1.0;
 
@@ -296,19 +309,6 @@ void fragment() {
 	vec3 ref_normal = NORMAL;
 	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
 #endif
-
-	// Calculate depth of solid object beneath the water
-#if defined(SHORE_FOAM) || defined(DEPTH_FADE)
-	float depth_raw = textureLod(depth_texture, screen_uv, 0.0).r;
-	// https://www.reddit.com/r/godot/comments/wb0jw7/godot_4_alpha_12_depth_texture_not_working/ii4awtb/
-	// In Godot 4 Vulcan, depth_raw goes from 0 to 1 and doesn't need to be normalzied anymore!!! Holy smokes.
-	vec3 ndc = vec3(screen_uv * 2.0 - 1.0, depth_raw); 
-	vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
-	view.xyz /= view.w;
-	float z_depth = -view.z;
-	float z_pos = -VERTEX.z;
-	float z_diff = z_depth - z_pos;
-#endif	
 
 	// Distance fade and foam distance fade
 #ifdef DISTANCE_FADE
@@ -349,7 +349,8 @@ void fragment() {
 #endif
 
 #ifdef DEPTH_FADE
-	float depth_blend = exp((z_diff + depth_offset) * -beers_law);
+	float z_diff_refracted = depth_from_water_to_object(screen_uv, INV_PROJECTION_MATRIX, VERTEX);
+	float depth_blend = exp((z_diff_refracted + depth_offset) * -beers_law);
 	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
 	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
 
@@ -400,6 +401,7 @@ void fragment() {
 #endif
 	
 #ifdef SHORE_FOAM
+	float z_diff = depth_from_water_to_object(SCREEN_UV, INV_PROJECTION_MATRIX, VERTEX);
 	float shore_alpha = 0.0;
 	shore_alpha = 1.0 - smoothstep(shore_start_blend, shore_end_blend, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
