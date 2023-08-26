@@ -1,3 +1,4 @@
+@icon("res://addons/ck_water_shader/icons/CameraFollower3D.svg")
 extends Node3D
 class_name CameraFollower3D
 

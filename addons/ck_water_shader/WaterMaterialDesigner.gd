@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/ck_water_shader/icons/WaterMaterialDesigner.svg")
 extends Node
 class_name WaterMaterialDesigner
 
