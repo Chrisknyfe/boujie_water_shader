@@ -183,7 +183,7 @@ snap = true
 snap_unit = 32.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
-transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -80, 0)
+transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, -7.62939e-06, -80, 0)
 mesh = SubResource("PlaneMesh_prluc")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_6vh6m")
@@ -251,7 +251,6 @@ transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0
 light_energy = 1.2
 
 [node name="Material_Testers" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0291, 0, 0)
 
 [node name="Obelisk2" parent="Material_Testers" instance=ExtResource("9_qosoy")]
 transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, -200)

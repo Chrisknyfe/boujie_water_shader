@@ -9,18 +9,19 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 
 #define WORLD_TRIPLANAR
 
-#define ALBEDO_WAVE
-#define VERTEX_WAVE
-#define FOAM
-#define REFRACTION
-#define SHORE_FOAM
-#define FRESNEL
+//#define ALBEDO_WAVE
+//#define VERTEX_WAVE
+//#define FOAM
+//#define REFRACTION
+//#define SHORE_FOAM
+//#define FRESNEL
+#define DEPTH_FADE
 
 // Fade out features with distance from camera
-#define DISTANCE_FADE // fade alpha
-#define FOAM_FADE
-#define SHORE_FADE
-#define VERTEX_WAVE_FADE
+//#define DISTANCE_FADE // fade alpha
+//#define FOAM_FADE
+//#define SHORE_FADE
+//#define VERTEX_WAVE_FADE
 
 uniform bool freeze; // Toki wo tomare.
 
@@ -66,6 +67,13 @@ uniform bool vertex_displace_from_mesh_normal;
 uniform float near = 0.1;
 uniform float far = 400.0;
 
+group_uniforms DepthFade;
+uniform vec4 color_deep : source_color;
+uniform vec4 color_shallow : source_color;
+uniform float beers_law = 2.0;
+uniform float depth_offset = -0.75;
+group_uniforms;
+
 group_uniforms WaveParameters;
 uniform int WaveCount : hint_range(0,8) = 0;
 uniform float WaveSteepnesses[8];
@@ -107,11 +115,6 @@ varying vec3	world_coordinates;
 float fresnel(float amount, vec3 normal, vec3 view)
 {
 	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
-}
-
-float linearize_depth(float depth) {
-    depth = 2.0 * depth - 1.0;
-    return near * far / (far + depth * (near - far));
 }
 
 // An offset at a point on a Gerstner Wave
@@ -274,9 +277,39 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 
 void fragment() {
 	ALPHA = 1.0;
+
+	// Calculate distance from the camera to the water
 #if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE)
 	float distance_from_camera = distance(CAMERA_POSITION_WORLD, world_coordinates);
 #endif
+
+	vec2 screen_uv = SCREEN_UV;
+
+	// Calculate new screen_uv from refraction texture and amount, which will be used by any screen reading code.
+#ifdef REFRACTION
+	vec4 ref_tex;
+#ifdef WORLD_TRIPLANAR
+	ref_tex = triplanar_texture(texture_refraction, uv_power_normal, refraction_uv_tri);
+#else
+	ref_tex = texture(texture_refraction,refraction_uv);
+#endif
+	vec3 ref_normal = NORMAL;
+	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
+#endif
+
+	// Calculate depth of solid object beneath the water
+#if defined(SHORE_FOAM) || defined(DEPTH_FADE)
+	float depth_raw = textureLod(depth_texture, screen_uv, 0.0).r;
+	// https://www.reddit.com/r/godot/comments/wb0jw7/godot_4_alpha_12_depth_texture_not_working/ii4awtb/
+	// In Godot 4 Vulcan, depth_raw goes from 0 to 1 and doesn't need to be normalzied anymore!!! Holy smokes.
+	vec3 ndc = vec3(screen_uv * 2.0 - 1.0, depth_raw); 
+	vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+	view.xyz /= view.w;
+	float z_depth = -view.z;
+	float z_pos = -VERTEX.z;
+	float z_diff = z_depth - z_pos;
+#endif	
+
 	// Distance fade and foam distance fade
 #ifdef DISTANCE_FADE
 	ALPHA *= smoothstep(distance_fade_max, distance_fade_min, distance_from_camera);
@@ -314,27 +347,31 @@ void fragment() {
 #else
 	vec4 surface_color = albedo;
 #endif
+
+#ifdef DEPTH_FADE
+	float depth_blend = exp((z_diff + depth_offset) * -beers_law);
+	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
+	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
+
+	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_blend_power * 2.5).rgb;
+	vec3 depth_color = mix(color_shallow.rgb, color_deep.rgb, depth_blend_power);
+	vec3 final_depth_color = mix(screen_color * depth_color, depth_color * 0.25, depth_blend_power * 0.5);
+	ALBEDO = mix(surface_color.rgb * albedo_tex.rgb, final_depth_color, 0.75);
+#else
+
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
-	
+#endif
 	/* Refraction
 	 * How this works: we get the normal and multiply it by the refraction value & texture. More refraction means light is bent more away from normal's direction.
-	 * we then grab the part of the screen texture (via it's UV coords) by taking shifting the regular Screen UV by our "enhanced" refraction normal.
+	 * we then grab the part of the screen texture (via it's UV coords) by shifting the regular Screen UV by our "enhanced" refraction normal.
 	 * Refraction amount is how much light we are emitting from the other side. This is proportional to albedo opacity, and gated by refraction_opacity.
 	 * Finally we do a lookup for the light value from the screen, taking surface roughness into account (lower roughness means higher detail)
 	 * The light we get from the screen gets multiplied by the refraction amount, and then we emit it in EMISSION. It's a nice way to fake opacity.
 	 * Albedo is darkened to compensate for the extra light coming from the screen behind this material.
 	 */
 #ifdef REFRACTION
-	vec4 ref_tex;
-#ifdef WORLD_TRIPLANAR
-	ref_tex = triplanar_texture(texture_refraction, uv_power_normal, refraction_uv_tri);
-#else
-	ref_tex = texture(texture_refraction,refraction_uv);
-#endif
-	vec3 ref_normal = NORMAL;
-	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
 	float ref_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
-	EMISSION += textureLod(screen_texture,ref_ofs,ROUGHNESS * 8.0).rgb * ref_amount;
+	EMISSION += textureLod(screen_texture,screen_uv,ROUGHNESS * 8.0).rgb * ref_amount;
 	ALBEDO *= 1.0 - ref_amount;
 #else
 	ALPHA *= surface_color.a * albedo_tex.a;
@@ -361,11 +398,8 @@ void fragment() {
 	EMISSION *= (1.0-final_foam_alpha); // block emission
 	ALBEDO = mix(ALBEDO, foam_tex.rgb, final_foam_alpha);
 #endif
-
+	
 #ifdef SHORE_FOAM
-	float z_depth = linearize_depth(texture(depth_texture, SCREEN_UV).x);
-	float z_pos = linearize_depth(FRAGCOORD.z);
-	float z_diff = z_depth - z_pos;
 	float shore_alpha = 0.0;
 	shore_alpha = 1.0 - smoothstep(shore_start_blend, shore_end_blend, z_diff); // TODO: thresholds should be a parameter, something like shore_foam_depth_cutoff
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
