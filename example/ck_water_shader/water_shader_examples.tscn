@@ -169,7 +169,7 @@ far_edge = 4000.0
 
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
 script = ExtResource("3_ql4g3")
-victim_path = NodePath("..")
+target_path = NodePath("..")
 snap = true
 snap_unit = 64.0
 
