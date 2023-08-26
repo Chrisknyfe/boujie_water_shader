@@ -22,6 +22,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define FOAM_FADE
 #define SHORE_FADE
 #define VERTEX_WAVE_FADE
+#define REFRACTION_SCALING // refraction refracts distant objects way too much; scale it down with distance.
 
 uniform bool freeze; // Toki wo tomare.
 
@@ -52,6 +53,7 @@ uniform float shore_fade_min;
 uniform float shore_fade_max;
 uniform float vertex_wave_fade_min;
 uniform float vertex_wave_fade_max; 
+uniform float refraction_scaling_distance_min; // no max - refraction falls off proportionally starting from this distance
 
 uniform float specular : hint_range(0.0, 1.0);
 uniform float roughness : hint_range(0.0, 1.0);
@@ -317,8 +319,11 @@ void fragment() {
 	ref_tex = texture(texture_refraction,refraction_uv);
 #endif
 	vec3 ref_normal = NORMAL;
-	// TODO: refraction should be less drastic the greater distance from the camera
-	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
+	float r_final = refraction;
+#ifdef REFRACTION_SCALING
+	r_final *= clamp(refraction_scaling_distance_min / distance_from_camera, 0.0, 1.0);
+#endif
+	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * r_final;
 #endif
 
 	// Distance fade and foam distance fade

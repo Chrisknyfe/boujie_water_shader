@@ -2,19 +2,17 @@
 
 [ext_resource type="Shader" path="res://addons/ck_water_shader/shader/water.gdshader" id="1_3eh4s"]
 [ext_resource type="Texture2D" uid="uid://dck2b16gulx5d" path="res://addons/ck_water_shader/shader/ocean_albedo_white_highcontrast.png" id="2_cg8ft"]
+[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/ck_water_shader/shader/refraction.png" id="3_63wux"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wdxsv"]
 load_path = "res://.godot/imported/foam_2.png-9f96d1bafc0f1696129542ba5672d577.s3tc.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8yb3o"]
-load_path = "res://.godot/imported/refraction.png-407bb49bc205a687ea38f2e1cee9e53b.s3tc.ctex"
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_3eh4s")
 shader_parameter/freeze = false
-shader_parameter/albedo = Color(0.117647, 0.380392, 1, 0.188235)
-shader_parameter/albedo_fresnel = Color(0, 0.47451, 0.764706, 0.188235)
+shader_parameter/albedo = Color(0.235294, 0.647059, 0.960784, 0.12549)
+shader_parameter/albedo_fresnel = Color(0.317647, 0.596078, 0.988235, 0.745098)
 shader_parameter/refraction = 0.125001
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
 shader_parameter/refraction_opacity = 0.7
@@ -30,6 +28,7 @@ shader_parameter/shore_fade_min = 516.96
 shader_parameter/shore_fade_max = 1440.0
 shader_parameter/vertex_wave_fade_min = 516.96
 shader_parameter/vertex_wave_fade_max = 1440.0
+shader_parameter/refraction_scaling_distance_min = 200.0
 shader_parameter/specular = 0.5
 shader_parameter/roughness = 0.1
 shader_parameter/metallic = 0.2
@@ -41,7 +40,7 @@ shader_parameter/near = 0.1
 shader_parameter/far = 400.0
 shader_parameter/texture_albedo = ExtResource("2_cg8ft")
 shader_parameter/texture_foam = SubResource("CompressedTexture2D_wdxsv")
-shader_parameter/texture_refraction = SubResource("CompressedTexture2D_8yb3o")
+shader_parameter/texture_refraction = ExtResource("3_63wux")
 shader_parameter/color_deep = Color(0.0235294, 0.0784314, 0, 1)
 shader_parameter/color_shallow = Color(0, 0, 0, 0)
 shader_parameter/beers_law = 0.03
