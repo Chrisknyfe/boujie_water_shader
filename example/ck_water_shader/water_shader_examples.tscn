@@ -172,8 +172,8 @@ script = ExtResource("1_ksg8d")
 [node name="Ocean" type="Node3D" parent="."]
 script = ExtResource("1_5anew")
 material = ExtResource("15_kb55y")
-outermost_resolution = 8
-levels_of_detail = 6
+levels_of_detail = 5
+unit_size = 2.0
 far_edge = 4000.0
 
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
@@ -199,7 +199,7 @@ ocean_path = NodePath("../Ocean")
 camera_follower_path = NodePath("../Ocean/CameraFollower3D")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 1408.0
+wave_fade_far = 1440.0
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
