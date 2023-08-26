@@ -288,6 +288,16 @@ float depth_from_water_to_object(vec2 screen_uv, mat4 inv_projection_matrix, vec
 	return z_depth - z_pos;
 }
 
+
+	/* Refraction
+	 * How this works: we get the normal and multiply it by the refraction value & texture. More refraction means light is bent more away from normal's direction.
+	 * we then grab the part of the screen texture (via it's UV coords) by shifting the regular Screen UV by our "enhanced" refraction normal.
+	 * Refraction amount is how much light we are emitting from the other side. This is proportional to albedo opacity, and gated by refraction_opacity.
+	 * Finally we do a lookup for the light value from the screen, taking surface roughness into account (lower roughness means higher detail)
+	 * The light we get from the screen gets multiplied by the refraction amount, and then we emit it in EMISSION. It's a nice way to fake opacity.
+	 * Albedo is darkened to compensate for the extra light coming from the screen behind this material.
+	 */
+
 void fragment() {
 	ALPHA = 1.0;
 
@@ -307,6 +317,7 @@ void fragment() {
 	ref_tex = texture(texture_refraction,refraction_uv);
 #endif
 	vec3 ref_normal = NORMAL;
+	// TODO: refraction should be less drastic the greater distance from the camera
 	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
 #endif
 
@@ -348,42 +359,72 @@ void fragment() {
 	vec4 surface_color = albedo;
 #endif
 
-#ifdef DEPTH_FADE
+#ifdef DEPTH_FADE // preamble
 	float z_diff_refracted = depth_from_water_to_object(screen_uv, INV_PROJECTION_MATRIX, VERTEX);
 	float depth_blend = exp((z_diff_refracted + depth_offset) * -beers_law);
 	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
 	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
+	
+	float depth_blend_amount = (1.0 - surface_color.a * albedo_tex.a);
+	float depth_screen_roughness =  depth_blend_power * 2.5;
 #endif
 
-#ifdef DEPTH_FADE
-	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_blend_power * 2.5).rgb;
+#ifdef REFRACTION // preamble
+	float refraction_blend_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
+	float refraction_screen_roughness = ROUGHNESS * 8.0;
+#endif
+
+
+#if defined(REFRACTION) && defined(DEPTH_FADE)
+	vec3 screen_color = textureLod(screen_texture, screen_uv, refraction_screen_roughness).rgb;
 	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
 	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
-	vec3 final_screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
 	
-	
-	
-	ALBEDO = mix(surface_color.rgb * albedo_tex.rgb, final_screen_color, 0.75);
+	ALBEDO = surface_color.rgb * albedo_tex.rgb;
+	EMISSION += depth_fade_final_color * refraction_blend_amount;
+	ALBEDO *= 1.0 - refraction_blend_amount;
+	// don't set ALPHA here
+#elif defined(REFRACTION)
+	// TODO: clamp screen_uv, it's bleeding through on top.
+	ALBEDO = surface_color.rgb * albedo_tex.rgb;
+	EMISSION += textureLod(screen_texture,screen_uv,refraction_screen_roughness).rgb * refraction_blend_amount;
+	ALBEDO *= 1.0 - refraction_blend_amount;
+	// don't set ALPHA here
+#elif defined(DEPTH_FADE)
+	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_screen_roughness).rgb;
+	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
+	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
+	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	ALBEDO = mix(depth_fade_final_color, surface_color.rgb * albedo_tex.rgb, depth_blend_amount);
+	ALPHA *= surface_color.a * albedo_tex.a;
 #else
+	ALBEDO = surface_color.rgb * albedo_tex.rgb;
+	ALPHA *= surface_color.a * albedo_tex.a;
+#endif
 
+/* ******
+#ifdef DEPTH_FADE // perform blend
+	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_screen_roughness).rgb;
+	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
+	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
+	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	ALBEDO = mix(depth_fade_final_color, surface_color.rgb * albedo_tex.rgb, depth_blend_amount);
+#else
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
 #endif
-	/* Refraction
-	 * How this works: we get the normal and multiply it by the refraction value & texture. More refraction means light is bent more away from normal's direction.
-	 * we then grab the part of the screen texture (via it's UV coords) by shifting the regular Screen UV by our "enhanced" refraction normal.
-	 * Refraction amount is how much light we are emitting from the other side. This is proportional to albedo opacity, and gated by refraction_opacity.
-	 * Finally we do a lookup for the light value from the screen, taking surface roughness into account (lower roughness means higher detail)
-	 * The light we get from the screen gets multiplied by the refraction amount, and then we emit it in EMISSION. It's a nice way to fake opacity.
-	 * Albedo is darkened to compensate for the extra light coming from the screen behind this material.
-	 */
+
+
+
 #ifdef REFRACTION
-	float ref_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
 	// TODO: clamp screen_uv, it's bleeding through on top.
-	EMISSION += textureLod(screen_texture,screen_uv,ROUGHNESS * 8.0).rgb * ref_amount;
-	ALBEDO *= 1.0 - ref_amount;
+	EMISSION += textureLod(screen_texture,screen_uv,refraction_screen_roughness).rgb * refraction_blend_amount;
+	ALBEDO *= 1.0 - refraction_blend_amount;
 #else
 	ALPHA *= surface_color.a * albedo_tex.a;
 #endif
+
+**********/
 	
 	/* Sea Foam
 	 * override refraction and add to albedo
