@@ -12,8 +12,8 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 //#define ALBEDO_WAVE
 //#define VERTEX_WAVE
 //#define FOAM
-#define REFRACTION
-#define SHORE_FOAM
+//#define REFRACTION
+//#define SHORE_FOAM
 //#define FRESNEL
 #define DEPTH_FADE
 
@@ -318,6 +318,7 @@ void fragment() {
 #endif
 	vec3 ref_normal = NORMAL;
 	// TODO: refraction should be less drastic the greater distance from the camera
+	// TODO: clamp screen_uv, it's bleeding through on top.
 	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * refraction;
 #endif
 
@@ -359,45 +360,40 @@ void fragment() {
 	vec4 surface_color = albedo;
 #endif
 
-#ifdef DEPTH_FADE // preamble
+	// Screen-reading shader features
+	float screen_lod = 0.0;
+	float screen_read_blend_amount = (1.0 - surface_color.a * albedo_tex.a);
+#ifdef DEPTH_FADE
 	float z_diff_refracted = depth_from_water_to_object(screen_uv, INV_PROJECTION_MATRIX, VERTEX);
 	float depth_blend = exp((z_diff_refracted + depth_offset) * -beers_law);
 	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
 	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
-	
-	float depth_blend_amount = (1.0 - surface_color.a * albedo_tex.a);
-	float depth_screen_roughness =  depth_blend_power * 2.5;
+	screen_lod += depth_blend_power * 2.5;
 #endif
 
-#ifdef REFRACTION // preamble
-	float refraction_blend_amount = (1.0 - surface_color.a * albedo_tex.a) * refraction_opacity;
-	float refraction_screen_roughness = ROUGHNESS * 8.0;
+#ifdef REFRACTION
+	screen_read_blend_amount *= refraction_opacity;
+	screen_lod += ROUGHNESS * 8.0;
 #endif
 
+	// Read the screen for screen-reading shader features
+#if defined(REFRACTION) || defined(DEPTH_FADE)
+	vec3 screen_color = textureLod(screen_texture, screen_uv, screen_lod).rgb;
+#endif
 
-#if defined(REFRACTION) && defined(DEPTH_FADE)
-	vec3 screen_color = textureLod(screen_texture, screen_uv, refraction_screen_roughness).rgb;
+	// Blend the screen color with depth fade
+#ifdef DEPTH_FADE
 	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
 	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
-	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
-	
+	screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+#endif
+
+	// Finally write color to the screen. Screen-reading shaders use EMISSION to simulate ALPHA.
+#if defined(REFRACTION) || defined(DEPTH_FADE)
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
-	EMISSION += depth_fade_final_color * refraction_blend_amount;
-	ALBEDO *= 1.0 - refraction_blend_amount;
+	EMISSION += screen_color * screen_read_blend_amount;
+	ALBEDO *= 1.0 - screen_read_blend_amount;
 	// don't set ALPHA here
-#elif defined(REFRACTION)
-	// TODO: clamp screen_uv, it's bleeding through on top.
-	ALBEDO = surface_color.rgb * albedo_tex.rgb;
-	EMISSION += textureLod(screen_texture,screen_uv,refraction_screen_roughness).rgb * refraction_blend_amount;
-	ALBEDO *= 1.0 - refraction_blend_amount;
-	// don't set ALPHA here
-#elif defined(DEPTH_FADE)
-	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_screen_roughness).rgb;
-	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
-	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
-	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
-	ALBEDO = mix(depth_fade_final_color, surface_color.rgb * albedo_tex.rgb, depth_blend_amount);
-	ALPHA *= surface_color.a * albedo_tex.a;
 #else
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
 	ALPHA *= surface_color.a * albedo_tex.a;
