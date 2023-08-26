@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=47 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/Ocean.gd" id="1_5anew"]
 [ext_resource type="Script" path="res://example/ck_water_shader/water_shader_examples.gd" id="1_ksg8d"]
@@ -53,10 +53,19 @@ shader_parameter/texture_albedo = ExtResource("15_l0ywx")
 
 [sub_resource type="Resource" id="Resource_h6ky8"]
 script = ExtResource("6_4v5kk")
-steepness = 3.0
+steepness = 3.3
 amplitude = 1.5
 direction_degrees = 15.0
 frequency = 0.02
+speed = 1.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_gq4b8"]
+script = ExtResource("6_4v5kk")
+steepness = 0.05
+amplitude = 0.009
+direction_degrees = 70.702
+frequency = 2.0
 speed = 1.0
 phase_degrees = 0.0
 
@@ -171,7 +180,7 @@ far_edge = 4000.0
 script = ExtResource("3_ql4g3")
 target_path = NodePath("..")
 snap = true
-snap_unit = 64.0
+snap_unit = 32.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
 transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -80, 0)
@@ -190,9 +199,9 @@ ocean_path = NodePath("../Ocean")
 camera_follower_path = NodePath("../Ocean/CameraFollower3D")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 2496.0
+wave_fade_far = 1408.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8")])
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
 uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
