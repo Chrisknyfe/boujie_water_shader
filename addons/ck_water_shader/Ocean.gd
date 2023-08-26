@@ -3,9 +3,9 @@
 extends Node3D
 class_name Ocean
 
-## An ocean plane, with configurable levels of detail. 
-## Based on the famous tutorial by StayAtHomeDev:
-## https://www.youtube.com/watch?v=WfRb50J7hD8
+## An ocean plane, with configurable levels of detail.
+ 
+# Based on the famous tutorial by StayAtHomeDev: https://www.youtube.com/watch?v=WfRb50J7hD8
 
 @export var material: Material:
 	set(value):
