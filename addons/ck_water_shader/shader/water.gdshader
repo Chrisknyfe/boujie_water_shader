@@ -15,13 +15,14 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define REFRACTION
 #define SHORE_FOAM
 #define FRESNEL
-#define DEPTH_FADE
+#define DEPTH_FOG
 
 // Fade out features with distance from camera
 #define DISTANCE_FADE // fade alpha
 #define FOAM_FADE
 #define SHORE_FADE
 #define VERTEX_WAVE_FADE
+#define DEPTH_FOG_FADE // control depth fade because the depth buffer is imprecise at far distances
 #define REFRACTION_SCALING // refraction refracts distant objects way too much; scale it down with distance.
 
 uniform bool freeze; // Toki wo tomare.
@@ -53,6 +54,8 @@ uniform float shore_fade_min;
 uniform float shore_fade_max;
 uniform float vertex_wave_fade_min;
 uniform float vertex_wave_fade_max; 
+uniform float depth_fog_fade_min;
+uniform float depth_fog_fade_max; 
 uniform float refraction_scaling_distance_min; // no max - refraction falls off proportionally starting from this distance
 
 uniform float specular : hint_range(0.0, 1.0);
@@ -69,7 +72,7 @@ uniform bool vertex_displace_from_mesh_normal;
 uniform float near = 0.1;
 uniform float far = 400.0;
 
-group_uniforms DepthFade;
+group_uniforms DepthFog;
 uniform vec4 color_deep : source_color;
 uniform vec4 color_shallow : source_color;
 uniform float beers_law = 2.0;
@@ -304,7 +307,7 @@ void fragment() {
 	ALPHA = 1.0;
 
 	// Calculate distance from the camera to the water
-#if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE)
+#if defined(DISTANCE_FADE) || defined(FOAM_FADE) || defined (SHORE_FADE) || defined(DEPTH_FOG_FADE)
 	float distance_from_camera = distance(CAMERA_POSITION_WORLD, world_coordinates);
 #endif
 
@@ -367,11 +370,16 @@ void fragment() {
 	// Screen-reading shader features
 	float screen_lod = 0.0;
 	float screen_read_blend_amount = (1.0 - surface_color.a * albedo_tex.a);
-#ifdef DEPTH_FADE
+#ifdef DEPTH_FOG
 	float z_diff_refracted = depth_from_water_to_object(screen_uv, INV_PROJECTION_MATRIX, VERTEX);
 	float depth_blend = exp((z_diff_refracted + depth_offset) * -beers_law);
-	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);	
+	depth_blend = clamp(1.0 - depth_blend, 0.0, 1.0);
 	float depth_blend_power = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
+#ifdef DEPTH_FOG_FADE
+	depth_blend_power += smoothstep(depth_fog_fade_min, depth_fog_fade_max, distance_from_camera);
+	depth_blend_power = clamp(depth_blend_power, 0.0, 1.0);
+#endif
+	
 	screen_lod += depth_blend_power * 2.5;
 #endif
 
@@ -381,19 +389,19 @@ void fragment() {
 #endif
 
 	// Read the screen for screen-reading shader features
-#if defined(REFRACTION) || defined(DEPTH_FADE)
+#if defined(REFRACTION) || defined(DEPTH_FOG)
 	vec3 screen_color = textureLod(screen_texture, screen_uv, screen_lod).rgb;
 #endif
 
 	// Blend the screen color with depth fade
-#ifdef DEPTH_FADE
+#ifdef DEPTH_FOG
 	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
 	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
 	screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
 #endif
 
 	// Finally write color to the screen. Screen-reading shaders use EMISSION to simulate ALPHA.
-#if defined(REFRACTION) || defined(DEPTH_FADE)
+#if defined(REFRACTION) || defined(DEPTH_FOG)
 	ALBEDO = surface_color.rgb * albedo_tex.rgb;
 	EMISSION += screen_color * screen_read_blend_amount;
 	ALBEDO *= 1.0 - screen_read_blend_amount;
@@ -403,29 +411,6 @@ void fragment() {
 	ALPHA *= surface_color.a * albedo_tex.a;
 #endif
 
-/* ******
-#ifdef DEPTH_FADE // perform blend
-	vec3 screen_color = textureLod(screen_texture, screen_uv, depth_screen_roughness).rgb;
-	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
-	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
-	vec3 depth_fade_final_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
-	ALBEDO = mix(depth_fade_final_color, surface_color.rgb * albedo_tex.rgb, depth_blend_amount);
-#else
-	ALBEDO = surface_color.rgb * albedo_tex.rgb;
-#endif
-
-
-
-#ifdef REFRACTION
-	// TODO: clamp screen_uv, it's bleeding through on top.
-	EMISSION += textureLod(screen_texture,screen_uv,refraction_screen_roughness).rgb * refraction_blend_amount;
-	ALBEDO *= 1.0 - refraction_blend_amount;
-#else
-	ALPHA *= surface_color.a * albedo_tex.a;
-#endif
-
-**********/
-	
 	/* Sea Foam
 	 * override refraction and add to albedo
 	 * scale foam opacity by height of a few of the vertex waves. 
