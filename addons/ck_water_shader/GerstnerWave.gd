@@ -1,3 +1,4 @@
+@icon("res://addons/ck_water_shader/icons/Wave.svg")
 extends Resource
 class_name GerstnerWave
 
