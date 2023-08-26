@@ -2,6 +2,7 @@
 extends Node3D
 class_name Ocean
 
+## An ocean plane, with configurable levels of detail. 
 ## Based on the famous tutorial by StayAtHomeDev:
 ## https://www.youtube.com/watch?v=WfRb50J7hD8
 
@@ -11,9 +12,13 @@ class_name Ocean
 		_apply_material()
 	
 @export_category("Geometry")
+## Resolution of the outermost LOD. Multiplies by a power of 2 for inner LODs.
 @export_range(2, 200) var outermost_resolution: int = 10
+## How many levels of detail to generate. Creates rings of meshes surrounding the center of this object.
 @export_range(1, 20) var levels_of_detail: int = 1
+## Size of quads in the innermost LOD.
 @export var unit_size: float = 1.0
+## The farthest visible distance. Set this from camera.far.
 @export var far_edge: float = 1000
 
 var region_width: float:

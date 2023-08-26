@@ -2,6 +2,10 @@
 extends Node
 class_name WaterMaterialDesigner
 
+## A water material designer tool which allows easy editing of shader parameters using GerstnerWaves.
+## Synchronizes level-of-detail settings between a water shader, the active camera, an ocean, and a camera follower.
+
+## Emitted when level-of-detail settings are updated.
 signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
 
 ## Water shader material designed to work with this Designer node
@@ -19,26 +23,34 @@ var _previous_far: float = 0.0
 @export_node_path("CameraFollower3D") var camera_follower_path
 
 @export_category("Distance Fade")
+## Fade transparency at this distance from the camera
 @export var distance_fade_far: float = 1000
+## Fade transparency with increased distance from the camera, smoothed by this amount.
 @export_range(0.0, 1.0) var distance_fade_softness: float = 0.2
+## Fade-out water shader features such as wave height and foam at this distance from the camera.
 @export var wave_fade_far: float = 500
+## Fade-out water shader features such as wave height and foam with increased distance from the camera, smoothed by this amount.
 @export_range(0.0, 1.0) var wave_fade_softness: float = 0.2
 
 @export_category("Waves")
+## Waves that raise and lower the water height relative to the mesh surface
 @export var height_waves: Array[GerstnerWave] = []
+## Waves that make foam appear and disappear on the water's surface
 @export var foam_waves: Array[GerstnerWave] = []
+## Waves that introduce waviness in the water's texture
 @export var uv_waves: Array[GerstnerWave] = []
 
 @export_category("Editor Tools")
-@export var editor_update: bool = false
+## Update all parameters controlled by this Designer node.
+@export var editor_update_all_params: bool = false
 
 func _ready():
 	if not Engine.is_editor_hint() and update_on_ready:
 		update()
 
 func _process(delta):
-	if editor_update:
-		editor_update = false
+	if editor_update_all_params:
+		editor_update_all_params = false
 		update()
 	if update_when_camera_far_changes and not Engine.is_editor_hint():
 		var camera = get_viewport().get_camera_3d()
@@ -109,6 +121,7 @@ func _update_wave_group_params(prefix: String, waves: Array):
 	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
 	material.set_shader_parameter(prefix + "Phases", PackedFloat32Array(phases))
 
+## Update all level of detail settings to the water shader, the active camera, and optionally to an ocean and a camera follower.
 func update():
 	_update_lod()
 	_update_distance_fade()
