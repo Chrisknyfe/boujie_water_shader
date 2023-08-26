@@ -19,7 +19,6 @@ ambient_light_color = Color(0.505882, 0.505882, 0.505882, 1)
 ambient_light_sky_contribution = 0.49
 reflected_light_source = 2
 tonemap_mode = 2
-fog_enabled = true
 fog_sun_scatter = 0.49
 fog_density = 0.0005
 fog_aerial_perspective = 1.0

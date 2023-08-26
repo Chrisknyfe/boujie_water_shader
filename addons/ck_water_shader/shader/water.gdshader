@@ -9,19 +9,19 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 
 #define WORLD_TRIPLANAR
 
-//#define ALBEDO_WAVE
-//#define VERTEX_WAVE
-//#define FOAM
-//#define REFRACTION
-//#define SHORE_FOAM
-//#define FRESNEL
+#define ALBEDO_WAVE
+#define VERTEX_WAVE
+#define FOAM
+#define REFRACTION
+#define SHORE_FOAM
+#define FRESNEL
 #define DEPTH_FADE
 
 // Fade out features with distance from camera
-//#define DISTANCE_FADE // fade alpha
-//#define FOAM_FADE
-//#define SHORE_FADE
-//#define VERTEX_WAVE_FADE
+#define DISTANCE_FADE // fade alpha
+#define FOAM_FADE
+#define SHORE_FADE
+#define VERTEX_WAVE_FADE
 
 uniform bool freeze; // Toki wo tomare.
 
