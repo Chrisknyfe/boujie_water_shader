@@ -341,7 +341,7 @@ void fragment() {
 	if (ALPHA <= 0.0) {
 		discard;
 	}
-	
+	METALLIC = metallic;
 	SPECULAR = specular;
 	ROUGHNESS = roughness;
 	
