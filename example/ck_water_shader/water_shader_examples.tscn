@@ -53,7 +53,7 @@ shader_parameter/texture_albedo = ExtResource("15_l0ywx")
 
 [sub_resource type="Resource" id="Resource_h6ky8"]
 script = ExtResource("6_4v5kk")
-steepness = 4.0
+steepness = 6.0
 amplitude = 2.0
 direction_degrees = 15.0
 frequency = 0.02
@@ -207,8 +207,8 @@ distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 1440.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8")])
-foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
+height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("8_mnxd5"), ExtResource("6_pgu4w")])
+foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("5_2rnyq"), ExtResource("6_iku5k")])
 uv_waves = Array[ExtResource("6_4v5kk")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="Other_Designers" type="Node" parent="."]
