@@ -45,10 +45,10 @@
      id="namedview4583"
      showgrid="true"
      inkscape:zoom="45.254834"
-     inkscape:cx="2.8309637"
-     inkscape:cy="8.4077828"
-     inkscape:window-x="2327"
-     inkscape:window-y="271"
+     inkscape:cx="3.2383225"
+     inkscape:cy="5.6603273"
+     inkscape:window-x="2076"
+     inkscape:window-y="241"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg4581">
     <inkscape:grid
@@ -63,8 +63,10 @@
      sodipodi:nodetypes="ccccc" />
   <path
      style="fill:#ececec;fill-opacity:1;stroke:none;stroke-width:1.00000012px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="M 7.9999987,8 C 10.499999,7.5000001 10.499999,7.5000001 11,5 11.499999,7.5000001 11.499999,7.5000001 14,8 11.499999,8.4999999 11.499999,8.4999999 11,11.000001 10.499999,8.4999999 10.499999,8.4999999 7.9999987,8 Z"
+     d="m 7.2266007,7.3370874 c 2.5000003,-0.4999999 2.5000003,-0.4999999 3.0000013,-3 0.499999,2.5000001 0.499999,2.5000001 3,3 -2.500001,0.4999999 -2.500001,0.4999999 -3,3.0000006 C 9.726601,7.8370873 9.726601,7.8370873 7.2266007,7.3370874 Z"
      id="path816"
      inkscape:connector-curvature="0"
-     sodipodi:nodetypes="ccccc" />
+     sodipodi:nodetypes="ccccc"
+     inkscape:export-xdpi="1536"
+     inkscape:export-ydpi="1536" />
 </svg>
