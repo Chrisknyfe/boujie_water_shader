@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=54 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/Ocean.gd" id="2_xkh8b"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/boujie_water_shader/shader/ocean_albedo_1.png" id="29_rkpc4"]
 [ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/boujie_water_shader/shader/foam_1.png" id="30_my07k"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="31_sc6wt"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/UnderwaterFog.gd" id="34_y2s1o"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
 subdivide_width = 32
@@ -236,10 +237,10 @@ albedo_texture = ExtResource("29_g6865")
 material = SubResource("StandardMaterial3D_kaxio")
 
 [sub_resource type="FogMaterial" id="FogMaterial_irst1"]
-density = 0.008
+density = 0.3558
 albedo = Color(0.301961, 0.603922, 1, 1)
-height_falloff = 0.0354403
-edge_fade = 1e-05
+height_falloff = 1e+06
+edge_fade = 0.926824
 
 [node name="WaterShaderExamples" type="Node3D"]
 script = ExtResource("1_ksg8d")
@@ -372,8 +373,10 @@ mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
 
 [node name="UnderwaterFog" type="FogVolume" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -99.5831, 0)
+visible = false
 shape = 4
 material = SubResource("FogMaterial_irst1")
+script = ExtResource("34_y2s1o")
+visible_height_offset = 5.0
 
 [connection signal="update_lod" from="DeepOceanDesigner" to="." method="_on_deep_ocean_designer_update_lod"]
