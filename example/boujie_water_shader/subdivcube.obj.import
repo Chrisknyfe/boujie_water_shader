@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b8sapw7ttyhru"
+path="res://.godot/imported/subdivcube.obj-ec0a8294dde80b8a76cf6121fc00838f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/subdivcube.obj-ec0a8294dde80b8a76cf6121fc00838f.mesh"]
+
+source_file="res://example/boujie_water_shader/subdivcube.obj"
+dest_files=["res://.godot/imported/subdivcube.obj-ec0a8294dde80b8a76cf6121fc00838f.mesh", "res://.godot/imported/subdivcube.obj-ec0a8294dde80b8a76cf6121fc00838f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

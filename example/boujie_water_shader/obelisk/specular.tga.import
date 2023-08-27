@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv8hg77du5mfk"
-path.s3tc="res://.godot/imported/MetalPlates_Diffuse.tga-d695d7ab60de148aea90ca3472b67d24.s3tc.ctex"
+uid="uid://bwo57ja5h8p0r"
+path.s3tc="res://.godot/imported/specular.tga-36abd6fc0f4883740b53bed991563e67.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://example/ck_water_shader/pedestal/MetalPlates_Diffuse.tga"
-dest_files=["res://.godot/imported/MetalPlates_Diffuse.tga-d695d7ab60de148aea90ca3472b67d24.s3tc.ctex"]
+source_file="res://example/boujie_water_shader/obelisk/specular.tga"
+dest_files=["res://.godot/imported/specular.tga-36abd6fc0f4883740b53bed991563e67.s3tc.ctex"]
 
 [params]
 

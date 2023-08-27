@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dm15sg1uklilb"]
 
-[ext_resource type="Texture2D" uid="uid://dv8hg77du5mfk" path="res://example/ck_water_shader/pedestal/MetalPlates_Diffuse.tga" id="1_mulpi"]
-[ext_resource type="Texture2D" uid="uid://b4eyspeen6e04" path="res://example/ck_water_shader/pedestal/MetalPlates_Normal_03.tga" id="2_njrcx"]
+[ext_resource type="Texture2D" uid="uid://dv8hg77du5mfk" path="res://example/boujie_water_shader/pedestal/MetalPlates_Diffuse.tga" id="1_mulpi"]
+[ext_resource type="Texture2D" uid="uid://b4eyspeen6e04" path="res://example/boujie_water_shader/pedestal/MetalPlates_Normal_03.tga" id="2_njrcx"]
 
 [resource]
 albedo_texture = ExtResource("1_mulpi")

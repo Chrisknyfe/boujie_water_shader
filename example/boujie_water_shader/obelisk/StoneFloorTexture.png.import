@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3kpp1l04oqfu"
-path.s3tc="res://.godot/imported/StoneFloorTexture.png-682897e76232c311497c89bb4c53115e.s3tc.ctex"
+path.s3tc="res://.godot/imported/StoneFloorTexture.png-0b66480fabae869923318464acc26ce4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://example/ck_water_shader/obelisk/StoneFloorTexture.png"
-dest_files=["res://.godot/imported/StoneFloorTexture.png-682897e76232c311497c89bb4c53115e.s3tc.ctex"]
+source_file="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png"
+dest_files=["res://.godot/imported/StoneFloorTexture.png-0b66480fabae869923318464acc26ce4.s3tc.ctex"]
 
 [params]
 

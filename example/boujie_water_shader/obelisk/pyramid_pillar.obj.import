@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cj0csa11nva20"
+path="res://.godot/imported/pyramid_pillar.obj-5fea3b09eae43d640ddc41beb371c9de.mesh"
+
+[deps]
+
+files=["res://.godot/imported/pyramid_pillar.obj-5fea3b09eae43d640ddc41beb371c9de.mesh"]
+
+source_file="res://example/boujie_water_shader/obelisk/pyramid_pillar.obj"
+dest_files=["res://.godot/imported/pyramid_pillar.obj-5fea3b09eae43d640ddc41beb371c9de.mesh", "res://.godot/imported/pyramid_pillar.obj-5fea3b09eae43d640ddc41beb371c9de.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

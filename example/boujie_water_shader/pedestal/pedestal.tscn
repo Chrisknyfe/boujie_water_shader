@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cuagegibp4wcj"]
 
-[ext_resource type="Material" uid="uid://dm15sg1uklilb" path="res://example/ck_water_shader/pedestal/pedestal_material.tres" id="1_bx14s"]
-[ext_resource type="ArrayMesh" uid="uid://cj0csa11nva20" path="res://example/ck_water_shader/obelisk/pyramid_pillar.obj" id="2_r0max"]
-[ext_resource type="Material" uid="uid://b5yp2r2ccy8cj" path="res://example/ck_water_shader/obelisk/obelisk_material.tres" id="3_w814x"]
+[ext_resource type="Material" uid="uid://dm15sg1uklilb" path="res://example/boujie_water_shader/pedestal/pedestal_material.tres" id="1_bx14s"]
+[ext_resource type="ArrayMesh" uid="uid://cj0csa11nva20" path="res://example/boujie_water_shader/obelisk/pyramid_pillar.obj" id="2_r0max"]
+[ext_resource type="Material" uid="uid://b5yp2r2ccy8cj" path="res://example/boujie_water_shader/obelisk/obelisk_material.tres" id="3_w814x"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_x43j5"]
 top_radius = 2.0
