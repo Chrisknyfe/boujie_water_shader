@@ -143,25 +143,23 @@ float snell(float amount, vec3 normal, vec3 view)
  * Direction, Frequency, Speed: self explanatory
  */
 vec3 P_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed, float PhaseDegrees) {
-	float twopi = 6.283185307179586;
-	vec2 Direction = vec2( sin(DirectionDegrees * twopi / 360.0), cos(DirectionDegrees * twopi / 360.0 ));
-	float p = PhaseDegrees * twopi / 360.0;
+	vec2 Direction = vec2( sin(DirectionDegrees * TAU / 360.0), cos(DirectionDegrees * TAU / 360.0 ));
+	float p = PhaseDegrees * TAU / 360.0;
 	vec3 result;
-	result.x = ((Steepness * Amplitude) * Direction.x * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
-	result.y = Steepness * sin(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p)));
-	result.z = ((Steepness * Amplitude) * Direction.y * cos(twopi * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
+	result.x = ((Steepness * Amplitude) * Direction.x * cos(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
+	result.y = Steepness * sin(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p)));
+	result.z = ((Steepness * Amplitude) * Direction.y * cos(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
 	
 	return result;
 }
 
 vec3 N_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed, float PhaseDegrees) {
-	float twopi = 6.283185307179586;
-	vec2 Direction = vec2( sin(DirectionDegrees * twopi / 360.0), cos(DirectionDegrees * twopi / 360.0 ));
-	float p = PhaseDegrees * twopi / 360.0;
+	vec2 Direction = vec2( sin(DirectionDegrees * TAU / 360.0), cos(DirectionDegrees * TAU / 360.0 ));
+	float p = PhaseDegrees * TAU / 360.0;
 	vec3 result;
-	result.x = (-1.0) * (Direction.x * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p))));
-	result.y = 1.0 - (Steepness * Frequency * Amplitude * sin((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p)));
-	result.z = (-1.0) * (Direction.y * Frequency * Amplitude * (cos((Frequency * twopi * dot(Direction, vec2(x, z))) + Speed * (t+p))));
+	result.x = (-1.0) * (Direction.x * Frequency * Amplitude * (cos((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p))));
+	result.y = 1.0 - (Steepness * Frequency * Amplitude * sin((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p)));
+	result.z = (-1.0) * (Direction.y * Frequency * Amplitude * (cos((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p))));
 	
 	return result;
 }
