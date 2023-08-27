@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/ck_water_shader/icons/Ocean.svg")
+@icon("res://addons/boujie_water_shader/icons/Ocean.svg")
 extends Node3D
 class_name Ocean
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cke3ucqv1kwb1"
-path="res://.godot/imported/WaterMaterialDesigner.svg-38a53c6f71c1de9785b6e84c2c4e61d5.ctex"
+uid="uid://ckw8807qxv3su"
+path="res://.godot/imported/Ocean.svg-195a70f8e8b5f0204dc7cc10b7bfda8c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/ck_water_shader/icons/WaterMaterialDesigner.svg"
-dest_files=["res://.godot/imported/WaterMaterialDesigner.svg-38a53c6f71c1de9785b6e84c2c4e61d5.ctex"]
+source_file="res://addons/boujie_water_shader/icons/Ocean.svg"
+dest_files=["res://.godot/imported/Ocean.svg-195a70f8e8b5f0204dc7cc10b7bfda8c.ctex"]
 
 [params]
 

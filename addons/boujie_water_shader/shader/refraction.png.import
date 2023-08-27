@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk6tootchx5gx"
-path.s3tc="res://.godot/imported/foam_1.png-982a174128013b196299591e57d01b47.s3tc.ctex"
+uid="uid://cpav8p4gip0uk"
+path.s3tc="res://.godot/imported/refraction.png-2113306a3ff8e3773ffd659afc1014bb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/ck_water_shader/shader/foam_1.png"
-dest_files=["res://.godot/imported/foam_1.png-982a174128013b196299591e57d01b47.s3tc.ctex"]
+source_file="res://addons/boujie_water_shader/shader/refraction.png"
+dest_files=["res://.godot/imported/refraction.png-2113306a3ff8e3773ffd659afc1014bb.s3tc.ctex"]
 
 [params]
 

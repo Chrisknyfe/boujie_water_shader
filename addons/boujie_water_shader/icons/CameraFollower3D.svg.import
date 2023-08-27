@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4dy6ylgatoxp"
-path="res://.godot/imported/CameraFollower3D.svg-ee1a54e5dad140b50a23aeaa54eaeab8.ctex"
+path="res://.godot/imported/CameraFollower3D.svg-22c4fa197f2efed46764960d1e5726df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/ck_water_shader/icons/CameraFollower3D.svg"
-dest_files=["res://.godot/imported/CameraFollower3D.svg-ee1a54e5dad140b50a23aeaa54eaeab8.ctex"]
+source_file="res://addons/boujie_water_shader/icons/CameraFollower3D.svg"
+dest_files=["res://.godot/imported/CameraFollower3D.svg-22c4fa197f2efed46764960d1e5726df.ctex"]
 
 [params]
 

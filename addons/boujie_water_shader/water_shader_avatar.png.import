@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwnm6mfvf6kpb"
-path="res://.godot/imported/Wave.svg-911146e79b71b309f98b2a38f0558723.ctex"
+uid="uid://dya0lilhdw3n2"
+path="res://.godot/imported/water_shader_avatar.png-02c036c881e2023ec00c88c26bbfb009.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/ck_water_shader/icons/Wave.svg"
-dest_files=["res://.godot/imported/Wave.svg-911146e79b71b309f98b2a38f0558723.ctex"]
+source_file="res://addons/boujie_water_shader/water_shader_avatar.png"
+dest_files=["res://.godot/imported/water_shader_avatar.png-02c036c881e2023ec00c88c26bbfb009.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
