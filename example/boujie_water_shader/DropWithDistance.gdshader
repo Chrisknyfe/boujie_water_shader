@@ -1,4 +1,5 @@
 // NOTE: Shader automatically converted from Godot Engine 4.1.1.stable's StandardMaterial3D.
+// Drops distant fragments to keep the object in the opaque part of the render pipeline.
 
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx, world_vertex_coords;

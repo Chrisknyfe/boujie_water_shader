@@ -1,9 +1,9 @@
 [gd_scene load_steps=54 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/Ocean.gd" id="2_xkh8b"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="2_qi55d"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/shader/DeepOceanMaterial.tres" id="3_mks6a"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/CameraFollower3D.gd" id="4_d3eah"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="4_p1xfg"]
 [ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="4_wodta"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="5_y6lkc"]
@@ -13,11 +13,11 @@
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/boujie_water_shader/foam_waves/foam3.tres" id="7_387wd"]
 [ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/boujie_water_shader/height_waves/height3.tres" id="7_ghjuj"]
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="7_sjf3q"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/WaterMaterialDesigner.gd" id="8_60kb6"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
 [ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="8_mnxd5"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/GerstnerWave.gd" id="9_2ldq3"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="8_msqhr"]
 [ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/boujie_water_shader/height_waves/height5.tres" id="9_7wo7t"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/GerstnerWave.gd" id="9_408u1"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/boujie_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/boujie_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
@@ -57,7 +57,7 @@ shader_parameter/drop_far = 3000.0
 shader_parameter/texture_albedo = ExtResource("15_l0ywx")
 
 [sub_resource type="Resource" id="Resource_h6ky8"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 10.0
 amplitude = 2.0
 direction_degrees = 15.0
@@ -66,7 +66,7 @@ speed = 1.0
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_gq4b8"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.05
 amplitude = 0.004
 direction_degrees = 70.702
@@ -75,7 +75,7 @@ speed = 1.0
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_ewn38"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 2.0
 amplitude = 1.5
 direction_degrees = 15.0
@@ -84,7 +84,7 @@ speed = 1.0
 phase_degrees = -40.0
 
 [sub_resource type="Resource" id="Resource_v8fws"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.45
 amplitude = 0.7
 direction_degrees = 281.195
@@ -93,7 +93,7 @@ speed = 3.0
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_pwrcy"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 1.3
 amplitude = 2.0
 direction_degrees = 88.25
@@ -102,7 +102,7 @@ speed = 0.05
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_ei3rv"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 1.5
 amplitude = 1.0
 direction_degrees = 151.5
@@ -111,7 +111,7 @@ speed = 0.05
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_4vniv"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.8
 amplitude = 0.5
 direction_degrees = 0.0
@@ -120,7 +120,7 @@ speed = 1.0
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_3t55w"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.18
 amplitude = 0.7
 direction_degrees = 315.0
@@ -129,7 +129,7 @@ speed = 3.0
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_ll6tv"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.16
 amplitude = 0.5
 direction_degrees = 90.0
@@ -138,7 +138,7 @@ speed = 1.5
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_3bkrw"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.4
 amplitude = 1.0
 direction_degrees = 150.0
@@ -147,7 +147,7 @@ speed = 1.6
 phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_qrrly"]
-script = ExtResource("9_2ldq3")
+script = ExtResource("9_408u1")
 steepness = 0.2
 amplitude = 0.4
 direction_degrees = 225.0
@@ -155,21 +155,34 @@ frequency = 0.5
 speed = 1.0
 phase_degrees = 0.0
 
+[sub_resource type="FogMaterial" id="FogMaterial_irst1"]
+density = 0.3558
+albedo = Color(0.301961, 0.603922, 1, 1)
+height_falloff = 1e+06
+edge_fade = 0.926824
+
 [sub_resource type="SphereMesh" id="SphereMesh_68awl"]
-radius = 16.0
-height = 32.0
+radius = 80.0
+height = 160.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fs7el"]
 render_priority = 0
 shader = ExtResource("28_a3uuo")
-shader_parameter/freeze = false
+shader_parameter/freeze_time = false
 shader_parameter/albedo = Color(0, 0.431373, 1, 0.321569)
 shader_parameter/albedo_fresnel = null
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.1
+shader_parameter/metallic = 0.0
+shader_parameter/vertex_displace_from_mesh_normal = true
+shader_parameter/texture_albedo = ExtResource("29_rkpc4")
 shader_parameter/refraction = 0.125001
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
 shader_parameter/refraction_opacity = 0.7
+shader_parameter/texture_refraction = ExtResource("31_sc6wt")
 shader_parameter/shore_start_blend = 2.0
 shader_parameter/shore_end_blend = 6.0
+shader_parameter/texture_foam = ExtResource("30_my07k")
 shader_parameter/distance_fade_min = 2708.0
 shader_parameter/distance_fade_max = 4000.0
 shader_parameter/near_fade_min = 1.5
@@ -183,18 +196,9 @@ shader_parameter/vertex_wave_fade_max = 1408.0
 shader_parameter/depth_fog_fade_min = null
 shader_parameter/depth_fog_fade_max = null
 shader_parameter/refraction_scaling_distance_min = 200.0
-shader_parameter/specular = 0.5
-shader_parameter/roughness = 0.1
-shader_parameter/metallic = 0.0
 shader_parameter/uv_blend_sharpness = 2.0
 shader_parameter/uv_tri_scale = Vector3(36, 36, 36)
 shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
-shader_parameter/vertex_displace_from_mesh_normal = true
-shader_parameter/near = 0.1
-shader_parameter/far = 400.0
-shader_parameter/texture_albedo = ExtResource("29_rkpc4")
-shader_parameter/texture_foam = ExtResource("30_my07k")
-shader_parameter/texture_refraction = ExtResource("31_sc6wt")
 shader_parameter/color_deep = Color(0, 0, 0, 0)
 shader_parameter/color_shallow = Color(0, 0, 0, 0)
 shader_parameter/beers_law = 2.0
@@ -236,24 +240,18 @@ albedo_texture = ExtResource("29_g6865")
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
 
-[sub_resource type="FogMaterial" id="FogMaterial_irst1"]
-density = 0.3558
-albedo = Color(0.301961, 0.603922, 1, 1)
-height_falloff = 1e+06
-edge_fade = 0.926824
-
 [node name="WaterShaderExamples" type="Node3D"]
 script = ExtResource("1_ksg8d")
 
 [node name="Ocean" type="Node3D" parent="."]
-script = ExtResource("2_xkh8b")
+script = ExtResource("2_qi55d")
 material = ExtResource("3_mks6a")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
 
 [node name="CameraFollower3D" type="Node3D" parent="Ocean"]
-script = ExtResource("4_d3eah")
+script = ExtResource("4_p1xfg")
 target_path = NodePath("..")
 snap = true
 snap_unit = 32.0
@@ -267,7 +265,7 @@ script = ExtResource("23_143d2")
 drop_far = 3000.0
 
 [node name="DeepOceanDesigner" type="Node" parent="."]
-script = ExtResource("8_60kb6")
+script = ExtResource("8_msqhr")
 material = ExtResource("3_mks6a")
 update_on_ready = true
 update_when_camera_far_changes = true
@@ -277,62 +275,80 @@ distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 1440.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("9_2ldq3")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("8_mnxd5"), ExtResource("6_pgu4w")])
-foam_waves = Array[ExtResource("9_2ldq3")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("5_2rnyq"), ExtResource("6_iku5k")])
-uv_waves = Array[ExtResource("9_2ldq3")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("8_mnxd5"), ExtResource("6_pgu4w")])
+foam_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("5_2rnyq"), ExtResource("6_iku5k")])
+uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="Other_Designers" type="Node" parent="."]
 
 [node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_60kb6")
+script = ExtResource("8_msqhr")
 material = ExtResource("16_gv35n")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("9_2ldq3")]([ExtResource("5_y6lkc"), ExtResource("6_pgu4w"), ExtResource("7_ghjuj"), ExtResource("8_mnxd5"), ExtResource("9_7wo7t")])
-foam_waves = Array[ExtResource("9_2ldq3")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
-uv_waves = Array[ExtResource("9_2ldq3")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+height_waves = Array[ExtResource("9_408u1")]([ExtResource("5_y6lkc"), ExtResource("6_pgu4w"), ExtResource("7_ghjuj"), ExtResource("8_mnxd5"), ExtResource("9_7wo7t")])
+foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
+uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="IceDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_60kb6")
+script = ExtResource("8_msqhr")
 material = ExtResource("22_6myw1")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("9_2ldq3")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
-foam_waves = Array[ExtResource("9_2ldq3")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
-uv_waves = Array[ExtResource("9_2ldq3")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
+uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="ObsidianDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_60kb6")
+script = ExtResource("8_msqhr")
 material = ExtResource("23_mkbw0")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
 wave_fade_softness = 0.641
-height_waves = Array[ExtResource("9_2ldq3")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
-uv_waves = Array[ExtResource("9_2ldq3")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
+height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)
 script = ExtResource("16_t5wvu")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("14_o2bkd")
+[node name="Environment_Stuff" type="Node" parent="."]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment_Stuff"]
 transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
 light_energy = 1.2
 
-[node name="Material_Testers" type="Node3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment_Stuff"]
+environment = ExtResource("14_o2bkd")
 
-[node name="Obelisk2" parent="Material_Testers" instance=ExtResource("9_qosoy")]
+[node name="UnderwaterFog" type="FogVolume" parent="Environment_Stuff"]
+visible = false
+shape = 4
+material = SubResource("FogMaterial_irst1")
+script = ExtResource("34_y2s1o")
+visible_height_offset = 5.0
+
+[node name="Thumbnail_Scene" type="Node3D" parent="."]
+
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="Thumbnail_Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01298, 148.062, -166.572)
+mesh = SubResource("SphereMesh_68awl")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_mks6a")
+
+[node name="Obelisk2" parent="Thumbnail_Scene" instance=ExtResource("9_qosoy")]
 transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, -200)
+
+[node name="Material_Testers" type="Node3D" parent="."]
 
 [node name="Pedestal1" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
+visible = false
 
 [node name="DeepOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal1"]
 transform = Transform3D(0.0661159, 0.106083, 0, -0.106083, 0.0661159, 0, 0, 0, 0.125, 0, 3.18241, 0)
@@ -342,6 +358,7 @@ surface_material_override/0 = ExtResource("3_mks6a")
 
 [node name="Pedestal2" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
+visible = false
 
 [node name="OutsetOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal2"]
 transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 3.18241, 0)
@@ -351,6 +368,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_fs7el")
 
 [node name="Pedestal3" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)
+visible = false
 
 [node name="IceCube" type="MeshInstance3D" parent="Material_Testers/Pedestal3"]
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
@@ -360,6 +378,7 @@ surface_material_override/0 = ExtResource("22_6myw1")
 
 [node name="Pedestal4" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
+visible = false
 
 [node name="ObsidianCube" type="MeshInstance3D" parent="Material_Testers/Pedestal4"]
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
@@ -369,14 +388,8 @@ surface_material_override/0 = ExtResource("23_mkbw0")
 
 [node name="UnitCube" type="MeshInstance3D" parent="Material_Testers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
+visible = false
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
-
-[node name="UnderwaterFog" type="FogVolume" parent="."]
-visible = false
-shape = 4
-material = SubResource("FogMaterial_irst1")
-script = ExtResource("34_y2s1o")
-visible_height_offset = 5.0
 
 [connection signal="update_lod" from="DeepOceanDesigner" to="." method="_on_deep_ocean_designer_update_lod"]

@@ -1,7 +1,4 @@
-// Shader to simulate an open ocean based on Gerstner waves
-// Reference: https://developer.nvidia.com/gpugems/GPUGems/gpugems_ch01.html
-
-// Water / Ocean Shader
+// Water shader to simulate an open ocean based on Gerstner waves
 
 shader_type spatial;
 
@@ -19,34 +16,45 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define DEPTH_FOG
 
 // Fade out features with distance from camera
-#define DISTANCE_FADE // fade alpha
+#define DISTANCE_FADE // fade ALPHA, then drop at 0
 #define FOAM_FADE
 #define SHORE_FADE
 #define VERTEX_WAVE_FADE
 #define DEPTH_FOG_FADE // control depth fade because the depth buffer is imprecise at far distances
 #define REFRACTION_SCALING // refraction refracts distant objects way too much; scale it down with distance.
 
-uniform bool freeze; // Toki wo tomare.
-
-uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
-uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
-
+uniform bool freeze_time = false; // Toki wo tomare.
 uniform vec4 albedo: source_color;
 uniform vec4 albedo_fresnel: source_color;
 uniform sampler2D texture_albedo: source_color;
+uniform float specular : hint_range(0.0, 1.0) = 0.5;
+uniform float roughness : hint_range(0.0, 1.0) = 0.2;
+uniform float metallic : hint_range(0.0, 1.0) = 0.0;
 
-uniform sampler2D texture_foam: source_color;
+/* When ON - vertex waves rise along the mesh's normal
+ * When OFF - vertex waves rise in the global up direction (+y)
+ */
+uniform bool vertex_displace_from_mesh_normal;
 
+group_uniforms Refraction;
 uniform sampler2D texture_refraction;
 uniform float refraction : hint_range(-2,2);
 uniform vec4 refraction_texture_channel;
 uniform float refraction_opacity : hint_range(0.0, 1.0);
+group_uniforms;
 
+group_uniforms Foam;
+uniform sampler2D texture_foam: source_color;
 uniform float shore_start_blend;
 uniform float shore_end_blend;
+group_uniforms;
 
+group_uniforms DistanceFade;
 uniform float distance_fade_min;
 uniform float distance_fade_max;
+group_uniforms;
+
+group_uniforms FeatureFade;
 uniform float near_fade_min;
 uniform float near_fade_max;
 uniform float foam_fade_min;
@@ -58,20 +66,13 @@ uniform float vertex_wave_fade_max;
 uniform float depth_fog_fade_min;
 uniform float depth_fog_fade_max; 
 uniform float refraction_scaling_distance_min; // no max - refraction falls off proportionally starting from this distance
+group_uniforms;
 
-uniform float specular : hint_range(0.0, 1.0);
-uniform float roughness : hint_range(0.0, 1.0);
-uniform float metallic : hint_range(0.0, 1.0);
-
+group_uniforms WorldTriplanarUvs;
 uniform float uv_blend_sharpness;
 uniform vec3 uv_tri_scale;
 uniform vec3 uv_tri_offset;
-
-uniform bool vertex_displace_from_mesh_normal;
-
-// TODO: inject these from the camera near/far
-uniform float near = 0.1;
-uniform float far = 400.0;
+group_uniforms;
 
 group_uniforms DepthFog;
 uniform vec4 color_deep : source_color;
@@ -115,6 +116,10 @@ uniform float UVWaveFrequencies[8];
 uniform float UVWaveSpeeds[8];
 uniform float UVWavePhases[8];
 group_uniforms;
+
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
 
 varying vec3	uv_tri;
 varying vec2	refraction_uv;
@@ -187,7 +192,7 @@ vec3 rotate_to_normal(vec3 point, vec3 normal)
 void vertex() {
 	float time = TIME; //TIME;
 	
-	time = time * float(!freeze);
+	time = time * float(!freeze_time);
 	
 	
 	// UV will be assigned based on xz world coords
@@ -438,7 +443,7 @@ void fragment() {
 
 	/* Sea Foam
 	 * override refraction and add to albedo
-	 * scale foam opacity by height of a few of the vertex waves. 
+	 * scale foam opacity based on a given set of waves. 
 	 */
 
 #if defined(FOAM) || defined(SHORE_FOAM)
