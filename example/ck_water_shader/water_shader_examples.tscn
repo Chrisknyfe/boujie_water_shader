@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://addons/ck_water_shader/Ocean.gd" id="1_5anew"]
 [ext_resource type="Script" path="res://example/ck_water_shader/water_shader_examples.gd" id="1_ksg8d"]
@@ -166,6 +166,12 @@ albedo_texture = ExtResource("29_g6865")
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
 
+[sub_resource type="FogMaterial" id="FogMaterial_irst1"]
+density = 0.01
+albedo = Color(0.360784, 0.647059, 0.929412, 1)
+height_falloff = 30185.5
+edge_fade = 1e-05
+
 [node name="WaterShaderExamples" type="Node3D"]
 script = ExtResource("1_ksg8d")
 
@@ -180,10 +186,10 @@ far_edge = 4000.0
 script = ExtResource("3_ql4g3")
 target_path = NodePath("..")
 snap = true
-snap_unit = 32.0
+snap_unit = 8.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
-transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, -7.62939e-06, -80, 0)
+transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, -7.62939e-06, -443.351, 0)
 mesh = SubResource("PlaneMesh_prluc")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_6vh6m")
@@ -199,7 +205,7 @@ ocean_path = NodePath("../Ocean")
 camera_follower_path = NodePath("../Ocean/CameraFollower3D")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 1440.0
+wave_fade_far = 200.0
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
@@ -295,5 +301,11 @@ surface_material_override/0 = ExtResource("19_rq23g")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
+
+[node name="UnderwaterFog" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.133, 0)
+visible = false
+shape = 4
+material = SubResource("FogMaterial_irst1")
 
 [connection signal="update_lod" from="DeepOceanDesigner" to="." method="_on_deep_ocean_designer_update_lod"]

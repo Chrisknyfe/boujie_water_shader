@@ -22,4 +22,6 @@ tonemap_mode = 2
 fog_sun_scatter = 0.06
 fog_density = 0.0005
 fog_aerial_perspective = 1.0
+volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
+volumetric_fog_length = 500.39
