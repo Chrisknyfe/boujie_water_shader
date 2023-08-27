@@ -167,9 +167,9 @@ albedo_texture = ExtResource("29_g6865")
 material = SubResource("StandardMaterial3D_kaxio")
 
 [sub_resource type="FogMaterial" id="FogMaterial_irst1"]
-density = 0.01
-albedo = Color(0.360784, 0.647059, 0.929412, 1)
-height_falloff = 30185.5
+density = 0.008
+albedo = Color(0.301961, 0.603922, 1, 1)
+height_falloff = 0.0354403
 edge_fade = 1e-05
 
 [node name="WaterShaderExamples" type="Node3D"]
@@ -303,8 +303,7 @@ mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("../../Ocean")
 
 [node name="UnderwaterFog" type="FogVolume" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.133, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -99.5831, 0)
 shape = 4
 material = SubResource("FogMaterial_irst1")
 

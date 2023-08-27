@@ -38,7 +38,7 @@ uniform sampler2D texture_albedo: source_color;
 uniform sampler2D texture_foam: source_color;
 
 uniform sampler2D texture_refraction;
-uniform float refraction : hint_range(-16,16);
+uniform float refraction : hint_range(-2,2);
 uniform vec4 refraction_texture_channel;
 uniform float refraction_opacity : hint_range(0.0, 1.0);
 
@@ -131,9 +131,6 @@ float fresnel(float amount, vec3 normal, vec3 view)
 
 float snell(float amount, vec3 normal, vec3 view)
 {
-	if (dot(normalize(normal), snell_direction) > 0.0) {
-		return 1.0;
-	}
 	return step(amount, clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 ));
 }
 
@@ -386,6 +383,9 @@ void fragment() {
 #ifdef SNELLS_WINDOW
 	vec3 snell_normal = vec3(NORMAL.x - ref_uv_offset.x, NORMAL.y - ref_uv_offset.y, NORMAL.z);
 	float snell_factor = snell(snell_tightness, snell_normal, VIEW);
+	if (FRONT_FACING) {
+		snell_factor = 1.0;
+	}
 	final_refraction_opacity *= snell_factor;
 	final_refraction_opacity = clamp(final_refraction_opacity, 0.0, 1.0);
 	surface_color = mix(albedo_snell, surface_color, snell_factor);
