@@ -402,8 +402,7 @@ void fragment() {
 #ifdef DEPTH_FOG_FADE
 	depth_blend_power += smoothstep(depth_fog_fade_min, depth_fog_fade_max, distance_from_camera);
 	depth_blend_power = clamp(depth_blend_power, 0.0, 1.0);
-#endif
-	
+#endif	
 	screen_lod += depth_blend_power * 2.5;
 #endif
 
@@ -421,7 +420,9 @@ void fragment() {
 #ifdef DEPTH_FOG
 	vec3 shallow_screen_color = mix(screen_color, color_shallow.rgb, color_shallow.a);
 	vec3 deep_screen_color = mix(screen_color, color_deep.rgb, color_deep.a);
-	screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	if (FRONT_FACING) {
+		screen_color = mix(shallow_screen_color, deep_screen_color, depth_blend_power);
+	}
 #endif
 
 	// Finally write color to the screen. Screen-reading shaders use EMISSION to simulate ALPHA.
