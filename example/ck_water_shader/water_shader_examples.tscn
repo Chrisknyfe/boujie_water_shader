@@ -186,7 +186,7 @@ far_edge = 4000.0
 script = ExtResource("3_ql4g3")
 target_path = NodePath("..")
 snap = true
-snap_unit = 8.0
+snap_unit = 32.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
 transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, -7.62939e-06, -443.351, 0)
@@ -205,7 +205,7 @@ ocean_path = NodePath("../Ocean")
 camera_follower_path = NodePath("../Ocean/CameraFollower3D")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
-wave_fade_far = 200.0
+wave_fade_far = 1440.0
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8")])
 foam_waves = Array[ExtResource("6_4v5kk")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv")])
