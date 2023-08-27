@@ -10,10 +10,15 @@ config_version=5
 
 [application]
 
-config/name="Ck Water Shader"
+config/name="Boujie Water Shader"
+config/description="A very good looking water / ocean shader, with levels of detail, vertex waves, sea foam, refraction, and many other features."
 run/main_scene="res://example/boujie_water_shader/water_shader_examples.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
-config/icon="res://addons/boujie_water_shader/water_shader_avatar.png"
+config/icon="res://addons/boujie_water_shader/icon.png"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg")
 
 [input]
 
