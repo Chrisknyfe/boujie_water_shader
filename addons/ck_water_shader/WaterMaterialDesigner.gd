@@ -19,9 +19,9 @@ var _previous_far: float = 0.0
 
 @export_category("Optional Nodes to Update")
 ## Optionally specify an ocean node, this Designer will update its farplane to match the active camera's far
-@export_node_path("Ocean") var ocean_path
+@export_node_path("Ocean") var ocean_path = NodePath("")
 ## Optionally specify a CameraFollower3D, this Designer will update its snap unit to the ocean's max unit size.
-@export_node_path("CameraFollower3D") var camera_follower_path
+@export_node_path("CameraFollower3D") var camera_follower_path = NodePath("")
 
 @export_category("Distance Fade")
 ## Fade transparency at this distance from the camera
@@ -91,6 +91,8 @@ func _update_distance_fade():
 	material.set_shader_parameter("shore_fade_min", min)
 	material.set_shader_parameter("vertex_wave_fade_max", max)
 	material.set_shader_parameter("vertex_wave_fade_min", min)
+	material.set_shader_parameter("depth_fog_fade_max", max)
+	material.set_shader_parameter("depth_fog_fade_min", min)
 
 func _update_wave_params():
 	# height waves
