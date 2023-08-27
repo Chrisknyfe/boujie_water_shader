@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgi4xkpjh0yl0"
-path="res://.godot/imported/icon.png-6c12e7827e130991567cf81b049221c2.ctex"
+uid="uid://dpk3xn5dc0xj7"
+path="res://.godot/imported/icon.svg-75e20815e59a93f6bcff2d230066feaa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/boujie_water_shader/icon.png"
-dest_files=["res://.godot/imported/icon.png-6c12e7827e130991567cf81b049221c2.ctex"]
+source_file="res://addons/boujie_water_shader/icons/icon.svg"
+dest_files=["res://.godot/imported/icon.svg-75e20815e59a93f6bcff2d230066feaa.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

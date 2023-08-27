@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dya0lilhdw3n2"
-path="res://.godot/imported/water_shader_avatar.png-02c036c881e2023ec00c88c26bbfb009.ctex"
+uid="uid://blln3axhswa05"
+path="res://.godot/imported/icon.png-da37fc81b91a3bc3f6032036fe81e5f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/boujie_water_shader/water_shader_avatar.png"
-dest_files=["res://.godot/imported/water_shader_avatar.png-02c036c881e2023ec00c88c26bbfb009.ctex"]
+source_file="res://addons/boujie_water_shader/icons/icon.png"
+dest_files=["res://.godot/imported/icon.png-da37fc81b91a3bc3f6032036fe81e5f2.ctex"]
 
 [params]
 

@@ -14,7 +14,7 @@ config/name="Boujie Water Shader"
 config/description="A very good looking water / ocean shader, with levels of detail, vertex waves, sea foam, refraction, and many other features."
 run/main_scene="res://example/boujie_water_shader/water_shader_examples.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
-config/icon="res://addons/boujie_water_shader/icon.png"
+config/icon="res://addons/boujie_water_shader/icons/icon.png"
 
 [editor_plugins]
 

@@ -12,9 +12,9 @@
    width="16"
    version="1.1"
    id="svg4581"
-   sodipodi:docname="Ocean_Avatar.svg"
+   sodipodi:docname="icon.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   inkscape:export-filename="D:\water_shader\addons\boujie_water_shader\icons\Ocean_Avatar.png"
+   inkscape:export-filename="D:\water_shader\addons\boujie_water_shader\icons\icon.png"
    inkscape:export-xdpi="1536"
    inkscape:export-ydpi="1536">
   <metadata
@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,16 +40,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-width="1834"
+     inkscape:window-height="1047"
      id="namedview4583"
      showgrid="true"
-     inkscape:zoom="14.75"
-     inkscape:cx="8.9041967"
-     inkscape:cy="7.6988256"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:zoom="45.254834"
+     inkscape:cx="2.8309637"
+     inkscape:cy="8.4077828"
+     inkscape:window-x="2327"
+     inkscape:window-y="271"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg4581">
     <inkscape:grid
        type="xygrid"
@@ -59,6 +59,12 @@
      style="fill:#5198fc;fill-opacity:1;stroke:none;stroke-width:1.38013101px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      d="m 8,5 c 3.428572,5 8,8.333334 8,8.333334 0,0 -3.428572,0 -8,-3.333334 C 3.4285714,13.333334 0,13.333334 0,13.333334 0,13.333334 4.5714286,10 8,5 Z"
      id="path5134"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="ccccc" />
+  <path
+     style="fill:#ececec;fill-opacity:1;stroke:none;stroke-width:1.00000012px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 7.9999987,8 C 10.499999,7.5000001 10.499999,7.5000001 11,5 11.499999,7.5000001 11.499999,7.5000001 14,8 11.499999,8.4999999 11.499999,8.4999999 11,11.000001 10.499999,8.4999999 10.499999,8.4999999 7.9999987,8 Z"
+     id="path816"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccccc" />
 </svg>

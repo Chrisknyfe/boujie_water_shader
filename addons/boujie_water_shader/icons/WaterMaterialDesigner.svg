@@ -46,6 +46,54 @@
        x2="-4e-07"
        y2="16"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       x2="0"
+       y2="16"
+       gradientUnits="userSpaceOnUse"
+       id="a-2">
+      <stop
+         offset=".1875"
+         stop-color="#ff4545"
+         id="stop5252-3" />
+      <stop
+         stop-color="#ffe345"
+         id="stop5254-2" />
+      <stop
+         offset=".3125"
+         stop-color="#ffe345"
+         id="stop5256-4" />
+      <stop
+         stop-color="#80ff45"
+         id="stop5258-1" />
+      <stop
+         offset=".4375"
+         stop-color="#80ff45"
+         id="stop5260-7" />
+      <stop
+         stop-color="#45ffa2"
+         id="stop5262-5" />
+      <stop
+         offset=".5625"
+         stop-color="#45ffa2"
+         id="stop5264-9" />
+      <stop
+         stop-color="#45d7ff"
+         id="stop5266-3" />
+      <stop
+         offset=".6875"
+         stop-color="#45d7ff"
+         id="stop5268-3" />
+      <stop
+         stop-color="#8045ff"
+         id="stop5270-8" />
+      <stop
+         offset=".8125"
+         stop-color="#8045ff"
+         id="stop5272-5" />
+      <stop
+         stop-color="#ff4596"
+         id="stop5274-9" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -56,16 +104,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-width="1195"
+     inkscape:window-height="910"
      id="namedview5281"
-     showgrid="false"
-     inkscape:zoom="41.7193"
-     inkscape:cx="13.507224"
-     inkscape:cy="4.3628563"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     showgrid="true"
+     inkscape:zoom="14.75"
+     inkscape:cx="15.133185"
+     inkscape:cy="5.9592986"
+     inkscape:window-x="2351"
+     inkscape:window-y="313"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg5279">
     <inkscape:grid
        type="xygrid"
@@ -132,6 +180,6 @@
      sodipodi:nodetypes="ccccc"
      inkscape:connector-curvature="0"
      id="path5134-2"
-     d="M 7.9999996,7.6666655 C 11.428572,12.666666 16,16 16,16 16,16 12.571428,16 7.9999996,12.666666 3.428571,16 -4e-7,16 -4e-7,16 c 0,0 4.5714286,-3.333334 8,-8.3333345 z"
+     d="M 7.9999996,7.6666655 C 11.428572,12.666666 16,16 16,16 16,16 11,16 8,14 5,16 -4e-7,16 -4e-7,16 c 0,0 4.5714286,-3.333334 8,-8.3333345 z"
      style="fill:url(#linearGradient1435);fill-opacity:1;stroke:none;stroke-width:1.38013101px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
 </svg>
