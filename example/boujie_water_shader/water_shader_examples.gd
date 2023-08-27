@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 ## An example of various water shaders

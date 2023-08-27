@@ -7,6 +7,7 @@ class_name WaterMaterialDesigner
 ## Synchronizes level-of-detail settings between a water shader, the active camera, an ocean, and a camera follower.
 
 ## Emitted when level-of-detail settings are updated.
+## This signal may fire in the editor. Make sure any connected scripts are also tool scripts.
 signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
 
 ## Water shader material designed to work with this Designer node
