@@ -337,7 +337,8 @@ void fragment() {
 #ifdef REFRACTION_SCALING
 	r_final *= clamp(refraction_scaling_distance_min / distance_from_camera, 0.0, 1.0);
 #endif
-	vec2 ref_uv_offset = NORMAL.xy * dot(ref_tex, refraction_texture_channel) * r_final;
+	float ref_sample = dot(ref_tex, refraction_texture_channel);
+	vec2 ref_uv_offset = (NORMAL.xy * ref_sample + ref_sample - 0.5) * r_final;
 	screen_uv = SCREEN_UV - ref_uv_offset;
 #endif
 
@@ -381,7 +382,8 @@ void fragment() {
 #endif
 
 #ifdef SNELLS_WINDOW
-	vec3 snell_normal = vec3(NORMAL.x - ref_uv_offset.x, NORMAL.y - ref_uv_offset.y, NORMAL.z);
+	vec2 snell_offset = ref_uv_offset * 2.0;
+	vec3 snell_normal = vec3(NORMAL.x - snell_offset.x, NORMAL.y - snell_offset.y, NORMAL.z);
 	float snell_factor = snell(snell_tightness, snell_normal, VIEW);
 	if (FRONT_FACING) {
 		snell_factor = 1.0;
