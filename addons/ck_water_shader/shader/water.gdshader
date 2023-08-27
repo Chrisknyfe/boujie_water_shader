@@ -15,6 +15,7 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define REFRACTION
 #define SHORE_FOAM
 #define FRESNEL
+#define SNELLS_WINDOW
 #define DEPTH_FOG
 
 // Fade out features with distance from camera
@@ -79,6 +80,12 @@ uniform float beers_law = 2.0;
 uniform float depth_offset = -0.75;
 group_uniforms;
 
+group_uniforms SnellWindow;
+uniform vec4 albedo_snell: source_color;
+uniform vec3 snell_direction = vec3(0.0, 1.0, 0.0);
+uniform float snell_tightness : hint_range(0.0, 1.0) = 0.7;
+group_uniforms;
+
 group_uniforms WaveParameters;
 uniform int WaveCount : hint_range(0,8) = 0;
 uniform float WaveSteepnesses[8];
@@ -120,6 +127,14 @@ varying vec3	world_coordinates;
 float fresnel(float amount, vec3 normal, vec3 view)
 {
 	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
+}
+
+float snell(float amount, vec3 normal, vec3 view)
+{
+	if (dot(normalize(normal), snell_direction) > 0.0) {
+		return 1.0;
+	}
+	return step(amount, clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 ));
 }
 
 // An offset at a point on a Gerstner Wave
@@ -321,12 +336,12 @@ void fragment() {
 #else
 	ref_tex = texture(texture_refraction,refraction_uv);
 #endif
-	vec3 ref_normal = NORMAL;
 	float r_final = refraction;
 #ifdef REFRACTION_SCALING
 	r_final *= clamp(refraction_scaling_distance_min / distance_from_camera, 0.0, 1.0);
 #endif
-	screen_uv = SCREEN_UV - ref_normal.xy * dot(ref_tex, refraction_texture_channel) * r_final;
+	vec2 ref_uv_offset = NORMAL.xy * dot(ref_tex, refraction_texture_channel) * r_final;
+	screen_uv = SCREEN_UV - ref_uv_offset;
 #endif
 
 	// Distance fade and foam distance fade
@@ -360,11 +375,20 @@ void fragment() {
 	albedo_tex = texture(texture_albedo, UV);
 #endif
 
+	float final_refraction_opacity = refraction_opacity;
 #ifdef FRESNEL
 	float fresnel_factor = fresnel(3.0, NORMAL, VIEW);
 	vec4 surface_color = mix(albedo, albedo_fresnel, fresnel_factor);
 #else
 	vec4 surface_color = albedo;
+#endif
+
+#ifdef SNELLS_WINDOW
+	vec3 snell_normal = vec3(NORMAL.x - ref_uv_offset.x, NORMAL.y - ref_uv_offset.y, NORMAL.z);
+	float snell_factor = snell(snell_tightness, snell_normal, VIEW);
+	final_refraction_opacity *= snell_factor;
+	final_refraction_opacity = clamp(final_refraction_opacity, 0.0, 1.0);
+	surface_color = mix(albedo_snell, surface_color, snell_factor);
 #endif
 
 	// Screen-reading shader features
@@ -384,7 +408,7 @@ void fragment() {
 #endif
 
 #ifdef REFRACTION
-	screen_read_blend_amount *= refraction_opacity;
+	screen_read_blend_amount *= final_refraction_opacity;
 	screen_lod += ROUGHNESS * 8.0;
 #endif
 
