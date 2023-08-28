@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
-[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="3_6ck1v"]
 [ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="3_qheyq"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="4_rbuuc"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
@@ -13,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="6_pgu4w"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="6_w87ec"]
 [ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/boujie_water_shader/foam_waves/foam3.tres" id="7_387wd"]
+[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/outset_ocean_material.tres" id="7_ch24e"]
 [ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/boujie_water_shader/height_waves/height3.tres" id="7_ghjuj"]
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="7_sjf3q"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
@@ -22,12 +22,12 @@
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/boujie_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/boujie_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
-[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="16_xjoc4"]
+[ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/ice_material.tres" id="19_3bkn5"]
+[ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/obsidian_material.tres" id="21_wltbb"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/boujie_water_shader/subdivcube.obj" id="22_7a0j4"]
-[ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/IceMaterial.tres" id="22_rbl74"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
-[ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/ObsidianMaterial.tres" id="23_fhl2y"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
+[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="26_13rch"]
 [ext_resource type="Shader" path="res://addons/boujie_water_shader/shader/water.gdshader" id="28_a3uuo"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
 [ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/boujie_water_shader/shader/ocean_albedo_1.png" id="29_rkpc4"]
@@ -208,7 +208,7 @@ script = ExtResource("5_4yawx")
 
 [node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
-material = ExtResource("16_xjoc4")
+material = ExtResource("7_ch24e")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
@@ -219,7 +219,7 @@ uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7
 
 [node name="IceDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
-material = ExtResource("22_rbl74")
+material = ExtResource("19_3bkn5")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
@@ -230,7 +230,7 @@ uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7
 
 [node name="ObsidianDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
-material = ExtResource("23_fhl2y")
+material = ExtResource("21_wltbb")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
 wave_fade_far = 2000.0
@@ -270,7 +270,7 @@ transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.22242, 12.4363, 0.470476)
 mesh = SubResource("SphereMesh_ljix4")
 skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_6ck1v")
+surface_material_override/0 = ExtResource("26_13rch")
 
 [node name="Material_Testers" type="Node3D" parent="."]
 
@@ -281,7 +281,7 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
 transform = Transform3D(0.0836411, -0.0928929, 0, 0.0928929, 0.0836411, 0, 0, 0, 0.125, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("3_6ck1v")
+surface_material_override/0 = ExtResource("26_13rch")
 
 [node name="Pedestal2" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
@@ -299,7 +299,7 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
 mesh = ExtResource("22_7a0j4")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("22_rbl74")
+surface_material_override/0 = ExtResource("19_3bkn5")
 
 [node name="Pedestal4" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
@@ -308,7 +308,7 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
 transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
 mesh = SubResource("BoxMesh_ehcfp")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("23_fhl2y")
+surface_material_override/0 = ExtResource("21_wltbb")
 
 [node name="UnitCube" type="MeshInstance3D" parent="Material_Testers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://ignpdv10rx52"]
 
 [ext_resource type="Script" path="res://addons/boujie_water_shader/prefabs/ocean_prefab.gd" id="1_ffcdn"]
-[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="2_5ibvc"]
+[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="2_mvet8"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/camera_follower_3d.gd" id="3_u4edm"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="4_aqj8w"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="8_uytuc"]
@@ -68,7 +68,7 @@ phase_degrees = 0.0
 
 [node name="DeepOcean" type="Node3D"]
 script = ExtResource("1_ffcdn")
-material = ExtResource("2_5ibvc")
+material = ExtResource("2_mvet8")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
@@ -81,7 +81,7 @@ snap_unit = 32.0
 
 [node name="WaterMaterialDesigner" type="Node" parent="."]
 script = ExtResource("4_aqj8w")
-material = ExtResource("2_5ibvc")
+material = ExtResource("2_mvet8")
 update_on_ready = true
 update_when_camera_far_changes = true
 ocean_path = NodePath("..")

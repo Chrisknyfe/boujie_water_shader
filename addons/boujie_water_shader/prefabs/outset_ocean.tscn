@@ -1,7 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://cjgxnxf0englg"]
+[gd_scene load_steps=16 format=3 uid="uid://b1ifm0554gtdb"]
 
 [ext_resource type="Script" path="res://addons/boujie_water_shader/prefabs/ocean_prefab.gd" id="1_5pvfd"]
-[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="2_nkydo"]
+[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/outset_ocean_material.tres" id="2_4txqg"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/camera_follower_3d.gd" id="3_knos1"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="4_u261r"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="8_fh3br"]
@@ -18,7 +18,7 @@
 
 [node name="OutsetOcean" type="Node3D"]
 script = ExtResource("1_5pvfd")
-material = ExtResource("2_nkydo")
+material = ExtResource("2_4txqg")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
@@ -31,7 +31,7 @@ snap_unit = 32.0
 
 [node name="WaterMaterialDesigner" type="Node" parent="."]
 script = ExtResource("4_u261r")
-material = ExtResource("2_nkydo")
+material = ExtResource("2_4txqg")
 update_on_ready = true
 update_when_camera_far_changes = true
 ocean_path = NodePath("..")
