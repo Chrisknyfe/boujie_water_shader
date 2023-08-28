@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=49 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="26_13rch"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="28_fslxr"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/hud.gd" id="34_3qn7y"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/help.gd" id="35_4m1bi"]
@@ -107,10 +108,6 @@ albedo = Color(0.301961, 0.603922, 1, 1)
 height_falloff = 1e+06
 edge_fade = 0.926824
 
-[sub_resource type="SphereMesh" id="SphereMesh_ljix4"]
-radius = 80.0
-height = 160.0
-
 [sub_resource type="SphereMesh" id="SphereMesh_68awl"]
 radius = 20.0
 height = 40.0
@@ -127,10 +124,15 @@ albedo_texture = ExtResource("29_g6865")
 [sub_resource type="BoxMesh" id="BoxMesh_6pj3g"]
 material = SubResource("StandardMaterial3D_kaxio")
 
+[sub_resource type="SphereMesh" id="SphereMesh_ljix4"]
+radius = 80.0
+height = 160.0
+
 [node name="WaterShaderExamples" type="Node3D"]
 script = ExtResource("1_ksg8d")
 
 [node name="DeepOcean" parent="." instance=ExtResource("2_h6v04")]
+far_edge = 4000
 
 [node name="WaterMaterialDesigner" parent="DeepOcean" index="1"]
 wave_fade_far = 1440
@@ -198,61 +200,6 @@ material = SubResource("FogMaterial_irst1")
 script = ExtResource("24_pmq8u")
 visible_height_offset = 5.0
 
-[node name="Thumbnail_Scene" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
-
-[node name="Obelisk2" parent="Thumbnail_Scene" instance=ExtResource("9_qosoy")]
-transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, 0)
-
-[node name="DeepOceanSphere" type="MeshInstance3D" parent="Thumbnail_Scene/Obelisk2"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.22242, 12.4363, 0.470476)
-mesh = SubResource("SphereMesh_ljix4")
-skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("26_13rch")
-
-[node name="Material_Testers" type="Node3D" parent="."]
-
-[node name="Pedestal1" parent="Material_Testers" instance=ExtResource("10_70j47")]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
-
-[node name="DeepOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal1"]
-transform = Transform3D(0.0836411, -0.0928929, 0, 0.0928929, 0.0836411, 0, 0, 0, 0.125, 0, 3.18241, 0)
-mesh = SubResource("SphereMesh_68awl")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("26_13rch")
-
-[node name="Pedestal2" parent="Material_Testers" instance=ExtResource("10_70j47")]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
-
-[node name="OutsetOceanSphere" type="MeshInstance3D" parent="Material_Testers/Pedestal2"]
-transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 3.18241, 0)
-mesh = SubResource("SphereMesh_68awl")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("7_ch24e")
-
-[node name="Pedestal3" parent="Material_Testers" instance=ExtResource("10_70j47")]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)
-
-[node name="IceCube" type="MeshInstance3D" parent="Material_Testers/Pedestal3"]
-transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
-mesh = ExtResource("22_7a0j4")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("19_3bkn5")
-
-[node name="Pedestal4" parent="Material_Testers" instance=ExtResource("10_70j47")]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
-
-[node name="ObsidianCube" type="MeshInstance3D" parent="Material_Testers/Pedestal4"]
-transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
-mesh = SubResource("BoxMesh_ehcfp")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("21_wltbb")
-
-[node name="UnitCube" type="MeshInstance3D" parent="Material_Testers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
-mesh = SubResource("BoxMesh_6pj3g")
-skeleton = NodePath("")
-
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -284,12 +231,15 @@ layout_mode = 2
 text = "Controls:"
 script = ExtResource("35_4m1bi")
 
-[node name="Test_Terrain" type="Node3D" parent="."]
+[node name="VisibilityRangeLodGroup" type="Node3D" parent="."]
+script = ExtResource("28_fslxr")
 
-[node name="Mountain" type="MeshInstance3D" parent="Test_Terrain"]
+[node name="Test_Terrain" type="Node3D" parent="VisibilityRangeLodGroup"]
+
+[node name="Mountain" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Test_Terrain"]
 transform = Transform3D(44.2152, 0, 23.3456, 0, 50, 0, -23.3456, 0, 44.2152, -581.271, -352.535, -1233.51)
 mesh = ExtResource("37_ujihb")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 surface_material_override/0 = ExtResource("38_hsxek")
 surface_material_override/1 = ExtResource("38_hsxek")
 surface_material_override/2 = ExtResource("38_hsxek")
@@ -309,8 +259,63 @@ surface_material_override/15 = ExtResource("38_hsxek")
 surface_material_override/16 = ExtResource("38_hsxek")
 surface_material_override/17 = ExtResource("38_hsxek")
 
-[node name="Pedestal" parent="Test_Terrain/Mountain" instance=ExtResource("10_70j47")]
+[node name="Pedestal" parent="VisibilityRangeLodGroup/Test_Terrain/Mountain" instance=ExtResource("10_70j47")]
 transform = Transform3D(0.783141, 0, 0.621845, 0, 1, 0, -0.621845, 0, 0.783141, 0, 13.9418, 0)
+
+[node name="Material_Testers" type="Node3D" parent="VisibilityRangeLodGroup"]
+
+[node name="Pedestal1" parent="VisibilityRangeLodGroup/Material_Testers" instance=ExtResource("10_70j47")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -120, 0, 0)
+
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Material_Testers/Pedestal1"]
+transform = Transform3D(0.0836411, -0.0928929, 0, 0.0928929, 0.0836411, 0, 0, 0, 0.125, 0, 3.18241, 0)
+mesh = SubResource("SphereMesh_68awl")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("26_13rch")
+
+[node name="Pedestal2" parent="VisibilityRangeLodGroup/Material_Testers" instance=ExtResource("10_70j47")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
+
+[node name="OutsetOceanSphere" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Material_Testers/Pedestal2"]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 3.18241, 0)
+mesh = SubResource("SphereMesh_68awl")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("7_ch24e")
+
+[node name="Pedestal3" parent="VisibilityRangeLodGroup/Material_Testers" instance=ExtResource("10_70j47")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)
+
+[node name="IceCube" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Material_Testers/Pedestal3"]
+transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
+mesh = ExtResource("22_7a0j4")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("19_3bkn5")
+
+[node name="Pedestal4" parent="VisibilityRangeLodGroup/Material_Testers" instance=ExtResource("10_70j47")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 60, 1, 0)
+
+[node name="ObsidianCube" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Material_Testers/Pedestal4"]
+transform = Transform3D(0.065145, -5.96046e-09, 0.0758692, -0.0580911, 0.0643229, 0.0498798, -0.0488012, -0.0765674, 0.0419031, 0, 3.18241, 0)
+mesh = SubResource("BoxMesh_ehcfp")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("21_wltbb")
+
+[node name="UnitCube" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Material_Testers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
+mesh = SubResource("BoxMesh_6pj3g")
+skeleton = NodePath("")
+
+[node name="Thumbnail_Scene" type="Node3D" parent="VisibilityRangeLodGroup"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
+
+[node name="Obelisk2" parent="VisibilityRangeLodGroup/Thumbnail_Scene" instance=ExtResource("9_qosoy")]
+transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, 0)
+
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="VisibilityRangeLodGroup/Thumbnail_Scene/Obelisk2"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.22242, 12.4363, 0.470476)
+mesh = SubResource("SphereMesh_ljix4")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("26_13rch")
 
 [connection signal="updated_lod" from="DeepOcean/WaterMaterialDesigner" to="." method="_on_water_material_designer_updated_lod"]
 
