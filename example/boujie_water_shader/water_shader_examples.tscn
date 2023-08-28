@@ -195,7 +195,8 @@ script = ExtResource("1_ksg8d")
 [node name="DeepOcean" parent="." instance=ExtResource("2_h6v04")]
 
 [node name="WaterMaterialDesigner" parent="DeepOcean" index="1"]
-wave_fade_far = 1440.0
+distance_fade_far = 4000
+wave_fade_far = 1440
 
 [node name="OceanFloor" type="MeshInstance3D" parent="DeepOcean"]
 transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -350, 0)
@@ -209,9 +210,9 @@ script = ExtResource("5_4yawx")
 [node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
 material = ExtResource("7_ch24e")
-distance_fade_far = 4000.0
+distance_fade_far = 4000
 distance_fade_softness = 0.323
-wave_fade_far = 2000.0
+wave_fade_far = 2000
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("9_408u1")]([ExtResource("5_y6lkc"), ExtResource("6_pgu4w"), ExtResource("7_ghjuj"), ExtResource("8_mnxd5"), ExtResource("9_7wo7t")])
 foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
@@ -220,9 +221,9 @@ uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7
 [node name="IceDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
 material = ExtResource("19_3bkn5")
-distance_fade_far = 4000.0
+distance_fade_far = 4000
 distance_fade_softness = 0.323
-wave_fade_far = 2000.0
+wave_fade_far = 2000
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
 foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource("6_iku5k"), ExtResource("7_387wd"), ExtResource("8_m62v1")])
@@ -231,9 +232,9 @@ uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7
 [node name="ObsidianDesigner" type="Node" parent="Other_Designers"]
 script = ExtResource("6_cmske")
 material = ExtResource("21_wltbb")
-distance_fade_far = 4000.0
+distance_fade_far = 4000
 distance_fade_softness = 0.323
-wave_fade_far = 2000.0
+wave_fade_far = 2000
 wave_fade_softness = 0.641
 height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
 uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
