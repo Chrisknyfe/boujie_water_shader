@@ -1,10 +1,11 @@
 extends Node3D
 
+## Set visibility range parameters to all children
+
 @export var visibility_range_end := 500.0
 @export var visibility_range_end_margin := 100
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	update()
 

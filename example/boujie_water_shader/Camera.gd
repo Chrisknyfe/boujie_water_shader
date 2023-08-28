@@ -111,6 +111,8 @@ func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
+## Spherical linear interpolate between two rotations, removing any Z rotation
+## Useful for lerping camera rotation with mouse movement
 func slerp_euler_no_z(initial_rot, target_rot, weight):
 	var i_b = Basis.from_euler(initial_rot)
 	var t_b = Basis.from_euler(target_rot)
