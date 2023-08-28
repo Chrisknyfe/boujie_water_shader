@@ -267,17 +267,23 @@ void vertex() {
 		vertexWave = rotate_to_normal(vertexWave, NORMAL);
 	}
 	vertexWave *= vertex_fade_alpha;
-	VERTEX += vertexWave;
+	if (WaveCount > 0) {
+		VERTEX += vertexWave;
+	}
 	
 	// Calculate normal for each wave, take average
 	vec3 normalWave = vec3(0,0,0);
 	for (int i = 0; i < WaveCount; i++) {
 		normalWave += N_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
-	normalWave = normalWave / float(WaveCount);
-	normalWave = rotate_to_normal(normalWave, NORMAL);
+	normalWave = normalize(normalWave / float(WaveCount));
+	if (vertex_displace_from_mesh_normal) {
+		normalWave = rotate_to_normal(normalWave, NORMAL);
+	}
 	normalWave = normalWave * vertex_fade_alpha + NORMAL * (1.0 - vertex_fade_alpha);
-	NORMAL = normalize(normalWave);
+	if (WaveCount > 0) {
+		NORMAL = normalize(normalWave);
+	}
 #endif
 
 	// DEBUG: increase vertex height based on distance from center
