@@ -1,6 +1,6 @@
 # Boujie Water Shader
-This is a high quality water shader for Godot Engine 4.1+, plus tools
-to build your own infinite ocean.
+This is a fancy water shader for Godot Engine 4.1+, plus tools to build your own
+infinite ocean.
 
 Tested with: Godot_v4.1.1-stable_win64
 
@@ -8,6 +8,14 @@ This was a shader I made many years ago for Godot 3, based on MrMinimal's water
 shader, itself based on an NVidia shader book. Recently I ported this shader
 to godot 4 when I updated my game, and now I want to give the results back to
 the community.
+
+# Quick Start with Prefabs
+
+To get started with your ocean, instantiate a child scene with SHIFT+CTRL+A and 
+load one of the prefab scenes in res://addons/boujie_water_shader/prefabs . 
+
+You can also apply prefab materials, such as ice and obsidian, to your existing
+objects.
 
 # How it works
 

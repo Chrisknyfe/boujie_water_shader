@@ -1,0 +1,95 @@
+[gd_scene load_steps=18 format=3 uid="uid://ignpdv10rx52"]
+
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="1_65pb0"]
+[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="2_5ibvc"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="3_u4edm"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="7_h7lmk"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/GerstnerWave.gd" id="8_uytuc"]
+[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="9_bqe5t"]
+[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="10_3dku7"]
+[ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="11_32a1e"]
+[ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="12_fndme"]
+[ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="13_nl2mb"]
+[ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="14_wf57g"]
+
+[sub_resource type="Resource" id="Resource_h6ky8"]
+script = ExtResource("8_uytuc")
+steepness = 10.0
+amplitude = 2.0
+direction_degrees = 15.0
+frequency = 0.02
+speed = 1.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_gq4b8"]
+script = ExtResource("8_uytuc")
+steepness = 0.05
+amplitude = 0.004
+direction_degrees = 70.702
+frequency = 2.0
+speed = 1.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_ewn38"]
+script = ExtResource("8_uytuc")
+steepness = 2.0
+amplitude = 1.5
+direction_degrees = 15.0
+frequency = 0.02
+speed = 1.0
+phase_degrees = -40.0
+
+[sub_resource type="Resource" id="Resource_v8fws"]
+script = ExtResource("8_uytuc")
+steepness = 0.45
+amplitude = 0.7
+direction_degrees = 281.195
+frequency = 0.03
+speed = 3.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_pwrcy"]
+script = ExtResource("8_uytuc")
+steepness = 1.3
+amplitude = 2.0
+direction_degrees = 88.25
+frequency = 0.001
+speed = 0.05
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_ei3rv"]
+script = ExtResource("8_uytuc")
+steepness = 1.5
+amplitude = 1.0
+direction_degrees = 151.5
+frequency = 0.004
+speed = 0.05
+phase_degrees = 0.0
+
+[node name="DeepOcean" type="Node3D"]
+script = ExtResource("1_65pb0")
+material = ExtResource("2_5ibvc")
+levels_of_detail = 5
+unit_size = 2.0
+far_edge = 4000.0
+
+[node name="CameraFollower3D" type="Node3D" parent="."]
+script = ExtResource("3_u4edm")
+target_path = NodePath("..")
+snap = true
+snap_unit = 32.0
+
+[node name="WaterMaterialDesigner" type="Node" parent="."]
+script = ExtResource("7_h7lmk")
+material = ExtResource("2_5ibvc")
+update_on_ready = true
+update_when_camera_far_changes = true
+ocean_path = NodePath("..")
+camera_follower_path = NodePath("../CameraFollower3D")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 2000.0
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("8_uytuc")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("9_bqe5t"), ExtResource("10_3dku7")])
+foam_waves = Array[ExtResource("8_uytuc")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("11_32a1e"), ExtResource("12_fndme")])
+uv_waves = Array[ExtResource("8_uytuc")]([ExtResource("13_nl2mb"), ExtResource("14_wf57g")])

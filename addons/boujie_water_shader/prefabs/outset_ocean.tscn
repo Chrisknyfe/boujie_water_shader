@@ -1,0 +1,45 @@
+[gd_scene load_steps=16 format=3 uid="uid://7ofmhp2c4aw7"]
+
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="1_mkode"]
+[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="2_nkydo"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="3_knos1"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="7_cx5fr"]
+[ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="8_fh3br"]
+[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="9_lfnyq"]
+[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/boujie_water_shader/height_waves/height3.tres" id="10_0lphs"]
+[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="11_d5h2k"]
+[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/boujie_water_shader/height_waves/height5.tres" id="12_7778w"]
+[ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="13_iautm"]
+[ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="14_4piu4"]
+[ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/boujie_water_shader/foam_waves/foam3.tres" id="15_pwlnk"]
+[ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="16_2om3f"]
+[ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="17_25ere"]
+[ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="18_6100b"]
+
+[node name="OutsetOcean" type="Node3D"]
+script = ExtResource("1_mkode")
+material = ExtResource("2_nkydo")
+levels_of_detail = 5
+unit_size = 2.0
+far_edge = 4000.0
+
+[node name="CameraFollower3D" type="Node3D" parent="."]
+script = ExtResource("3_knos1")
+target_path = NodePath("..")
+snap = true
+snap_unit = 32.0
+
+[node name="OutsetOceanDesigner" type="Node" parent="."]
+script = ExtResource("7_cx5fr")
+material = ExtResource("2_nkydo")
+update_on_ready = true
+update_when_camera_far_changes = true
+ocean_path = NodePath("..")
+camera_follower_path = NodePath("../CameraFollower3D")
+distance_fade_far = 4000.0
+distance_fade_softness = 0.323
+wave_fade_far = 2000.0
+wave_fade_softness = 0.641
+height_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("8_fh3br"), ExtResource("9_lfnyq"), ExtResource("10_0lphs"), ExtResource("11_d5h2k"), ExtResource("12_7778w")])
+foam_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("13_iautm"), ExtResource("14_4piu4"), ExtResource("15_pwlnk"), ExtResource("16_2om3f")])
+uv_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("17_25ere"), ExtResource("18_6100b")])
