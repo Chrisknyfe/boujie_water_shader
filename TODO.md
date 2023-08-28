@@ -1,5 +1,8 @@
 
 # Fixes
+# Enhancements
+ * water_common.gdshaderinc
+ * examples/boujie_water_shader/feature_demos so I can make a video
 # Features
  * Boujie caustics
  * Time sync between gdscript and shader code
