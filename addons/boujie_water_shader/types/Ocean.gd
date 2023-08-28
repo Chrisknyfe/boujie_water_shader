@@ -43,7 +43,7 @@ var max_unit_size: float:
 
 
 func _ready():
-	build_meshes()
+	build_meshes.call_deferred()
 
 
 func _process(_delta):
@@ -124,12 +124,14 @@ func _clear_generated_meshes(filter: String = "_gen"):
 
 
 func _add_mesh_as_node(mesh: Mesh, new_name: String, pos: Vector3 = Vector3.ZERO):
+	if has_node(new_name):
+		remove_child(get_node(new_name))
 	var mi = MeshInstance3D.new()
 	mi.name = new_name
 	mi.mesh = mesh
 	mi.position = pos
 	mi.set_surface_override_material(0, material)
-	add_child.call_deferred(mi)
+	add_child(mi)
 
 
 class PlaneMeshGenerator:
