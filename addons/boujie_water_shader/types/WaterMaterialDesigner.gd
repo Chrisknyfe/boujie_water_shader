@@ -1,13 +1,15 @@
 @tool
 @icon("res://addons/boujie_water_shader/icons/WaterMaterialDesigner.svg")
-extends Node
 class_name WaterMaterialDesigner
+extends Node
 
-## A water material designer tool which allows easy editing of shader parameters using GerstnerWaves.
-## Synchronizes level-of-detail settings between a water shader, the active camera, an ocean, and a camera follower.
+## A water material designer tool which allows easy editing of shader
+## parameters using GerstnerWaves. Synchronizes level-of-detail settings between
+## a water shader, the active camera, an ocean, and a camera follower.
 
 ## Emitted when level-of-detail settings are updated.
-## This signal may fire in the editor. Make sure any connected scripts are also tool scripts.
+## This signal may fire in the editor. Make sure any connected scripts are also
+## tool scripts.
 signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
 
 ## Water shader material designed to work with this Designer node
@@ -16,22 +18,26 @@ signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
 @export var update_on_ready: bool = false
 ## Update material, ocean, and camera follower when the active camera's far changes.
 @export var update_when_camera_far_changes: bool = false
-var _previous_far: float = 0.0
 
 @export_category("Optional Nodes to Update")
-## Optionally specify an ocean node, this Designer will update its farplane to match the active camera's far
+## Optionally specify an ocean node, this Designer will update its farplane to
+## match the active camera's far
 @export_node_path("Ocean") var ocean_path = NodePath("")
-## Optionally specify a CameraFollower3D, this Designer will update its snap unit to the ocean's max unit size.
+## Optionally specify a CameraFollower3D, this Designer will update its
+## snap unit to the ocean's max unit size.
 @export_node_path("CameraFollower3D") var camera_follower_path = NodePath("")
 
 @export_category("Distance Fade")
 ## Fade transparency at this distance from the camera
 @export var distance_fade_far: float = 1000
-## Fade transparency with increased distance from the camera, smoothed by this amount.
+## Fade transparency with increased distance from the camera, smoothed by this
+## amount.
 @export_range(0.0, 1.0) var distance_fade_softness: float = 0.2
-## Fade-out water shader features such as wave height and foam at this distance from the camera.
+## Fade-out water shader features such as wave height and foam at this distance
+## from the camera.
 @export var wave_fade_far: float = 500
-## Fade-out water shader features such as wave height and foam with increased distance from the camera, smoothed by this amount.
+## Fade-out water shader features such as wave height and foam with increased
+## distance from the camera, smoothed by this amount.
 @export_range(0.0, 1.0) var wave_fade_softness: float = 0.2
 
 @export_category("Waves")
@@ -46,13 +52,16 @@ var _previous_far: float = 0.0
 ## Update all parameters controlled by this Designer node.
 @export var editor_update_all_params: bool = false
 
+var _previous_far: float = 0.0
+
 func _ready():
 	if not Engine.is_editor_hint() and update_on_ready:
 		# because I can connect to any node in the scene tree from here,
 		# I want to be safe and wait for the whole tree to be ready.
 		get_tree().root.ready.connect(self.update)
 
-func _process(delta):
+
+func _process(_delta):
 	if editor_update_all_params:
 		editor_update_all_params = false
 		update()
@@ -61,13 +70,14 @@ func _process(delta):
 		if camera and camera.far != _previous_far:
 			_previous_far = camera.far
 			update()
-		
+
+
 func _update_lod():
 	var camera = get_viewport().get_camera_3d()
 	var ocean = get_node_or_null(ocean_path)
 	var follower = get_node_or_null(camera_follower_path)
 	if camera:
-		var middle = camera.far / 2.0 # TODO: paramaterize heuristic
+		var middle = camera.far / 2.0  # TODO: paramaterize heuristic
 		var unit_size = 1.0
 		if ocean:
 			middle = ocean.total_width / 2.0
@@ -79,30 +89,33 @@ func _update_lod():
 		distance_fade_far = camera.far
 		wave_fade_far = middle
 		update_lod.emit(camera.far, middle, unit_size)
-	
+
+
 func _update_distance_fade():
 	var max = distance_fade_far
 	var min = max * (1.0 - distance_fade_softness)
 	material.set_shader_parameter("distance_fade_max", max)
 	material.set_shader_parameter("distance_fade_min", min)
-	
+
 	max = wave_fade_far
 	min = max * (1.0 - wave_fade_softness)
 	material.set_shader_parameter("foam_fade_max", max)
 	material.set_shader_parameter("foam_fade_min", min)
-	material.set_shader_parameter("shore_fade_max",max)
+	material.set_shader_parameter("shore_fade_max", max)
 	material.set_shader_parameter("shore_fade_min", min)
 	material.set_shader_parameter("vertex_wave_fade_max", max)
 	material.set_shader_parameter("vertex_wave_fade_min", min)
 	material.set_shader_parameter("depth_fog_fade_max", max)
 	material.set_shader_parameter("depth_fog_fade_min", min)
 
+
 func _update_wave_params():
 	# height waves
 	_update_wave_group_params("Wave", height_waves)
 	_update_wave_group_params("UVWave", uv_waves)
 	_update_wave_group_params("FoamWave", foam_waves)
-	
+
+
 func _update_wave_group_params(prefix: String, waves: Array):
 	var num_waves = min(8, len(waves))
 	material.set_shader_parameter(prefix + "Count", num_waves)
@@ -127,7 +140,9 @@ func _update_wave_group_params(prefix: String, waves: Array):
 	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
 	material.set_shader_parameter(prefix + "Phases", PackedFloat32Array(phases))
 
-## Update all level of detail settings to the water shader, the active camera, and optionally to an ocean and a camera follower.
+
+## Update all level of detail settings to the water shader, the active camera,
+## and optionally to an ocean and a camera follower.
 func update():
 	_update_lod()
 	_update_distance_fade()

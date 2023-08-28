@@ -1,6 +1,6 @@
 @icon("res://addons/boujie_water_shader/icons/Wave.svg")
-extends Resource
 class_name GerstnerWave
+extends Resource
 
 @export var steepness: float = 1.0
 @export var amplitude: float = 1.0
