@@ -39,10 +39,6 @@ func _input(event):
 			rot_target.x - event.relative.y * MOUSE_SENSITIVITY, deg_to_rad(-90), deg_to_rad(90)
 		)
 
-	# Toggle HUD
-	if event.is_action_pressed("toggle_hud"):
-		$"../HUD".visible = !$"../HUD".visible
-
 	# Toggle mouse capture
 	if event.is_action_pressed("toggle_mouse_capture"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
