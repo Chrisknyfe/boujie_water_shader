@@ -241,9 +241,7 @@ void vertex() {
 #endif
 	UV += vec2(0.1)* time;
 	
-	// Calcualte foam alpha in vertex where it's cheaper
-	
-	// Throw in a bunch of constants to make these VERTEX waves look good in UV space
+	// Calculate foam alpha in vertex where it's cheaper
 #ifdef FOAM
 	vec3 foamVertexWave = vec3(0,0,0);
 	for (int i = 0; i < FoamWaveCount; i++) {
@@ -284,7 +282,7 @@ void vertex() {
 	if (normal_wave_from_mesh_normal) {
 		normalWave = rotate_to_normal(normalWave, NORMAL);
 	}
-	normalWave = normalWave * vertex_fade_alpha + NORMAL * (1.0 - vertex_fade_alpha);
+	normalWave = mix(NORMAL, normalWave, vertex_fade_alpha);
 	if (WaveCount > 0) {
 		NORMAL = normalize(normalWave);
 	}
@@ -336,9 +334,8 @@ void fragment() {
 	float distance_from_camera = distance(CAMERA_POSITION_WORLD, world_coordinates);
 #endif
 
-	vec2 screen_uv = SCREEN_UV;
-
 	// Calculate new screen_uv from refraction texture and amount, which will be used by any screen reading code.
+	vec2 screen_uv = SCREEN_UV;
 #ifdef REFRACTION
 	vec4 ref_tex;
 #ifdef WORLD_TRIPLANAR
@@ -355,21 +352,18 @@ void fragment() {
 	screen_uv = SCREEN_UV - ref_uv_offset;
 #endif
 
-	// Distance fade and foam distance fade
+	// Some feature fades
+	float foam_fade_alpha = 1.0;
+	float shore_fade_alpha = 1.0;
 #ifdef DISTANCE_FADE
 	ALPHA *= smoothstep(distance_fade_max, distance_fade_min, distance_from_camera);
-	// Near fade
 	ALPHA *= smoothstep(near_fade_min, near_fade_max, distance_from_camera);
 #endif
 #ifdef FOAM_FADE
-	float foam_fade_alpha = smoothstep(foam_fade_max, foam_fade_min, distance_from_camera);
-#else
-	float foam_fade_alpha = 1.0;
+	foam_fade_alpha = smoothstep(foam_fade_max, foam_fade_min, distance_from_camera);
 #endif
 #ifdef SHORE_FADE
-	float shore_fade_alpha = smoothstep(shore_fade_max, shore_fade_min, distance_from_camera);
-#else
-	float shore_fade_alpha = 1.0;
+	shore_fade_alpha = smoothstep(shore_fade_max, shore_fade_min, distance_from_camera);
 #endif
 	
 	if (ALPHA <= 0.0) {
