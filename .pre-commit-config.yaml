@@ -1,0 +1,6 @@
+repos:
+-   repo: https://github.com/Scony/godot-gdscript-toolkit.git
+    rev: 4.1.0
+    hooks:
+    -   id: gdlint
+
