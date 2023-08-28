@@ -7,10 +7,10 @@ const MOVE_SPEED = 4
 const SPRINT_SPEED = 32
 const MOUSE_SENSITIVITY = 0.002
 const CAMERA_FAR_STEP = 200
-var rot_target = Vector3(0, 0, 0)
-@onready var speed = 1
-@onready var velocity = Vector3()
-@onready var initial_rotation = PI / 2
+var rot_target := Vector3(0, 0, 0)
+@onready var speed := 1
+@onready var velocity := Vector3()
+@onready var initial_rotation: float = PI / 2.0
 
 
 func _enter_tree():

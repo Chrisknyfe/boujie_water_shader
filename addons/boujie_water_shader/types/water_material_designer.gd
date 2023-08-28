@@ -15,30 +15,30 @@ signal updated_lod(far_distance: float, middle_distance: float, unit_size: float
 ## Water shader material designed to work with this Designer node
 @export var material: ShaderMaterial
 ## Update material, ocean, and camera follower when this Designer is ready.
-@export var update_on_ready: bool = false
+@export var update_on_ready := false
 ## Update material, ocean, and camera follower when the active camera's far changes.
-@export var update_when_camera_far_changes: bool = false
+@export var update_when_camera_far_changes := false
 
 @export_category("Optional Nodes to Update")
 ## Optionally specify an ocean node, this Designer will update its farplane to
 ## match the active camera's far
-@export_node_path("Ocean") var ocean_path = NodePath("")
+@export_node_path("Ocean") var ocean_path := NodePath("")
 ## Optionally specify a CameraFollower3D, this Designer will update its
 ## snap unit to the ocean's max unit size.
-@export_node_path("CameraFollower3D") var camera_follower_path = NodePath("")
+@export_node_path("CameraFollower3D") var camera_follower_path := NodePath("")
 
 @export_category("Distance Fade")
 ## Fade transparency at this distance from the camera
-@export var distance_fade_far: float = 1000
+@export var distance_fade_far := 1000
 ## Fade transparency with increased distance from the camera, smoothed by this
 ## amount.
-@export_range(0.0, 1.0) var distance_fade_softness: float = 0.2
+@export_range(0.0, 1.0) var distance_fade_softness := 0.2
 ## Fade-out water shader features such as wave height and foam at this distance
 ## from the camera.
-@export var wave_fade_far: float = 500
+@export var wave_fade_far := 500
 ## Fade-out water shader features such as wave height and foam with increased
 ## distance from the camera, smoothed by this amount.
-@export_range(0.0, 1.0) var wave_fade_softness: float = 0.2
+@export_range(0.0, 1.0) var wave_fade_softness := 0.2
 
 @export_category("Waves")
 ## Waves that raise and lower the water height relative to the mesh surface
@@ -50,9 +50,9 @@ signal updated_lod(far_distance: float, middle_distance: float, unit_size: float
 
 @export_category("Editor Tools")
 ## Update all parameters controlled by this Designer node.
-@export var editor_update_all_params: bool = false
+@export var editor_update_all_params := false
 
-var _previous_far: float = 0.0
+var _previous_far := 0.0
 
 
 func _ready():

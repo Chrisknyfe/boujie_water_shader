@@ -14,22 +14,22 @@ extends Node3D
 
 @export_category("Geometry")
 ## Resolution of the outermost LOD. Multiplies by a power of 2 for inner LODs.
-@export_range(2, 200) var outermost_resolution: int = 10
+@export_range(2, 200) var outermost_resolution := 10
 ## How many levels of detail to generate.
 ## Creates rings of meshes surrounding the center of this object.
-@export_range(1, 20) var levels_of_detail: int = 1
+@export_range(1, 20) var levels_of_detail := 1
 ## Size of quads in the innermost LOD.
-@export var unit_size: float = 1.0
+@export var unit_size := 1.0
 ## The farthest visible distance. Set this from camera.far.
-@export var far_edge: float = 1000
+@export var far_edge := 1000
 
 @export_category("Editor Tools")
 ## Rebuild all meshes
-@export var editor_rebuild: bool = false
+@export var editor_rebuild := false
 ## Clear all meshes
-@export var editor_clear: bool = false
+@export var editor_clear := false
 ## Rebuild the farplane
-@export var editor_farplane: bool = false
+@export var editor_farplane := false
 
 var region_width: float:
 	get:

@@ -11,17 +11,17 @@ const Z_AXIS = 4
 ## It can snap the target's position to multiples of a given unit size.
 
 ## Target which will be repositioned by this node
-@export_node_path("Node3D") var target_path
+@export_node_path("Node3D") var target_path := NodePath("")
 ## Enable or disable this node
-@export var enable: bool = true
+@export var enable := true
 
 ## Select which components of the target's position will be changed.
-@export_flags("x", "y", "z") var follow_axes = 5
+@export_flags("x", "y", "z") var follow_axes := 5
 
 ## Enable or disable snapping the target's position
-@export var snap: bool = false
+@export var snap := false
 ## Snapping unit size. The target's position will be set to a multiple of this unit size.
-@export var snap_unit: float = 10.0
+@export var snap_unit := 10.0
 
 
 func _process(_delta):
