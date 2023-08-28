@@ -180,8 +180,9 @@ func _add_mesh_as_node(mesh:Mesh, new_name:String, pos:Vector3=Vector3.ZERO):
 	var mi = MeshInstance3D.new()
 	mi.name = new_name
 	mi.mesh = mesh
-	add_child(mi)
 	mi.position = pos
+	mi.set_surface_override_material(0, material)
+	add_child.call_deferred(mi)
 	
 	
 func build_farplane():
