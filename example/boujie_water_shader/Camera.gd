@@ -12,6 +12,7 @@ var rot_target = Vector3(0, 0, 0)
 @onready var velocity = Vector3()
 @onready var initial_rotation = PI / 2
 
+
 func _enter_tree():
 	# Capture the mouse (can be toggled by pressing F10)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

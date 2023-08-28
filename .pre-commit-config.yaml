@@ -3,4 +3,5 @@ repos:
     rev: 4.1.0
     hooks:
     -   id: gdlint
+    -   id: gdformat
 

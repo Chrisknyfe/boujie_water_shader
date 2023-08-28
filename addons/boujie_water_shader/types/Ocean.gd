@@ -41,6 +41,7 @@ var max_unit_size: float:
 	get:
 		return unit_size * 2 ** (levels_of_detail - 1)
 
+
 func _ready():
 	build_meshes()
 

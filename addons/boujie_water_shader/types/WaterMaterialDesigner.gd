@@ -54,6 +54,7 @@ signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
 
 var _previous_far: float = 0.0
 
+
 func _ready():
 	if not Engine.is_editor_hint() and update_on_ready:
 		# because I can connect to any node in the scene tree from here,
