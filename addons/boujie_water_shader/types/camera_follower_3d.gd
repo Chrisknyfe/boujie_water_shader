@@ -27,13 +27,14 @@ const Z_AXIS = 4
 func _process(_delta):
 	if not Engine.is_editor_hint() and enable:
 		var camera = get_viewport().get_camera_3d()
-		var t: Node3D = get_node(target_path)
-		if follow_axes & X_AXIS:
-			t.global_position.x = do_snap(camera.global_position.x)
-		if follow_axes & Y_AXIS:
-			t.global_position.y = do_snap(camera.global_position.y)
-		if follow_axes & Z_AXIS:
-			t.global_position.z = do_snap(camera.global_position.z)
+		if camera:
+			var t: Node3D = get_node(target_path)
+			if follow_axes & X_AXIS:
+				t.global_position.x = do_snap(camera.global_position.x)
+			if follow_axes & Y_AXIS:
+				t.global_position.y = do_snap(camera.global_position.y)
+			if follow_axes & Z_AXIS:
+				t.global_position.z = do_snap(camera.global_position.z)
 
 
 func do_snap(x: float):
