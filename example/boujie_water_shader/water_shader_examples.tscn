@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
@@ -28,11 +28,7 @@
 [ext_resource type="Script" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="26_13rch"]
-[ext_resource type="Shader" path="res://addons/boujie_water_shader/shader/water.gdshader" id="28_a3uuo"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
-[ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/boujie_water_shader/shader/ocean_albedo_1.png" id="29_rkpc4"]
-[ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/boujie_water_shader/shader/foam_1.png" id="30_my07k"]
-[ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="31_sc6wt"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/hud.gd" id="34_3qn7y"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/help.gd" id="35_4m1bi"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/fps_counter.gd" id="35_g2n63"]
@@ -118,69 +114,6 @@ height = 160.0
 [sub_resource type="SphereMesh" id="SphereMesh_68awl"]
 radius = 20.0
 height = 40.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fs7el"]
-render_priority = 0
-shader = ExtResource("28_a3uuo")
-shader_parameter/freeze_time = false
-shader_parameter/albedo = Color(0, 0.431373, 1, 0.321569)
-shader_parameter/albedo_fresnel = null
-shader_parameter/specular = 0.5
-shader_parameter/roughness = 0.1
-shader_parameter/metallic = 0.0
-shader_parameter/vertex_displace_from_mesh_normal = true
-shader_parameter/texture_albedo = ExtResource("29_rkpc4")
-shader_parameter/refraction = 0.125001
-shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
-shader_parameter/refraction_opacity = 0.7
-shader_parameter/texture_refraction = ExtResource("31_sc6wt")
-shader_parameter/shore_start_blend = 2.0
-shader_parameter/shore_end_blend = 6.0
-shader_parameter/texture_foam = ExtResource("30_my07k")
-shader_parameter/distance_fade_min = 2708.0
-shader_parameter/distance_fade_max = 4000.0
-shader_parameter/near_fade_min = 1.5
-shader_parameter/near_fade_max = 1.7
-shader_parameter/foam_fade_min = 505.472
-shader_parameter/foam_fade_max = 1408.0
-shader_parameter/shore_fade_min = 505.472
-shader_parameter/shore_fade_max = 1408.0
-shader_parameter/vertex_wave_fade_min = 505.472
-shader_parameter/vertex_wave_fade_max = 1408.0
-shader_parameter/depth_fog_fade_min = null
-shader_parameter/depth_fog_fade_max = null
-shader_parameter/refraction_scaling_distance_min = 200.0
-shader_parameter/uv_blend_sharpness = 2.0
-shader_parameter/uv_tri_scale = Vector3(36, 36, 36)
-shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
-shader_parameter/color_deep = Color(0, 0, 0, 0)
-shader_parameter/color_shallow = Color(0, 0, 0, 0)
-shader_parameter/beers_law = 2.0
-shader_parameter/depth_offset = -0.75
-shader_parameter/albedo_snell = null
-shader_parameter/snell_direction = Vector3(0, 1, 0)
-shader_parameter/snell_tightness = 0.7
-shader_parameter/WaveCount = 5
-shader_parameter/WaveSteepnesses = PackedFloat32Array(4, 0.9, 0.8, 2, 1)
-shader_parameter/WaveAmplitudes = PackedFloat32Array(1, 0.7, 0.5, 1, 0.4)
-shader_parameter/WaveDirectionsDegrees = PackedFloat32Array(0, 315, 90, 150, 225)
-shader_parameter/WaveFrequencies = PackedFloat32Array(0.02, 0.06, 0.04, 0.06, 0.05)
-shader_parameter/WaveSpeeds = PackedFloat32Array(1, 3, 1.5, 1.6, 1)
-shader_parameter/WavePhases = PackedFloat32Array(0, 0, 0, 0, 0)
-shader_parameter/FoamWaveCount = 4
-shader_parameter/FoamWaveSteepnesses = PackedFloat32Array(0.7, 0.45, 0.8, 1.5)
-shader_parameter/FoamWaveAmplitudes = PackedFloat32Array(1, 0.7, 1.5, 1)
-shader_parameter/FoamWaveDirectionsDegrees = PackedFloat32Array(25, 315, 77, 144)
-shader_parameter/FoamWaveFrequencies = PackedFloat32Array(0.005, 0.06, 0.001, 0.007)
-shader_parameter/FoamWaveSpeeds = PackedFloat32Array(1, 3, 0.05, 0.05)
-shader_parameter/FoamWavePhases = PackedFloat32Array(0, 0, 0, 0)
-shader_parameter/UVWaveCount = 2
-shader_parameter/UVWaveSteepnesses = PackedFloat32Array(0.09, 0.08)
-shader_parameter/UVWaveAmplitudes = PackedFloat32Array(0.7, 0.5)
-shader_parameter/UVWaveDirectionsDegrees = PackedFloat32Array(315, 90)
-shader_parameter/UVWaveFrequencies = PackedFloat32Array(0.9, 0.6)
-shader_parameter/UVWaveSpeeds = PackedFloat32Array(0.75, 0.375)
-shader_parameter/UVWavePhases = PackedFloat32Array(0, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ehcfp"]
 size = Vector3(30, 30, 30)
@@ -295,7 +228,7 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -60, 1, 0)
 transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 3.18241, 0)
 mesh = SubResource("SphereMesh_68awl")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_fs7el")
+surface_material_override/0 = ExtResource("7_ch24e")
 
 [node name="Pedestal3" parent="Material_Testers" instance=ExtResource("10_70j47")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 1, 0)

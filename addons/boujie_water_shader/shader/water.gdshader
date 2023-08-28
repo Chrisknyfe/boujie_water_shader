@@ -35,6 +35,10 @@ uniform float metallic : hint_range(0.0, 1.0) = 0.0;
  * When OFF - vertex waves rise in the global up direction (+y)
  */
 uniform bool vertex_displace_from_mesh_normal;
+/* When ON - normal waves rise along the mesh's normal
+ * When OFF - normal waves rise in the global up direction (+y)
+ */
+uniform bool normal_wave_from_mesh_normal;
 
 group_uniforms Refraction;
 uniform sampler2D texture_refraction;
@@ -277,7 +281,7 @@ void vertex() {
 		normalWave += N_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
 	normalWave = normalize(normalWave / float(WaveCount));
-	if (vertex_displace_from_mesh_normal) {
+	if (normal_wave_from_mesh_normal) {
 		normalWave = rotate_to_normal(normalWave, NORMAL);
 	}
 	normalWave = normalWave * vertex_fade_alpha + NORMAL * (1.0 - vertex_fade_alpha);

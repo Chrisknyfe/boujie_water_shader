@@ -17,6 +17,7 @@ shader_parameter/specular = 0.259
 shader_parameter/roughness = 0.087
 shader_parameter/metallic = 0.0
 shader_parameter/vertex_displace_from_mesh_normal = true
+shader_parameter/normal_wave_from_mesh_normal = true
 shader_parameter/texture_albedo = ExtResource("2_8jfpx")
 shader_parameter/refraction = 0.0880001
 shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
