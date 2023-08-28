@@ -6,8 +6,8 @@ Tested with: Godot_v4.1.1-stable_win64
 
 This was a shader I made many years ago for Godot 3, based on MrMinimal's water
 shader, itself based on an NVidia shader book. Recently I ported this shader
-to godot 4 when I updated my game, and now I want to give the results back to
-the community.
+to godot 4 when I updated my game, added a bunch of features on stream in the
+Godot discord, and now I want to give the results back to the community.
 
 # Quick Start with Prefabs
 
@@ -44,6 +44,9 @@ The water shader has many adjustable features:
  * Depth fog
  * Distance fade
  * Fade out features with distance, such as vertex waves and foam
+
+You can optimize shader performance by copying the shader code and
+commenting-out any of the #define lines to disable features you don't need.
 
 ## CameraFollower3D node
 The water plane now follows the camera around, giving the illusion of an
