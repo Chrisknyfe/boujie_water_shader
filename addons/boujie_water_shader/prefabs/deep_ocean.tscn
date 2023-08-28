@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://ignpdv10rx52"]
 
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="1_65pb0"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/prefabs/ocean_prefab.gd" id="1_ffcdn"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="2_5ibvc"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="3_u4edm"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="7_h7lmk"]
@@ -67,8 +67,7 @@ speed = 0.05
 phase_degrees = 0.0
 
 [node name="DeepOcean" type="Node3D"]
-script = ExtResource("1_65pb0")
-material = ExtResource("2_5ibvc")
+script = ExtResource("1_ffcdn")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
@@ -93,3 +92,5 @@ wave_fade_softness = 0.641
 height_waves = Array[ExtResource("8_uytuc")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("9_bqe5t"), ExtResource("10_3dku7")])
 foam_waves = Array[ExtResource("8_uytuc")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("11_32a1e"), ExtResource("12_fndme")])
 uv_waves = Array[ExtResource("8_uytuc")]([ExtResource("13_nl2mb"), ExtResource("14_wf57g")])
+
+[connection signal="update_lod" from="WaterMaterialDesigner" to="." method="_on_water_material_designer_update_lod"]

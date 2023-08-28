@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://7ofmhp2c4aw7"]
 
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="1_mkode"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/prefabs/ocean_prefab.gd" id="1_5pvfd"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="2_nkydo"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="3_knos1"]
 [ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="7_cx5fr"]
@@ -17,8 +17,7 @@
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="18_6100b"]
 
 [node name="OutsetOcean" type="Node3D"]
-script = ExtResource("1_mkode")
-material = ExtResource("2_nkydo")
+script = ExtResource("1_5pvfd")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
@@ -29,7 +28,7 @@ target_path = NodePath("..")
 snap = true
 snap_unit = 32.0
 
-[node name="OutsetOceanDesigner" type="Node" parent="."]
+[node name="WaterMaterialDesigner" type="Node" parent="."]
 script = ExtResource("7_cx5fr")
 material = ExtResource("2_nkydo")
 update_on_ready = true
@@ -43,3 +42,5 @@ wave_fade_softness = 0.641
 height_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("8_fh3br"), ExtResource("9_lfnyq"), ExtResource("10_0lphs"), ExtResource("11_d5h2k"), ExtResource("12_7778w")])
 foam_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("13_iautm"), ExtResource("14_4piu4"), ExtResource("15_pwlnk"), ExtResource("16_2om3f")])
 uv_waves = Array[Resource("res://addons/boujie_water_shader/types/GerstnerWave.gd")]([ExtResource("17_25ere"), ExtResource("18_6100b")])
+
+[connection signal="update_lod" from="WaterMaterialDesigner" to="." method="_on_water_material_designer_update_lod"]
