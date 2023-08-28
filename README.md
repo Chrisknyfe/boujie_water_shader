@@ -12,7 +12,9 @@ the community.
 # Quick Start with Prefabs
 
 To get started with your ocean, instantiate a child scene with SHIFT+CTRL+A and 
-load one of the prefab scenes in res://addons/boujie_water_shader/prefabs . 
+load one of the prefab scenes in res://addons/boujie_water_shader/prefabs .
+If you want to make more complex changes to your ocean, either use "Make Local"
+or "Editable Children".
 
 You can also apply prefab materials, such as ice and obsidian, to your existing
 objects.
