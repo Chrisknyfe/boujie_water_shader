@@ -1,10 +1,8 @@
-[gd_scene load_steps=55 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=43 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/Ocean.gd" id="2_qi55d"]
+[ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="3_6ck1v"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="4_p1xfg"]
-[ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="4_wodta"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="5_y6lkc"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="6_iku5k"]
@@ -21,12 +19,10 @@
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/boujie_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/boujie_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
-[ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="15_l0ywx"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/Camera.gd" id="16_t5wvu"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="16_xjoc4"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/boujie_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/IceMaterial.tres" id="22_rbl74"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/OceanFloor.gd" id="23_143d2"]
 [ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/ObsidianMaterial.tres" id="23_fhl2y"]
 [ext_resource type="Shader" path="res://addons/boujie_water_shader/shader/water.gdshader" id="28_a3uuo"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
@@ -34,81 +30,6 @@
 [ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/boujie_water_shader/shader/foam_1.png" id="30_my07k"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="31_sc6wt"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/UnderwaterFog.gd" id="34_y2s1o"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_prluc"]
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vh6m"]
-render_priority = 0
-shader = ExtResource("4_wodta")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_blend_sharpness = 1.0
-shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/drop_far = 3000.0
-shader_parameter/texture_albedo = ExtResource("15_l0ywx")
-
-[sub_resource type="Resource" id="Resource_h6ky8"]
-script = ExtResource("9_408u1")
-steepness = 10.0
-amplitude = 2.0
-direction_degrees = 15.0
-frequency = 0.02
-speed = 1.0
-phase_degrees = 0.0
-
-[sub_resource type="Resource" id="Resource_gq4b8"]
-script = ExtResource("9_408u1")
-steepness = 0.05
-amplitude = 0.004
-direction_degrees = 70.702
-frequency = 2.0
-speed = 1.0
-phase_degrees = 0.0
-
-[sub_resource type="Resource" id="Resource_ewn38"]
-script = ExtResource("9_408u1")
-steepness = 2.0
-amplitude = 1.5
-direction_degrees = 15.0
-frequency = 0.02
-speed = 1.0
-phase_degrees = -40.0
-
-[sub_resource type="Resource" id="Resource_v8fws"]
-script = ExtResource("9_408u1")
-steepness = 0.45
-amplitude = 0.7
-direction_degrees = 281.195
-frequency = 0.03
-speed = 3.0
-phase_degrees = 0.0
-
-[sub_resource type="Resource" id="Resource_pwrcy"]
-script = ExtResource("9_408u1")
-steepness = 1.3
-amplitude = 2.0
-direction_degrees = 88.25
-frequency = 0.001
-speed = 0.05
-phase_degrees = 0.0
-
-[sub_resource type="Resource" id="Resource_ei3rv"]
-script = ExtResource("9_408u1")
-steepness = 1.5
-amplitude = 1.0
-direction_degrees = 151.5
-frequency = 0.004
-speed = 0.05
-phase_degrees = 0.0
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("9_408u1")
@@ -247,41 +168,10 @@ material = SubResource("StandardMaterial3D_kaxio")
 [node name="WaterShaderExamples" type="Node3D"]
 script = ExtResource("1_ksg8d")
 
-[node name="Ocean" type="Node3D" parent="."]
-script = ExtResource("2_qi55d")
-material = ExtResource("3_6ck1v")
-levels_of_detail = 5
-unit_size = 2.0
-far_edge = 4000.0
+[node name="DeepOcean" parent="." instance=ExtResource("2_h6v04")]
 
-[node name="CameraFollower3D" type="Node3D" parent="Ocean"]
-script = ExtResource("4_p1xfg")
-target_path = NodePath("..")
-snap = true
-snap_unit = 32.0
-
-[node name="OceanFloor" type="MeshInstance3D" parent="Ocean"]
-transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, -7.62939e-06, -443.351, 0)
-mesh = SubResource("PlaneMesh_prluc")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("ShaderMaterial_6vh6m")
-script = ExtResource("23_143d2")
-drop_far = 3000.0
-
-[node name="DeepOceanDesigner" type="Node" parent="."]
-script = ExtResource("8_msqhr")
-material = ExtResource("3_6ck1v")
-update_on_ready = true
-update_when_camera_far_changes = true
-ocean_path = NodePath("../Ocean")
-camera_follower_path = NodePath("../Ocean/CameraFollower3D")
-distance_fade_far = 4000.0
-distance_fade_softness = 0.323
+[node name="WaterMaterialDesigner" parent="DeepOcean" index="1"]
 wave_fade_far = 1440.0
-wave_fade_softness = 0.641
-height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_h6ky8"), SubResource("Resource_gq4b8"), ExtResource("8_mnxd5"), ExtResource("6_pgu4w")])
-foam_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_ewn38"), SubResource("Resource_v8fws"), SubResource("Resource_pwrcy"), SubResource("Resource_ei3rv"), ExtResource("5_2rnyq"), ExtResource("6_iku5k")])
-uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="Other_Designers" type="Node" parent="."]
 
@@ -389,6 +279,6 @@ surface_material_override/0 = ExtResource("23_fhl2y")
 [node name="UnitCube" type="MeshInstance3D" parent="Material_Testers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
-skeleton = NodePath("../../Ocean")
+skeleton = NodePath("")
 
-[connection signal="update_lod" from="DeepOceanDesigner" to="." method="_on_deep_ocean_designer_update_lod"]
+[editable path="DeepOcean"]

@@ -18,6 +18,7 @@
 
 [node name="OutsetOcean" type="Node3D"]
 script = ExtResource("1_5pvfd")
+material = ExtResource("2_nkydo")
 levels_of_detail = 5
 unit_size = 2.0
 far_edge = 4000.0
