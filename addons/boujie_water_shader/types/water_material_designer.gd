@@ -10,7 +10,7 @@ extends Node
 ## Emitted when level-of-detail settings are updated.
 ## This signal may fire in the editor. Make sure any connected scripts are also
 ## tool scripts.
-signal update_lod(far_distance: float, middle_distance: float, unit_size: float)
+signal updated_lod(far_distance: float, middle_distance: float, unit_size: float)
 
 ## Water shader material designed to work with this Designer node
 @export var material: ShaderMaterial
@@ -89,7 +89,7 @@ func _update_lod():
 				follower.snap_unit = ocean.max_unit_size
 		distance_fade_far = camera.far
 		wave_fade_far = middle
-		update_lod.emit(camera.far, middle, unit_size)
+		updated_lod.emit(camera.far, middle, unit_size)
 
 
 func _update_distance_fade():

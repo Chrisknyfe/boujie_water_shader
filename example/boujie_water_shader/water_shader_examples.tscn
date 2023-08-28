@@ -315,6 +315,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("")
 
-[connection signal="update_lod" from="DeepOcean/WaterMaterialDesigner" to="." method="_on_water_material_designer_update_lod"]
+[connection signal="updated_lod" from="DeepOcean/WaterMaterialDesigner" to="." method="_on_water_material_designer_updated_lod"]
 
 [editable path="DeepOcean"]

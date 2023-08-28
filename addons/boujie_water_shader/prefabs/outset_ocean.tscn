@@ -44,4 +44,4 @@ height_waves = Array[Resource("res://addons/boujie_water_shader/types/gerstner_w
 foam_waves = Array[Resource("res://addons/boujie_water_shader/types/gerstner_wave.gd")]([ExtResource("13_iautm"), ExtResource("14_4piu4"), ExtResource("15_pwlnk"), ExtResource("16_2om3f")])
 uv_waves = Array[Resource("res://addons/boujie_water_shader/types/gerstner_wave.gd")]([ExtResource("17_25ere"), ExtResource("18_6100b")])
 
-[connection signal="update_lod" from="WaterMaterialDesigner" to="." method="_on_water_material_designer_update_lod"]
+[connection signal="updated_lod" from="WaterMaterialDesigner" to="." method="_on_water_material_designer_updated_lod"]
