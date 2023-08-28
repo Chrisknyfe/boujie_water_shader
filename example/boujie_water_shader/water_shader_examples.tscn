@@ -52,7 +52,7 @@ shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
 shader_parameter/uv1_offset = null
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = null
-shader_parameter/drop_far = 1000.0
+shader_parameter/drop_far = 2000.0
 shader_parameter/texture_albedo = ExtResource("4_rbuuc")
 
 [sub_resource type="Resource" id="Resource_4vniv"]
@@ -198,7 +198,7 @@ script = ExtResource("1_ksg8d")
 wave_fade_far = 1440.0
 
 [node name="OceanFloor" type="MeshInstance3D" parent="DeepOcean"]
-transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -400, 0)
+transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -350, 0)
 mesh = SubResource("PlaneMesh_mv30r")
 skeleton = NodePath("../../Other_Designers")
 surface_material_override/0 = SubResource("ShaderMaterial_0bbsx")
@@ -247,6 +247,8 @@ script = ExtResource("16_t5wvu")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment_Stuff"]
 transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
 light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 2000.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment_Stuff"]
 environment = ExtResource("14_o2bkd")
@@ -259,15 +261,16 @@ script = ExtResource("34_y2s1o")
 visible_height_offset = 5.0
 
 [node name="Thumbnail_Scene" type="Node3D" parent="."]
-
-[node name="DeepOceanSphere" type="MeshInstance3D" parent="Thumbnail_Scene"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01298, 148.062, -166.572)
-mesh = SubResource("SphereMesh_ljix4")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("3_6ck1v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
 
 [node name="Obelisk2" parent="Thumbnail_Scene" instance=ExtResource("9_qosoy")]
-transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, -200)
+transform = Transform3D(7.44818, 0.681815, -6.63775, -2.02612, 9.70908, -1.27621, 6.35763, 2.29543, 7.36964, 0, 28.368, 0)
+
+[node name="DeepOceanSphere" type="MeshInstance3D" parent="Thumbnail_Scene/Obelisk2"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.22242, 12.4363, 0.470476)
+mesh = SubResource("SphereMesh_ljix4")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("3_6ck1v")
 
 [node name="Material_Testers" type="Node3D" parent="."]
 
