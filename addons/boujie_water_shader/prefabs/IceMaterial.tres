@@ -8,7 +8,7 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_prpwq")
-shader_parameter/freeze_time = false
+shader_parameter/freeze_time = true
 shader_parameter/albedo = Color(0.0784314, 0.729412, 0.886275, 0.164706)
 shader_parameter/albedo_fresnel = null
 shader_parameter/specular = 0.5
