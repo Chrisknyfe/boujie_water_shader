@@ -23,12 +23,9 @@ uniform vec3 uv2_offset;
 uniform float drop_far;
 
 varying vec3 world_coordinates;
-varying float distance_from_camera;
 
 void vertex() {
 	world_coordinates = VERTEX;
- 	vec3 world_camera_pos = (INV_VIEW_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-	distance_from_camera = distance(world_coordinates, world_camera_pos);
 	
 	TANGENT = vec3(0.0,0.0,-1.0) * abs(NORMAL.x);
 	TANGENT+= vec3(1.0,0.0,0.0) * abs(NORMAL.y);
@@ -65,6 +62,8 @@ void fragment() {
 	float roughness_tex = dot(triplanar_texture(texture_roughness,uv1_power_normal,uv1_triplanar_pos),roughness_texture_channel);
 	ROUGHNESS = roughness_tex * roughness;
 	SPECULAR = specular;
+	
+	float distance_from_camera = distance(world_coordinates, CAMERA_POSITION_WORLD);
 	
 	if (distance_from_camera > drop_far) {
 		discard;

@@ -48,7 +48,9 @@ var _previous_far: float = 0.0
 
 func _ready():
 	if not Engine.is_editor_hint() and update_on_ready:
-		update()
+		# because I can connect to any node in the scene tree from here,
+		# I want to be safe and wait for the whole tree to be ready.
+		get_tree().root.ready.connect(self.update)
 
 func _process(delta):
 	if editor_update_all_params:

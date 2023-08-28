@@ -1,8 +1,10 @@
-[gd_scene load_steps=43 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="3_6ck1v"]
+[ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="3_qheyq"]
+[ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="4_rbuuc"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="5_y6lkc"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="6_iku5k"]
@@ -21,6 +23,7 @@
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/Camera.gd" id="16_t5wvu"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="16_xjoc4"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/OceanFloor.gd" id="19_ryu7k"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/boujie_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/IceMaterial.tres" id="22_rbl74"]
 [ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/ObsidianMaterial.tres" id="23_fhl2y"]
@@ -30,6 +33,27 @@
 [ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/boujie_water_shader/shader/foam_1.png" id="30_my07k"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="31_sc6wt"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/UnderwaterFog.gd" id="34_y2s1o"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mv30r"]
+subdivide_width = 16
+subdivide_depth = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bbsx"]
+render_priority = 0
+shader = ExtResource("3_qheyq")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = null
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/drop_far = 1000.0
+shader_parameter/texture_albedo = ExtResource("4_rbuuc")
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("9_408u1")
@@ -173,6 +197,13 @@ script = ExtResource("1_ksg8d")
 [node name="WaterMaterialDesigner" parent="DeepOcean" index="1"]
 wave_fade_far = 1440.0
 
+[node name="OceanFloor" type="MeshInstance3D" parent="DeepOcean"]
+transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -400, 0)
+mesh = SubResource("PlaneMesh_mv30r")
+skeleton = NodePath("../../Other_Designers")
+surface_material_override/0 = SubResource("ShaderMaterial_0bbsx")
+script = ExtResource("19_ryu7k")
+
 [node name="Other_Designers" type="Node" parent="."]
 
 [node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
@@ -280,5 +311,7 @@ surface_material_override/0 = ExtResource("23_fhl2y")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.477, 4.7, 0)
 mesh = SubResource("BoxMesh_6pj3g")
 skeleton = NodePath("")
+
+[connection signal="update_lod" from="DeepOcean/WaterMaterialDesigner" to="." method="_on_water_material_designer_update_lod"]
 
 [editable path="DeepOcean"]
