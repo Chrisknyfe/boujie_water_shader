@@ -6,7 +6,9 @@
 [ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="3_qheyq"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="4_rbuuc"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/ocean_floor.gd" id="5_4yawx"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="5_y6lkc"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="6_cmske"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="6_iku5k"]
 [ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="6_pgu4w"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="6_w87ec"]
@@ -15,24 +17,22 @@
 [ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="7_sjf3q"]
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
 [ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="8_mnxd5"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="8_msqhr"]
 [ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/boujie_water_shader/height_waves/height5.tres" id="9_7wo7t"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/GerstnerWave.gd" id="9_408u1"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="9_408u1"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/boujie_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/boujie_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/Camera.gd" id="16_t5wvu"]
 [ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/OutsetOceanMaterial.tres" id="16_xjoc4"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/OceanFloor.gd" id="19_ryu7k"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/boujie_water_shader/subdivcube.obj" id="22_7a0j4"]
 [ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/IceMaterial.tres" id="22_rbl74"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
 [ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/ObsidianMaterial.tres" id="23_fhl2y"]
+[ext_resource type="Script" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
 [ext_resource type="Shader" path="res://addons/boujie_water_shader/shader/water.gdshader" id="28_a3uuo"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
 [ext_resource type="Texture2D" uid="uid://c28pojjx0kja3" path="res://addons/boujie_water_shader/shader/ocean_albedo_1.png" id="29_rkpc4"]
 [ext_resource type="Texture2D" uid="uid://bk6tootchx5gx" path="res://addons/boujie_water_shader/shader/foam_1.png" id="30_my07k"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="31_sc6wt"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/UnderwaterFog.gd" id="34_y2s1o"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mv30r"]
 subdivide_width = 16
@@ -202,12 +202,12 @@ transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -350, 0)
 mesh = SubResource("PlaneMesh_mv30r")
 skeleton = NodePath("../../Other_Designers")
 surface_material_override/0 = SubResource("ShaderMaterial_0bbsx")
-script = ExtResource("19_ryu7k")
+script = ExtResource("5_4yawx")
 
 [node name="Other_Designers" type="Node" parent="."]
 
 [node name="OutsetOceanDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_msqhr")
+script = ExtResource("6_cmske")
 material = ExtResource("16_xjoc4")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
@@ -218,7 +218,7 @@ foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource(
 uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="IceDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_msqhr")
+script = ExtResource("6_cmske")
 material = ExtResource("22_rbl74")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
@@ -229,7 +229,7 @@ foam_waves = Array[ExtResource("9_408u1")]([ExtResource("5_2rnyq"), ExtResource(
 uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7_sjf3q")])
 
 [node name="ObsidianDesigner" type="Node" parent="Other_Designers"]
-script = ExtResource("8_msqhr")
+script = ExtResource("6_cmske")
 material = ExtResource("23_fhl2y")
 distance_fade_far = 4000.0
 distance_fade_softness = 0.323
@@ -240,7 +240,7 @@ uv_waves = Array[ExtResource("9_408u1")]([ExtResource("6_w87ec"), ExtResource("7
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.996309, 0.085834, 0, -0.085834, 0.996309, 0, 21.4225, 49.9367)
-script = ExtResource("16_t5wvu")
+script = ExtResource("22_vw7uu")
 
 [node name="Environment_Stuff" type="Node" parent="."]
 
@@ -257,7 +257,7 @@ environment = ExtResource("14_o2bkd")
 visible = false
 shape = 4
 material = SubResource("FogMaterial_irst1")
-script = ExtResource("34_y2s1o")
+script = ExtResource("24_pmq8u")
 visible_height_offset = 5.0
 
 [node name="Thumbnail_Scene" type="Node3D" parent="."]

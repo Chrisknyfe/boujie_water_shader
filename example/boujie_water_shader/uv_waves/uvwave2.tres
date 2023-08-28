@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GerstnerWave" load_steps=2 format=3 uid="uid://3g1mc132n1al"]
 
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/GerstnerWave.gd" id="1_4eny6"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="1_4eny6"]
 
 [resource]
 script = ExtResource("1_4eny6")

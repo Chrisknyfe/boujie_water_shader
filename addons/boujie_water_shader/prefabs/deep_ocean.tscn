@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/boujie_water_shader/prefabs/ocean_prefab.gd" id="1_ffcdn"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/DeepOceanMaterial.tres" id="2_5ibvc"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/CameraFollower3D.gd" id="3_u4edm"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/WaterMaterialDesigner.gd" id="7_h7lmk"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/GerstnerWave.gd" id="8_uytuc"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/camera_follower_3d.gd" id="3_u4edm"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="4_aqj8w"]
+[ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="8_uytuc"]
 [ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="9_bqe5t"]
 [ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="10_3dku7"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="11_32a1e"]
@@ -80,7 +80,7 @@ snap = true
 snap_unit = 32.0
 
 [node name="WaterMaterialDesigner" type="Node" parent="."]
-script = ExtResource("7_h7lmk")
+script = ExtResource("4_aqj8w")
 material = ExtResource("2_5ibvc")
 update_on_ready = true
 update_when_camera_far_changes = true
