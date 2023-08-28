@@ -4,6 +4,10 @@ to build your own infinite ocean.
 
 Tested with: Godot_v4.1.1-stable_win64
 
+This was a shader I made many years ago for Godot 3, based on MrMinimal's water
+shader, itself based on an NVidia shader book. Recently I ported this shader
+to godot 4 when I updated my game, and now I want to give the results back to
+the community.
 
 # How it works
 
@@ -38,7 +42,37 @@ wave heights based on global position, not local position.
 
 This node can independently copy the X, Y and Z coordinate from the camera to
 the target. It can also snap the target's position to multiples of a given unit
-size.
+size, which is useful for preventing unpleasant moire patterns and vertex
+swimming as vertices move along the waves of the water shader.
+
+## GerstnerWave resource
+A gerstener wave simulates a water wave, with an optionally sharp peak. 
+
+Parameters:
+ * Steepness: sharpness of the wave peak
+ * Amplitude: increases height of the wave, and fore and aft motion.
+ * Direction: direction of the linear waves in degrees
+ * Frequency: frequency of the wave
+ * Speed: speed of the wave
+ * Phase: phase of the wave in degrees. I use this to set foam waves to slightly
+	trail matching height waves.
+
+## WaterMaterialDesigner node
+A helper node which can automatically set the water shader's parameters based on
+nodes and resources in the scene. Arrays of GerstnerWave resources get converted
+into shader parameter arrays for height, foam, and albedo UV waves.
+
+You can optionally choose an Ocean node and a CameraFollower3D node to sync
+with the water shader. 
+
+This designer node synchronizes the following:
+ * The distance from the center to the edge of the mesh grids of the Ocean node
+	is considered the "middle distance". Many "feature fade" shader params are
+	set to fade out completely at this "middle distance".
+ * The Ocean node's largest quad size is copied to the CameraFollower3D's
+	"snap unit".
+ * The current Camera's far parameter is considered the "far distance". 
+	The Ocean's farplane is regenerated to stretch out into the "far distance".
 
 ## Credits
  * Original water shader was made by Tom Langwaldt (MrMinimal).
