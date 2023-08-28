@@ -22,18 +22,6 @@ func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
-func slerp_euler_no_z(initial_rot, target_rot, weight):
-	var i_b = Basis.from_euler(initial_rot)
-	var t_b = Basis.from_euler(target_rot)
-	var init_trans = Transform3D(i_b, Vector3(0, 0, 0))
-	var target_trans = Transform3D(t_b, Vector3(0, 0, 0))
-
-	var final_trans = init_trans.interpolate_with(target_trans, weight)
-	var final_rot = final_trans.basis.get_euler()
-	final_rot.z = 0
-	return final_rot
-
-
 func _input(event):
 	# Horizontal mouse look
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -125,3 +113,15 @@ func _physics_process(delta):
 func _exit_tree():
 	# Restore the mouse cursor upon quitting
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func slerp_euler_no_z(initial_rot, target_rot, weight):
+	var i_b = Basis.from_euler(initial_rot)
+	var t_b = Basis.from_euler(target_rot)
+	var init_trans = Transform3D(i_b, Vector3(0, 0, 0))
+	var target_trans = Transform3D(t_b, Vector3(0, 0, 0))
+
+	var final_trans = init_trans.interpolate_with(target_trans, weight)
+	var final_rot = final_trans.basis.get_euler()
+	final_rot.z = 0
+	return final_rot

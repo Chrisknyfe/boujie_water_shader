@@ -73,6 +73,14 @@ func _process(_delta):
 			update()
 
 
+## Update all level of detail settings to the water shader, the active camera,
+## and optionally to an ocean and a camera follower.
+func update():
+	_update_lod()
+	_update_distance_fade()
+	_update_wave_params()
+
+
 func _update_lod():
 	var camera = get_viewport().get_camera_3d()
 	var ocean = get_node_or_null(ocean_path)
@@ -140,11 +148,3 @@ func _update_wave_group_params(prefix: String, waves: Array):
 	material.set_shader_parameter(prefix + "Frequencies", PackedFloat32Array(frequencies))
 	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
 	material.set_shader_parameter(prefix + "Phases", PackedFloat32Array(phases))
-
-
-## Update all level of detail settings to the water shader, the active camera,
-## and optionally to an ocean and a camera follower.
-func update():
-	_update_lod()
-	_update_distance_fade()
-	_update_wave_params()

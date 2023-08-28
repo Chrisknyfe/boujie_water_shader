@@ -59,6 +59,79 @@ func _process(_delta):
 		_apply_material()
 
 
+func build_farplane():
+	_clear_generated_meshes("_gen_farplane")
+
+	var near = total_width / 2
+	var middle = (near + far_edge) / 2
+	middle = min(near * 3, middle)
+	if far_edge < near:
+		push_error("Cannot generate farplane, Far Edge is closer than inner planes!")
+		return
+
+	# midplane prevents texture jitter errors being noticeable.
+	var midplane = FarPlaneMeshGenerator.new(near, region_width, middle)
+	midplane.generate()
+	var mesh = midplane.commit()
+	_add_mesh_as_node(mesh, "_gen_farplane_mid")
+
+	var farplane = FarPlaneMeshGenerator.new(middle, region_width, far_edge)
+	farplane.generate()
+	mesh = farplane.commit()
+	_add_mesh_as_node(mesh, "_gen_farplane_far")
+
+	_apply_material("_gen_farplane")
+
+
+func build_meshes():
+	_clear_generated_meshes()
+
+	var lower_limit = -levels_of_detail + 1
+	var upper_limit = levels_of_detail
+	for z in range(lower_limit, upper_limit):
+		for x in range(lower_limit, upper_limit):
+			var shell = max(abs(x), abs(z))
+			var onion = levels_of_detail - shell - 1
+			var pos = Vector3(x, 0, z) * region_width
+			#print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
+			var this_unit_size = unit_size * 2 ** shell
+			var this_resolution = outermost_resolution * (2 ** (onion))
+			var seam_up = -z >= shell
+			var seam_down = z >= shell
+			var seam_left = -x >= shell
+			var seam_right = x >= shell
+			var plane = PlaneMeshGenerator.new(
+				this_resolution, this_unit_size, seam_up, seam_down, seam_left, seam_right
+			)
+			plane.generate()
+			var mesh = plane.commit()
+			_add_mesh_as_node(mesh, "_gen_nearplane_%d_%d" % [x, z], pos)
+	build_farplane()
+	_apply_material()
+
+
+func _apply_material(filter: String = "_gen"):
+	for child in get_children():
+		if child is MeshInstance3D and child.name.begins_with(filter):
+			child.set_surface_override_material(0, material)
+
+
+func _clear_generated_meshes(filter: String = "_gen"):
+	for child in get_children():
+		if child is MeshInstance3D and child.name.begins_with(filter):
+			remove_child(child)
+			child.queue_free()
+
+
+func _add_mesh_as_node(mesh: Mesh, new_name: String, pos: Vector3 = Vector3.ZERO):
+	var mi = MeshInstance3D.new()
+	mi.name = new_name
+	mi.mesh = mesh
+	mi.position = pos
+	mi.set_surface_override_material(0, material)
+	add_child.call_deferred(mi)
+
+
 class PlaneMeshGenerator:
 	extends RefCounted
 	var resolution: int
@@ -155,15 +228,6 @@ class FarPlaneMeshGenerator:
 		self._st = SurfaceTool.new()
 		self._st.begin(Mesh.PRIMITIVE_TRIANGLES)
 
-	func _add_quad(coords):
-		# coords in units of meters
-		var uvs = []
-		var verts = []
-		for coord in coords:
-			uvs.append(Vector2(coord) / self.uv_scale - Vector2(0.5, 0.5))  # TODO: validate
-			verts.append(Vector3(coord.x, 0, coord.y))
-		self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))
-
 	func generate():
 		# +x is right, +z is down
 		var r = self.near
@@ -181,75 +245,11 @@ class FarPlaneMeshGenerator:
 		self._st.index()
 		return self._st.commit()
 
-
-func _apply_material(filter: String = "_gen"):
-	for child in get_children():
-		if child is MeshInstance3D and child.name.begins_with(filter):
-			child.set_surface_override_material(0, material)
-
-
-func _clear_generated_meshes(filter: String = "_gen"):
-	for child in get_children():
-		if child is MeshInstance3D and child.name.begins_with(filter):
-			remove_child(child)
-			child.queue_free()
-
-
-func _add_mesh_as_node(mesh: Mesh, new_name: String, pos: Vector3 = Vector3.ZERO):
-	var mi = MeshInstance3D.new()
-	mi.name = new_name
-	mi.mesh = mesh
-	mi.position = pos
-	mi.set_surface_override_material(0, material)
-	add_child.call_deferred(mi)
-
-
-func build_farplane():
-	_clear_generated_meshes("_gen_farplane")
-
-	var near = total_width / 2
-	var middle = (near + far_edge) / 2
-	middle = min(near * 3, middle)
-	if far_edge < near:
-		push_error("Cannot generate farplane, Far Edge is closer than inner planes!")
-		return
-
-	# midplane prevents texture jitter errors being noticeable.
-	var midplane = FarPlaneMeshGenerator.new(near, region_width, middle)
-	midplane.generate()
-	var mesh = midplane.commit()
-	_add_mesh_as_node(mesh, "_gen_farplane_mid")
-
-	var farplane = FarPlaneMeshGenerator.new(middle, region_width, far_edge)
-	farplane.generate()
-	mesh = farplane.commit()
-	_add_mesh_as_node(mesh, "_gen_farplane_far")
-
-	_apply_material("_gen_farplane")
-
-
-func build_meshes():
-	_clear_generated_meshes()
-
-	var lower_limit = -levels_of_detail + 1
-	var upper_limit = levels_of_detail
-	for z in range(lower_limit, upper_limit):
-		for x in range(lower_limit, upper_limit):
-			var shell = max(abs(x), abs(z))
-			var onion = levels_of_detail - shell - 1
-			var pos = Vector3(x, 0, z) * region_width
-			#print("Generate mesh at: ", pos, " shell ", shell, " onion ", onion)
-			var this_unit_size = unit_size * 2 ** shell
-			var this_resolution = outermost_resolution * (2 ** (onion))
-			var seam_up = -z >= shell
-			var seam_down = z >= shell
-			var seam_left = -x >= shell
-			var seam_right = x >= shell
-			var plane = PlaneMeshGenerator.new(
-				this_resolution, this_unit_size, seam_up, seam_down, seam_left, seam_right
-			)
-			plane.generate()
-			var mesh = plane.commit()
-			_add_mesh_as_node(mesh, "_gen_nearplane_%d_%d" % [x, z], pos)
-	build_farplane()
-	_apply_material()
+	func _add_quad(coords):
+		# coords in units of meters
+		var uvs = []
+		var verts = []
+		for coord in coords:
+			uvs.append(Vector2(coord) / self.uv_scale - Vector2(0.5, 0.5))  # TODO: validate
+			verts.append(Vector3(coord.x, 0, coord.y))
+		self._st.add_triangle_fan(PackedVector3Array(verts), PackedVector2Array(uvs))

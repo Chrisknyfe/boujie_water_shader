@@ -24,12 +24,6 @@ const Z_AXIS = 4
 @export var snap_unit: float = 10.0
 
 
-func do_snap(x: float):
-	if snap:
-		return round(x / snap_unit) * snap_unit
-	return x
-
-
 func _process(_delta):
 	if not Engine.is_editor_hint() and enable:
 		var camera = get_viewport().get_camera_3d()
@@ -40,3 +34,9 @@ func _process(_delta):
 			t.global_position.y = do_snap(camera.global_position.y)
 		if follow_axes & Z_AXIS:
 			t.global_position.z = do_snap(camera.global_position.z)
+
+
+func do_snap(x: float):
+	if snap:
+		return round(x / snap_unit) * snap_unit
+	return x
