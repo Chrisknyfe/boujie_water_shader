@@ -4,7 +4,9 @@ infinite ocean.
 
 Tested with: Godot_v4.1.1-stable_win64
 
-This was a shader I made many years ago for Godot 3, based on MrMinimal's water
+![looping_ocean_2023](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/b4855002-5ff6-4135-906c-a844e8e5f739)
+
+This is a shader I made many years ago for Godot 3, based on MrMinimal's water
 shader, itself based on an NVidia shader book. Recently I ported this shader
 to godot 4 when I updated my game, added a bunch of features on stream in the
 Godot discord, and now I want to give the results back to the community.
@@ -25,6 +27,8 @@ Take a look at `example/boujie_water_shader/water_shader_examples.tscn` for an
 example of how to set up an ocean scene.
 
 ## Ocean node
+![Godot_v4 1 1-stable_win64_Jk7ohpm06o](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/15b06332-129f-4876-883e-3ab736cabe92)
+
 The plane on which water is simulated is generated during runtime.
 Several meshes are generated using the SurfaceTool class, giving you multiple
 levels of detail (LODs) which use fewer polygons the further they are
@@ -32,6 +36,8 @@ from the center. Finally a "far plane" is generated around the meshes,
 stretching to the horizon.
 
 ## The Water Shader (water.gdshader)
+![Godot_v4 1 1-stable_win64_dAgaC00UhD](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/05cb123e-8bf8-4213-a49f-bbc00285f388)
+
 A vertex shader is applied to the mesh which moves the vertices up and down
 every frame. The movement consists of the average of multiple Gerstner Waves 
 each with slightly different values.
@@ -52,6 +58,8 @@ You can optimize shader performance by copying the shader code and
 commenting-out any of the #define lines to disable features you don't need.
 
 ## CameraFollower3D node
+![Godot_v4 1 1-stable_win64_GsdC29ku4M](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/4d67e644-c86f-4a5f-b84a-80cba8ef4310)
+
 The water plane now follows the camera around, giving the illusion of an
 infinite body of water. This works with the water shader, which calculates
 wave heights based on global position, not local position.
@@ -62,6 +70,8 @@ size, which is useful for preventing unpleasant moire patterns and vertex
 swimming as vertices move along the waves of the water shader.
 
 ## GerstnerWave resource
+![Godot_v4 1 1-stable_win64_vZL1lY4QkH](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/16a431fd-501f-4962-8de2-abe3b75c250a)
+
 A gerstener wave simulates a water wave, with an optionally sharp peak. 
 
 Parameters:
@@ -74,6 +84,8 @@ Parameters:
 	trail matching height waves.
 
 ## WaterMaterialDesigner node
+![Godot_v4 1 1-stable_win64_bHsp2uFJBY](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/158878a0-9816-4755-af94-10cd1f0bfe82)
+
 A helper node which can automatically set the water shader's parameters based on
 nodes and resources in the scene. Arrays of GerstnerWave resources get converted
 into shader parameter arrays for height, foam, and albedo UV waves.
