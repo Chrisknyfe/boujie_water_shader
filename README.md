@@ -104,6 +104,10 @@ This designer node synchronizes the following:
  * The current Camera's far parameter is considered the "far distance". 
 	The Ocean's farplane is regenerated to stretch out into the "far distance".
 
+# Support
+I'll do my best to respond to messages and fix bugs on a regular basis.
+If you want to support me or the water shader project [you can buy me a coffee.](https://ko-fi.com/chrisknyfe)
+
 # Credits
  * Original water shader was made by Tom Langwaldt (MrMinimal).
  * This shader has modifications by Zach Bernal (Chrisknyfe).
