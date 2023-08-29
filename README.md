@@ -36,7 +36,7 @@ from the center. Finally a "far plane" is generated around the meshes,
 stretching to the horizon.
 
 ## The Water Shader (water.gdshader)
-![Godot_v4 1 1-stable_win64_dAgaC00UhD](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/05cb123e-8bf8-4213-a49f-bbc00285f388)
+![Godot_v4 1 1-stable_win64_4dNQnEq7GG](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/fc6037b3-dd09-46ea-b480-c1f77fa3d1fa)
 
 A vertex shader is applied to the mesh which moves the vertices up and down
 every frame. The movement consists of the average of multiple Gerstner Waves 
