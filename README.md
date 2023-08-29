@@ -11,6 +11,8 @@ shader, itself based on an NVidia shader book. Recently I ported this shader
 to godot 4 when I updated my game, added a bunch of features on stream in the
 Godot discord, and now I want to give the results back to the community.
 
+[You can find the 3.x water shader here.](https://github.com/Chrisknyfe/godot-scraps)
+
 # Quick Start with Prefabs
 
 To get started with your ocean, instantiate a child scene with SHIFT+CTRL+A and 
