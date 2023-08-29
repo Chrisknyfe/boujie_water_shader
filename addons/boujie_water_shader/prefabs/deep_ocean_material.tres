@@ -3,9 +3,7 @@
 [ext_resource type="Shader" path="res://addons/boujie_water_shader/shader/water.gdshader" id="1_l73mt"]
 [ext_resource type="Texture2D" uid="uid://dck2b16gulx5d" path="res://addons/boujie_water_shader/shader/ocean_albedo_white_highcontrast.png" id="2_8jfpx"]
 [ext_resource type="Texture2D" uid="uid://cpav8p4gip0uk" path="res://addons/boujie_water_shader/shader/refraction.png" id="3_b70bb"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wdxsv"]
-load_path = "res://.godot/imported/foam_2.png-9f96d1bafc0f1696129542ba5672d577.s3tc.ctex"
+[ext_resource type="Texture2D" uid="uid://cq0i08hinbihi" path="res://addons/boujie_water_shader/shader/foam_2.png" id="3_ln7b4"]
 
 [resource]
 render_priority = 0
@@ -25,7 +23,7 @@ shader_parameter/refraction_opacity = 1.0
 shader_parameter/texture_refraction = ExtResource("3_b70bb")
 shader_parameter/shore_start_blend = 2.0
 shader_parameter/shore_end_blend = 6.0
-shader_parameter/texture_foam = SubResource("CompressedTexture2D_wdxsv")
+shader_parameter/texture_foam = ExtResource("3_ln7b4")
 shader_parameter/distance_fade_min = 2708.0
 shader_parameter/distance_fade_max = 4000.0
 shader_parameter/near_fade_min = 1.5
