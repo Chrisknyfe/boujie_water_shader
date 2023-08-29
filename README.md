@@ -4,7 +4,7 @@ infinite ocean.
 
 Tested with: Godot_v4.1.1-stable_win64
 
-![looping_ocean_2023](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/b4855002-5ff6-4135-906c-a844e8e5f739)
+![looping_ocean_2023](https://github.com/Chrisknyfe/boujie_water_shader/assets/652027/0be34247-e32e-48a9-972c-65302e06bbe3)
 
 This is a shader I made many years ago for Godot 3, based on MrMinimal's water
 shader, itself based on an NVidia shader book. Recently I ported this shader
