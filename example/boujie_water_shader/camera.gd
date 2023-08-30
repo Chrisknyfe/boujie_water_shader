@@ -3,8 +3,7 @@
 
 extends Camera3D
 
-const MOVE_SPEED = 4
-const SPRINT_SPEED = 32
+const MOVE_SPEED = 8
 const MOUSE_SENSITIVITY = 0.002
 const CAMERA_FAR_STEP = 200
 var rot_target := Vector3(0, 0, 0)
@@ -16,10 +15,6 @@ var rot_target := Vector3(0, 0, 0)
 func _enter_tree():
 	# Capture the mouse (can be toggled by pressing F10)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func _ready():
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 func _input(event):
@@ -40,58 +35,38 @@ func _input(event):
 		)
 
 	# Toggle mouse capture
-	if event.is_action_pressed("toggle_mouse_capture"):
+	if event.is_action_pressed("ui_accept"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
-	if Input.is_action_just_pressed("quit"):
+	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
-
-	if Input.is_action_just_pressed("toggle_fullscreen"):
-		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 func _physics_process(delta):
 	# Apply rotation
 	rotation = slerp_euler_no_z(rotation, rot_target, 20 * delta)
 
-	# Speed modifier
-	if Input.is_action_pressed("move_speed"):
-		speed = SPRINT_SPEED
-	else:
-		speed = MOVE_SPEED
-
 	# Movement
-
-	if Input.is_action_pressed("move_forward"):
+	speed = MOVE_SPEED
+	if Input.is_action_pressed("ui_up"):
 		velocity.x -= speed * delta
 
-	if Input.is_action_pressed("move_backward"):
+	if Input.is_action_pressed("ui_down"):
 		velocity.x += speed * delta
 
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("ui_left"):
 		velocity.z += speed * delta
 
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("ui_right"):
 		velocity.z -= speed * delta
 
-	if Input.is_action_pressed("move_up"):
-		velocity.y += speed * delta
-
-	if Input.is_action_pressed("move_down"):
-		velocity.y -= speed * delta
-
-	if Input.is_action_just_pressed("increase_camera_far"):
+	if Input.is_action_just_pressed("ui_page_up"):
 		far += CAMERA_FAR_STEP
 
-	if Input.is_action_just_pressed("decrease_camera_far"):
+	if Input.is_action_just_pressed("ui_page_down"):
 		far -= CAMERA_FAR_STEP
 
 	# Friction
