@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
@@ -31,7 +31,6 @@
 [ext_resource type="Script" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="28_fslxr"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/hud.gd" id="34_3qn7y"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/help.gd" id="35_4m1bi"]
 [ext_resource type="Script" path="res://example/boujie_water_shader/fps_counter.gd" id="35_g2n63"]
 [ext_resource type="ArrayMesh" uid="uid://f85dvooifh0c" path="res://example/boujie_water_shader/mountains.obj" id="37_ujihb"]
 [ext_resource type="Material" uid="uid://c7phyredymkgu" path="res://example/boujie_water_shader/mountain_material.tres" id="38_hsxek"]
@@ -228,8 +227,13 @@ script = ExtResource("35_g2n63")
 
 [node name="Help" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
-text = "Controls:"
-script = ExtResource("35_4m1bi")
+text = "Controls
+--------
+Arrow keys to move
+Page Up, Page Down to increase/decrease camera far distance
+Enter binds and unbinds the mouse.
+Tab shows/hides this help screen.
+ESC to quit"
 
 [node name="VisibilityRangeLodGroup" type="Node3D" parent="."]
 script = ExtResource("28_fslxr")
