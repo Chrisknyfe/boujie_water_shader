@@ -269,7 +269,7 @@ void vertex() {
 	for (int i = 0; i < WaveCount; i++) {
 		vertexWave += P_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
-	vertexWave = vertexWave / float(WaveCount);
+	vertexWave = vertexWave / float(WaveCount); // wow this is not how I wanted the shader to behave.
 	if (vertex_displace_from_mesh_normal) {
 		vertexWave = rotate_to_normal(vertexWave, NORMAL);
 	}
@@ -283,7 +283,7 @@ void vertex() {
 	for (int i = 0; i < WaveCount; i++) {
 		normalWave += N_DEG(wave_coords.x, wave_coords.y, time, WaveSteepnesses[i], WaveAmplitudes[i], WaveDirectionsDegrees[i], WaveFrequencies[i], WaveSpeeds[i], WavePhases[i]);
 	}
-	normalWave = normalize(normalWave / float(WaveCount));
+	normalWave = normalize(normalWave / float(WaveCount)); // TODO: shouldn't normalize() cancel out the scaling done by "/float(waveCount)"?
 	if (normal_wave_from_mesh_normal) {
 		normalWave = rotate_to_normal(normalWave, NORMAL);
 	}
