@@ -9,6 +9,8 @@
 render_priority = 0
 shader = ExtResource("1_l73mt")
 shader_parameter/freeze_time = false
+shader_parameter/use_external_time = true
+shader_parameter/external_time = 17.629
 shader_parameter/albedo = Color(0.235294, 0.647059, 0.960784, 0)
 shader_parameter/albedo_fresnel = Color(0.317647, 0.596078, 0.988235, 1)
 shader_parameter/texture_albedo = ExtResource("2_8jfpx")
