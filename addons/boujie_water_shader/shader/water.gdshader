@@ -24,6 +24,8 @@ render_mode blend_mix,depth_draw_always,cull_disabled,diffuse_burley,specular_sc
 #define REFRACTION_SCALING // refraction refracts distant objects way too much; scale it down with distance.
 
 uniform bool freeze_time = false; // Toki wo tomare.
+uniform bool use_external_time = false; // You set the pace.
+uniform float external_time = 0.0;
 uniform vec4 albedo: source_color;
 uniform vec4 albedo_fresnel: source_color;
 uniform sampler2D texture_albedo: source_color;
@@ -66,9 +68,9 @@ uniform float foam_fade_max;
 uniform float shore_fade_min;
 uniform float shore_fade_max;
 uniform float vertex_wave_fade_min;
-uniform float vertex_wave_fade_max; 
+uniform float vertex_wave_fade_max;
 uniform float depth_fog_fade_min;
-uniform float depth_fog_fade_max; 
+uniform float depth_fog_fade_max;
 uniform float refraction_scaling_distance_min; // no max - refraction falls off proportionally starting from this distance
 group_uniforms;
 
@@ -158,7 +160,7 @@ vec3 P_DEG(float x, float z, float t, float Steepness, float Amplitude, float Di
 	result.x = ((Steepness * Amplitude) * Direction.x * cos(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
 	result.y = Steepness * sin(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p)));
 	result.z = ((Steepness * Amplitude) * Direction.y * cos(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
-	
+
 	return result;
 }
 
@@ -169,7 +171,7 @@ vec3 N_DEG(float x, float z, float t, float Steepness, float Amplitude, float Di
 	result.x = (-1.0) * (Direction.x * Frequency * Amplitude * (cos((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p))));
 	result.y = 1.0 - (Steepness * Frequency * Amplitude * sin((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p)));
 	result.z = (-1.0) * (Direction.y * Frequency * Amplitude * (cos((Frequency * TAU * dot(Direction, vec2(x, z))) + Speed * (t+p))));
-	
+
 	return result;
 }
 
@@ -195,10 +197,13 @@ vec3 rotate_to_normal(vec3 point, vec3 normal)
 
 void vertex() {
 	float time = TIME; //TIME;
-	
+	if (use_external_time) {
+		time = external_time;
+	}
+
 	time = time * float(!freeze_time);
-	
-	
+
+
 	// UV will be assigned based on xz world coords
 	// Zach, VERTEX is in world coords now! world_vertex_coords render mode!
 	world_coordinates = VERTEX;
@@ -207,8 +212,8 @@ void vertex() {
 	// Need camera pos for distance testing
  	vec3 world_camera_pos = (INV_VIEW_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	float distance_from_camera = distance(world_coordinates, world_camera_pos);
-	
-	
+
+
 #ifdef WORLD_TRIPLANAR
 	// Define triplanar UV
 	uv_power_normal=pow(abs(NORMAL),vec3(uv_blend_sharpness));
@@ -228,9 +233,9 @@ void vertex() {
 
 	UV += uvwave.xz;
 #endif
-	
-	
-	// Apply some constant movement 
+
+
+	// Apply some constant movement
 #ifdef WORLD_TRIPLANAR
 	refraction_uv_tri = uv_tri;
 	refraction_uv_tri += vec3(0.1, -0.2, -0.15) * time;
@@ -240,7 +245,7 @@ void vertex() {
 	refraction_uv += vec2(0.1, 0.2) * time;
 #endif
 	UV += vec2(0.1)* time;
-	
+
 	// Calculate foam alpha in vertex where it's cheaper
 #ifdef FOAM
 	vec3 foamVertexWave = vec3(0,0,0);
@@ -252,12 +257,12 @@ void vertex() {
 #else
 	foam_alpha = 0.0;
 #endif
-	
+
 	float vertex_fade_alpha = 1.0;
 #ifdef VERTEX_WAVE_FADE
 	vertex_fade_alpha = smoothstep(vertex_wave_fade_max, vertex_wave_fade_min, distance_from_camera);
 #endif
-	
+
 	// Calculate offset for every wave, take average
 #ifdef VERTEX_WAVE
 	vec3 vertexWave = vec3(0,0,0);
@@ -272,7 +277,7 @@ void vertex() {
 	if (WaveCount > 0) {
 		VERTEX += vertexWave;
 	}
-	
+
 	// Calculate normal for each wave, take average
 	vec3 normalWave = vec3(0,0,0);
 	for (int i = 0; i < WaveCount; i++) {
@@ -290,7 +295,7 @@ void vertex() {
 
 	// DEBUG: increase vertex height based on distance from center
 	//VERTEX.y += 0.1 * (wave_coords.x + wave_coords.y);
-	
+
 	// refresh world_coordinates with updated position
 	world_coordinates = VERTEX;
 }
@@ -308,7 +313,7 @@ float depth_from_water_to_object(vec2 screen_uv, mat4 inv_projection_matrix, vec
 	float depth_raw = textureLod(depth_texture, screen_uv, 0.0).r;
 	// https://www.reddit.com/r/godot/comments/wb0jw7/godot_4_alpha_12_depth_texture_not_working/ii4awtb/
 	// In Godot 4 Vulcan, depth_raw goes from 0 to 1 and doesn't need to be normalzied anymore!!! Holy smokes.
-	vec3 ndc = vec3(screen_uv * 2.0 - 1.0, depth_raw); 
+	vec3 ndc = vec3(screen_uv * 2.0 - 1.0, depth_raw);
 	vec4 view = inv_projection_matrix * vec4(ndc, 1.0);
 	view.xyz /= view.w;
 	float z_depth = -view.z;
@@ -365,14 +370,14 @@ void fragment() {
 #ifdef SHORE_FADE
 	shore_fade_alpha = smoothstep(shore_fade_max, shore_fade_min, distance_from_camera);
 #endif
-	
+
 	if (ALPHA <= 0.0) {
 		discard;
 	}
 	METALLIC = metallic;
 	SPECULAR = specular;
 	ROUGHNESS = roughness;
-	
+
 	vec4 albedo_tex;
 #ifdef WORLD_TRIPLANAR
 	albedo_tex = triplanar_texture(texture_albedo, uv_power_normal, uv_tri);
@@ -411,7 +416,7 @@ void fragment() {
 #ifdef DEPTH_FOG_FADE
 	depth_blend_power += smoothstep(depth_fog_fade_min, depth_fog_fade_max, distance_from_camera);
 	depth_blend_power = clamp(depth_blend_power, 0.0, 1.0);
-#endif	
+#endif
 	screen_lod += depth_blend_power * 2.5;
 #endif
 
@@ -447,7 +452,7 @@ void fragment() {
 
 	/* Sea Foam
 	 * override refraction and add to albedo
-	 * scale foam opacity based on a given set of waves. 
+	 * scale foam opacity based on a given set of waves.
 	 */
 
 #if defined(FOAM) || defined(SHORE_FOAM)
@@ -466,7 +471,7 @@ void fragment() {
 	EMISSION *= (1.0-final_foam_alpha); // block emission
 	ALBEDO = mix(ALBEDO, foam_tex.rgb, final_foam_alpha);
 #endif
-	
+
 #ifdef SHORE_FOAM
 	float z_diff = depth_from_water_to_object(SCREEN_UV, INV_PROJECTION_MATRIX, VERTEX);
 	float shore_alpha = 0.0;
@@ -474,7 +479,7 @@ void fragment() {
 	shore_alpha = clamp(shore_alpha, 0.0, 1.0);
 	shore_alpha = foam_tex.a * shore_alpha; // disable this line when you have an all-white foam texture
 	shore_alpha = shore_fade_alpha * shore_alpha;
-	
+
 	EMISSION *= (1.0-shore_alpha); // block emission
 	ALBEDO = mix(ALBEDO, foam_tex.rgb, shore_alpha);
 #endif

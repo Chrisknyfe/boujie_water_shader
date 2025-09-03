@@ -1,13 +1,13 @@
 [gd_scene load_steps=48 format=3 uid="uid://bao0ucik5eqtl"]
 
-[ext_resource type="Script" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
+[ext_resource type="Script" uid="uid://b6l2ybvo4tkis" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
-[ext_resource type="Shader" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="3_qheyq"]
+[ext_resource type="Shader" uid="uid://c2c5y6tjitsme" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="3_qheyq"]
 [ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="4_rbuuc"]
 [ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="5_2rnyq"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/ocean_floor.gd" id="5_4yawx"]
+[ext_resource type="Script" uid="uid://sbb7cosp6vcw" path="res://example/boujie_water_shader/ocean_floor.gd" id="5_4yawx"]
 [ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="5_y6lkc"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="6_cmske"]
+[ext_resource type="Script" uid="uid://celgvwps5c6k6" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="6_cmske"]
 [ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="6_iku5k"]
 [ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="6_pgu4w"]
 [ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="6_w87ec"]
@@ -18,20 +18,20 @@
 [ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="8_m62v1"]
 [ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="8_mnxd5"]
 [ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/boujie_water_shader/height_waves/height5.tres" id="9_7wo7t"]
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="9_408u1"]
+[ext_resource type="Script" uid="uid://cv4hdh2708iyx" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="9_408u1"]
 [ext_resource type="PackedScene" uid="uid://dn0ukrkqrpmne" path="res://example/boujie_water_shader/obelisk/obelisk.tscn" id="9_qosoy"]
 [ext_resource type="PackedScene" uid="uid://cuagegibp4wcj" path="res://example/boujie_water_shader/pedestal/pedestal.tscn" id="10_70j47"]
 [ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="14_o2bkd"]
 [ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/ice_material.tres" id="19_3bkn5"]
 [ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/obsidian_material.tres" id="21_wltbb"]
 [ext_resource type="ArrayMesh" uid="uid://b8sapw7ttyhru" path="res://example/boujie_water_shader/subdivcube.obj" id="22_7a0j4"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
+[ext_resource type="Script" uid="uid://bhokc1lijcay5" path="res://example/boujie_water_shader/camera.gd" id="22_vw7uu"]
+[ext_resource type="Script" uid="uid://dd7s1bossl2bt" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_pmq8u"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="26_13rch"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="28_fslxr"]
+[ext_resource type="Script" uid="uid://dg4kdifs4yraf" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="28_fslxr"]
 [ext_resource type="Texture2D" uid="uid://3kpp1l04oqfu" path="res://example/boujie_water_shader/obelisk/StoneFloorTexture.png" id="29_g6865"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/hud.gd" id="34_3qn7y"]
-[ext_resource type="Script" path="res://example/boujie_water_shader/fps_counter.gd" id="35_g2n63"]
+[ext_resource type="Script" uid="uid://bdkyxro3m4pik" path="res://example/boujie_water_shader/hud.gd" id="34_3qn7y"]
+[ext_resource type="Script" uid="uid://it8touwvtlg4" path="res://example/boujie_water_shader/fps_counter.gd" id="35_g2n63"]
 [ext_resource type="ArrayMesh" uid="uid://f85dvooifh0c" path="res://example/boujie_water_shader/mountains.obj" id="37_ujihb"]
 [ext_resource type="Material" uid="uid://c7phyredymkgu" path="res://example/boujie_water_shader/mountain_material.tres" id="38_hsxek"]
 
@@ -43,18 +43,18 @@ subdivide_depth = 16
 render_priority = 0
 shader = ExtResource("3_qheyq")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("4_rbuuc")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
-shader_parameter/metallic = null
+shader_parameter/metallic = 0.0
 shader_parameter/uv1_blend_sharpness = 1.0
 shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
-shader_parameter/uv1_offset = null
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = null
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/drop_far = 2000.0
-shader_parameter/texture_albedo = ExtResource("4_rbuuc")
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("9_408u1")

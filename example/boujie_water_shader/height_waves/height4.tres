@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GerstnerWave" load_steps=2 format=3 uid="uid://cxeeuqlnw0v08"]
 
-[ext_resource type="Script" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="1_h1pxf"]
+[ext_resource type="Script" uid="uid://cv4hdh2708iyx" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="1_h1pxf"]
 
 [resource]
 script = ExtResource("1_h1pxf")
@@ -9,3 +9,4 @@ amplitude = 1.0
 direction_degrees = 150.0
 frequency = 0.06
 speed = 1.6
+phase_degrees = 0.0
