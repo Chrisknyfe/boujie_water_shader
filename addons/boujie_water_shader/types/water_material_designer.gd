@@ -154,5 +154,5 @@ func height(x: float, z: float, t: float):
 	var h: float = 0.0
 	for wave in height_waves:
 		h += wave.height(x, z, t)
-	h = h / float(height_waves.size())
+	#h = h / float(height_waves.size())
 	return h

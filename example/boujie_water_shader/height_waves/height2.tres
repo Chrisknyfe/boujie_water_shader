@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_upopg")
-steepness = 0.9
+steepness = 0.5
 amplitude = 0.7
 direction_degrees = 315.0
 frequency = 0.06

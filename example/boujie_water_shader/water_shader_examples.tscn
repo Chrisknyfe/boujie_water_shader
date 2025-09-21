@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bao0ucik5eqtl"]
+[gd_scene load_steps=53 format=3 uid="uid://bao0ucik5eqtl"]
 
 [ext_resource type="Script" uid="uid://b6l2ybvo4tkis" path="res://example/boujie_water_shader/water_shader_examples.gd" id="1_ksg8d"]
 [ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="2_h6v04"]
@@ -36,6 +36,24 @@
 [ext_resource type="ArrayMesh" uid="uid://f85dvooifh0c" path="res://example/boujie_water_shader/mountains.obj" id="37_ujihb"]
 [ext_resource type="Material" uid="uid://c7phyredymkgu" path="res://example/boujie_water_shader/mountain_material.tres" id="38_hsxek"]
 
+[sub_resource type="Resource" id="Resource_g1rgn"]
+script = ExtResource("9_408u1")
+steepness = 3.0
+amplitude = 0.2
+direction_degrees = 15.0
+frequency = 0.01
+speed = 1.0
+phase_degrees = 0.0
+
+[sub_resource type="Resource" id="Resource_gq4b8"]
+script = ExtResource("9_408u1")
+steepness = 0.05
+amplitude = 0.004
+direction_degrees = 70.702
+frequency = 2.0
+speed = 1.0
+phase_degrees = 0.0
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_mv30r"]
 subdivide_width = 16
 subdivide_depth = 16
@@ -55,7 +73,7 @@ shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/drop_far = 2000.0
+shader_parameter/drop_far = 3000.0
 
 [sub_resource type="Resource" id="Resource_4vniv"]
 script = ExtResource("9_408u1")
@@ -143,13 +161,16 @@ far_edge = 4000
 
 [node name="WaterMaterialDesigner" parent="DeepOcean" index="1"]
 wave_fade_far = 1440
+height_waves = Array[ExtResource("9_408u1")]([SubResource("Resource_g1rgn"), SubResource("Resource_gq4b8"), ExtResource("8_mnxd5"), ExtResource("6_pgu4w")])
 
 [node name="OceanFloor" type="MeshInstance3D" parent="DeepOcean"]
 transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -350, 0)
+visibility_range_end = 1440.0
 mesh = SubResource("PlaneMesh_mv30r")
 skeleton = NodePath("../../Other_Designers")
 surface_material_override/0 = SubResource("ShaderMaterial_0bbsx")
 script = ExtResource("5_4yawx")
+drop_far = 3000.0
 
 [node name="Other_Designers" type="Node" parent="."]
 
@@ -245,6 +266,8 @@ ESC to quit"
 
 [node name="VisibilityRangeLodGroup" type="Node3D" parent="."]
 script = ExtResource("28_fslxr")
+visibility_range_end = 2720.0
+visibility_range_end_margin = 200.0
 
 [node name="Test_Terrain" type="Node3D" parent="VisibilityRangeLodGroup"]
 
