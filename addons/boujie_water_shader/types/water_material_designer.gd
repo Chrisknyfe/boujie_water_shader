@@ -148,3 +148,11 @@ func _update_wave_group_params(prefix: String, waves: Array):
 	material.set_shader_parameter(prefix + "Frequencies", PackedFloat32Array(frequencies))
 	material.set_shader_parameter(prefix + "Speeds", PackedFloat32Array(speeds))
 	material.set_shader_parameter(prefix + "Phases", PackedFloat32Array(phases))
+
+
+func height(x: float, z: float, t: float):
+	var h: float = 0.0
+	for wave in height_waves:
+		h += wave.height(x, z, t)
+	#h = h / float(height_waves.size())
+	return h

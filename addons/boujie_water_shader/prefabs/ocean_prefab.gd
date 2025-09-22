@@ -1,10 +1,26 @@
 @tool
 extends Ocean
 
+var shader_time: float = 0.0
+
 ## Emitted when level-of-detail settings are updated.
 ## This signal may fire in the editor. Make sure any connected scripts are also tool scripts.
 signal updated_lod(far_distance: float, middle_distance: float, unit_size: float)
 
+func _ready():
+	if Engine.is_editor_hint():
+		material.set_shader_parameter("use_external_time", false)
+	else:
+		material.set_shader_parameter("use_external_time", true)
+		
+	
 
 func _on_water_material_designer_updated_lod(far_distance, middle_distance, unit_size):
 	updated_lod.emit(far_distance, middle_distance, unit_size)
+
+func _process(delta):
+	if not Engine.is_editor_hint():
+		if shader_time == null:
+			shader_time = 0.0
+		shader_time += delta
+		material.set_shader_parameter("external_time", shader_time)
