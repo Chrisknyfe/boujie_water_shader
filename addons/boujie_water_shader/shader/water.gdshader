@@ -70,6 +70,7 @@ uniform float vertex_wave_fade_max;
 uniform float depth_fog_fade_min;
 uniform float depth_fog_fade_max; 
 uniform float refraction_scaling_distance_min; // no max - refraction falls off proportionally starting from this distance
+uniform float refraction_scaling_power = 2.0;
 group_uniforms;
 
 group_uniforms WorldTriplanarUvs;
@@ -345,7 +346,7 @@ void fragment() {
 #endif
 	float r_final = refraction;
 #ifdef REFRACTION_SCALING
-	r_final *= clamp(refraction_scaling_distance_min / distance_from_camera, 0.0, 1.0);
+	r_final *= clamp(pow(refraction_scaling_distance_min / distance_from_camera, refraction_scaling_power), 0.0, 1.0);
 #endif
 	float ref_sample = dot(ref_tex, refraction_texture_channel);
 	vec2 ref_uv_offset = (NORMAL.xy * ref_sample + ref_sample - 0.5) * r_final;

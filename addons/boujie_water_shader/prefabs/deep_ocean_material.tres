@@ -37,6 +37,7 @@ shader_parameter/vertex_wave_fade_max = 1440.0
 shader_parameter/depth_fog_fade_min = 516.96
 shader_parameter/depth_fog_fade_max = 1440.0
 shader_parameter/refraction_scaling_distance_min = 50.0
+shader_parameter/refraction_scaling_power = 2.0
 shader_parameter/uv_blend_sharpness = 2.0
 shader_parameter/uv_tri_scale = Vector3(36, 36, 36)
 shader_parameter/uv_tri_offset = Vector3(0, 0, 0)
